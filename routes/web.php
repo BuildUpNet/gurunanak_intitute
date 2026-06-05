@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Route;
 /* ── MAIN PAGES ── */
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/about/director-message', [PageController::class, 'director'])->name('about.director');
-Route::get('/about/vision-mission', [PageController::class, 'vision'])->name('about.vision');
-Route::get('/about/infrastructure', [PageController::class, 'infrastructure'])->name('about.infrastructure');
-Route::get('/about/rules-regulations', [PageController::class, 'rules'])->name('about.rules');
+Route::get('/about/director-message',  fn() => redirect('/about#directors-message'))->name('about.director');
+Route::get('/about/vision-mission',    fn() => redirect('/about#vision-mission'))->name('about.vision');
+Route::get('/about/infrastructure',    fn() => redirect('/about#infrastructure'))->name('about.infrastructure');
+Route::get('/about/rules-regulations', fn() => redirect('/about#rules-regulations'))->name('about.rules');
 Route::get('/academics', [PageController::class, 'academics'])->name('academics');
 Route::get('/admissions', [PageController::class, 'admissions'])->name('admissions');
 Route::get('/results', [PageController::class, 'results'])->name('results');
@@ -31,6 +31,9 @@ Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('disclaim
 
 /* ── COURSE PAGES (dynamic) ── */
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
+
+/* ── PORTAL LOGIN ── */
+Route::get('/login', [PageController::class, 'portalLogin'])->name('portal.login');
 
 /* ── FORM SUBMISSIONS ── */
 Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');

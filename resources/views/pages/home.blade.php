@@ -1,11 +1,13 @@
+{{-- resources/views/pages/home.blade.php --}}
 @extends('layouts.app')
 
-@section('title','GNIMT – Premier Medical Technology Institute | Patiala & Karnal')
-@section('meta_description','Guru Nanak Institute of Medical Technology offers UGC recognised B.Voc & Diploma programs in OT, MLT, Radiology, Cardiac Care & more. 99.9% placement support. Patiala & Karnal.')
-@section('og_title','GNIMT – Guru Nanak Institute of Medical Technology')
+@section('title', 'Guru Nanak Institute of Medical Technology | Patiala & Karnal')
+@section('meta_description',
+    'Premier medical technology institute in Punjab offering UGC recognised B.Voc & Diploma
+    programs in OT, MLT, Radiology, Cardiac Care & more. 99.9% placement. Patiala & Karnal.')
 
 @section('schema')
-<script type="application/ld+json">
+    <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"EducationalOrganization",
@@ -14,363 +16,581 @@
   "url":"{{ url('/') }}",
   "logo":"{{ asset('images/logo.png') }}",
   "description":"Premier medical technology institute offering UGC recognised programs since 1991.",
-  "address":{"@type":"PostalAddress","addressLocality":"Patiala","addressRegion":"Punjab","postalCode":"147001","addressCountry":"IN"},
+  "address":{"@type":"PostalAddress","streetAddress":"Near Civil Hospital","addressLocality":"Patiala","addressRegion":"Punjab","postalCode":"147001","addressCountry":"IN"},
   "telephone":"+91-8283929908",
   "email":"info@gurunanakinstitute.com",
-  "sameAs":["https://www.facebook.com/Guru-Nanak-Institute-of-Medical-Technology-689772771089266","https://www.instagram.com/gnimtpatiala/"]
+  "foundingDate":"1991"
 }
 </script>
 @endsection
 
 @section('content')
+    <div class="hp">
 
-{{-- ① HERO --}}
-<section class="hero-section" aria-label="Hero Banner">
-  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-    <div class="carousel-inner">
-      @foreach([
-        ['Shaping the Future of Healthcare','Join 20+ medical technology programs with hands-on clinical training and 99.9% placement support.','campus-1.jpg'],
-        ['UGC Recognised Programs','B.Voc & Diploma courses accredited by leading universities. Build a career in Allied Health Sciences.','campus-2.jpg'],
-        ['Your Career Starts Here','Real-world exposure, modern labs, and industry connections that give you an edge from day one.','campus-3.jpg'],
-      ] as $i => [$h,$p,$img])
-      <div class="carousel-item @if($i===0)active @endif">
-        <div class="hero-slide" style="background-image:linear-gradient(135deg,rgba(26,53,102,.82) 0%,rgba(26,53,102,.55) 100%),url('{{ asset('images/'.$img) }}');background-size:cover;background-position:center;">
-          <div class="container-fluid px-4 px-lg-5">
-            <div class="hero-content">
-              <div class="gold-line"></div>
-              <h1>{{ $h }}</h1>
-              <p>{{ $p }}</p>
-              <div class="hero-btns">
-                <a href="{{ route('admissions') }}" class="btn-primary-gnimt">Apply Now <i class="fas fa-arrow-right ms-1" aria-hidden="true"></i></a>
-                <a href="{{ route('academics') }}" class="btn-hero-outline">Explore Courses</a>
-              </div>
+        {{-- ─────────────────────────── HERO ─────────────────────────── --}}
+        <section class="hp-hero" aria-label="GNIMT Campus">
+            <div class="swiper hp-hero__swiper">
+                <div class="swiper-wrapper">
+                    @php
+                        $slides = [
+                            ['src' => asset('images/slides/Slide-Img-1.jpg'), 'alt' => 'GNIMT Patiala Campus'],
+                            ['src' => asset('images/slides/Slide-Img-2.jpg'), 'alt' => 'GNIMT Medical Labs'],
+                            ['src' => asset('images/slides/Slide-Img-3.jpg'), 'alt' => 'GNIMT Convocation'],
+                            ['src' => asset('images/slides/Slide-Img-4.jpg'), 'alt' => 'GNIMT Placement Drive'],
+                        ];
+                    @endphp
+                    @foreach ($slides as $slide)
+                        <div class="swiper-slide hp-hero__slide">
+                            <img src="{{ $slide['src'] }}" alt="{{ $slide['alt'] }}"
+                                loading="{{ $loop->first ? 'eager' : 'lazy' }}">
+                            <div class="hp-hero__overlay"></div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="swiper-pagination hp-hero__dots"></div>
+                <div class="swiper-button-prev hp-hero__prev" aria-label="Previous"></div>
+                <div class="swiper-button-next hp-hero__next" aria-label="Next"></div>
             </div>
-          </div>
-        </div>
-      </div>
-      @endforeach
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide"><span class="carousel-control-prev-icon"></span></button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide"><span class="carousel-control-next-icon"></span></button>
-  </div>
-</section>
-
-{{-- ② STATS --}}
-<section class="section-py" style="background:var(--light);" aria-label="GNIMT at a Glance">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="text-center mb-5">
-      <div class="gold-line mx-auto"></div>
-      <h2 class="section-title">GNIMT At a Glance</h2>
-      <p class="section-subtitle mx-auto mt-2">Three decades of excellence in healthcare education across Punjab & Haryana</p>
-    </div>
-    <div class="row g-4 justify-content-center">
-      @foreach([
-        ['fas fa-calendar-alt','30+','Years of Excellence','30'],
-        ['fas fa-user-graduate','5000+','Alumni Placed','5000'],
-        ['fas fa-hospital','50+','Hospital Tie-ups','50'],
-        ['fas fa-university','10+','University Partners','10'],
-      ] as [$icon,$num,$label,$target])
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon"><i class="{{ $icon }}" aria-hidden="true"></i></div>
-          <div class="stat-num" data-target="{{ $target }}">0</div>
-          <div class="stat-label">{{ $label }}</div>
-        </div>
-      </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-
-{{-- ③ WHY GNIMT --}}
-<section class="section-py" aria-label="Why Choose GNIMT">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-5">
-        <div class="gold-line"></div>
-        <h2 class="section-title">Why Choose GNIMT?</h2>
-        <p class="section-subtitle mt-2">We don't just teach — we prepare you for a real career in healthcare with industry-grade exposure.</p>
-        <div class="why-list mt-4">
-          @foreach([
-            ['fas fa-briefcase-medical','99.9% Placement Support','Dedicated placement cell with tie-ups to 50+ top hospitals.'],
-            ['fas fa-flask','Modern Labs & Equipment','State-of-the-art clinical labs mirror actual hospital environments.'],
-            ['fas fa-chalkboard-teacher','Expert Faculty','Practicing clinicians and experienced educators.'],
-            ['fas fa-globe','International Programs','Tie-ups with Canadian institutions for global career options.'],
-            ['fas fa-award','UGC Recognised','Degrees recognised by leading accredited universities.'],
-            ['fas fa-hands-helping','Career Guidance','One-on-one counselling, resume building & interview prep.'],
-          ] as [$icon,$title,$desc])
-          <div class="why-item">
-            <div class="why-icon"><i class="{{ $icon }}" aria-hidden="true"></i></div>
-            <div><strong>{{ $title }}</strong><br><small class="text-muted">{{ $desc }}</small></div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-      <div class="col-lg-7">
-        <div class="row g-3">
-          @foreach([
-            ['50+','Hospital Tie-Ups','fas fa-hospital-alt'],
-            ['20+','Programs Offered','fas fa-book-medical'],
-            ['99.9%','Placement Rate','fas fa-chart-line'],
-            ['2','Branches','fas fa-map-marker-alt'],
-          ] as [$n,$l,$ic])
-          <div class="col-6">
-            <div class="why-card">
-              <i class="{{ $ic }}" aria-hidden="true"></i>
-              <h3>{{ $n }}</h3>
-              <p>{{ $l }}</p>
+            <div class="hp-hero__counter" aria-hidden="true">
+                <span class="hp-hero__cnum" id="heroSlideNum">01</span>
+                <div class="hp-hero__ctrack"><span class="hp-hero__cbar"></span></div>
+                <span class="hp-hero__ctotal">/ 04</span>
             </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        </section>
 
-{{-- ④ FEATURED COURSES --}}
-<section class="section-py" style="background:var(--light);" aria-label="Featured Courses">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="text-center mb-5">
-      <div class="gold-line mx-auto"></div>
-      <h2 class="section-title">Our Programs</h2>
-      <p class="section-subtitle mx-auto mt-2">Choose from industry-aligned B.Voc and Diploma programs designed for real healthcare careers.</p>
-    </div>
-    <div class="row g-4">
-      @foreach([
-        ['Operation Theatre Technology','3 Years','10+2 Science','operation-theatre-technology','fas fa-procedures'],
-        ['Medical Lab Technology','3 Years','10+2 Science (PCB)','medical-lab-technology','fas fa-vial'],
-        ['Radiology & Imaging','3 Years','10+2 Science','radiology-imaging-technology','fas fa-x-ray'],
-        ['Cardiac Care Technology','3 Years','10+2 Science (PCB)','cardiac-care-technology','fas fa-heartbeat'],
-        ['Dialysis Technology','3 Years','10+2 Science','dialysis-technology','fas fa-tint'],
-        ['Hospital Management','3 Years','10+2 Any Stream','hospital-management','fas fa-hospital'],
-      ] as [$name,$dur,$eli,$slug,$icon])
-      <div class="col-md-6 col-lg-4">
-        <article class="course-card">
-          <div class="course-card-img course-card-icon-bg">
-            <div class="course-icon-wrap"><i class="{{ $icon }}" aria-hidden="true"></i></div>
-            <span class="course-card-badge">B.Voc</span>
-          </div>
-          <div class="course-card-body">
-            <h3 class="course-card-title">{{ $name }}</h3>
-            <div class="course-card-meta">
-              <span><i class="fas fa-clock" aria-hidden="true"></i>{{ $dur }}</span>
-              <span><i class="fas fa-graduation-cap" aria-hidden="true"></i>{{ $eli }}</span>
+        {{-- ─────────────────────────── WELCOME ─────────────────────────── --}}
+        <section class="hp-welcome" aria-label="Welcome to GNIMT">
+            <div class="hp-ctr">
+                <div class="hp-welcome__grid">
+                    <div class="hp-welcome__left rv">
+                        <span class="hp-eyebrow">UGC Recognised &nbsp;·&nbsp; Est. 1991 &nbsp;·&nbsp; Patiala &amp;
+                            Karnal</span>
+                        <h1 class="hp-welcome__h1">Where <em>Medical Careers</em><br>Are Built for Life</h1>
+                        <p class="hp-welcome__body">Guru Nanak Institute of Medical Technology offers industry-leading B.Voc
+                            &amp; Diploma programs in allied health sciences. Hands-on clinical training, modern labs, and
+                            99.9% placement support across two campuses.</p>
+                        <div class="hp-welcome__actions">
+                            <a href="{{ route('admissions') }}" class="hp-btn hp-btn--red">Apply Now <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="{{ route('academics') }}" class="hp-btn hp-btn--ghost">Explore Programs <i
+                                    class="fas fa-compass"></i></a>
+                        </div>
+                    </div>
+                    <div class="hp-welcome__right">
+                        @foreach ([['fas fa-calendar-check', '33+', 'Years of Excellence'], ['fas fa-user-graduate', '5000+', 'Alumni Placed'], ['fas fa-hospital-alt', '50+', 'Hospital Tie-Ups'], ['fas fa-book-medical', '20+', 'Programs Offered']] as [$icon, $num, $label])
+                            <div class="hp-welcome__badge rv">
+                                <div class="hp-welcome__badge-icon"><i class="{{ $icon }}" aria-hidden="true"></i>
+                                </div>
+                                <span class="hp-welcome__badge-num">{{ $num }}</span>
+                                <span class="hp-welcome__badge-label">{{ $label }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
-            <a href="{{ route('courses.show', $slug) }}" class="fc-cta">View Course →</a>
-          </div>
-        </article>
-      </div>
-      @endforeach
-    </div>
-    <div class="text-center mt-5">
-      <a href="{{ route('academics') }}" class="btn-outline-gnimt">View All Programs</a>
-    </div>
-  </div>
-</section>
+        </section>
 
-{{-- ⑤ DIRECTOR MESSAGE --}}
-<section class="section-py" aria-label="Director Message">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-4 text-center">
-        <div class="director-img-wrap">
-          <img src="{{ asset('images/director.jpg') }}" alt="Director, Guru Nanak Institute of Medical Technology" class="director-img" loading="lazy" onerror="this.src='{{ asset('images/placeholder-person.jpg') }}'">
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <div class="gold-line"></div>
-        <h2 class="section-title">Director's Message</h2>
-        <div class="director-quote mt-3">
-          <p>At Guru Nanak Institute of Medical Technology, we believe that quality healthcare begins with quality education. Since 1991, our mission has been to equip students with not just technical knowledge, but the compassion, integrity, and clinical expertise that make truly great healthcare professionals.</p>
-          <p class="mt-3">We are proud of our legacy of placing thousands of graduates in leading hospitals across India and abroad. Our state-of-the-art facilities, dedicated faculty, and industry partnerships ensure that every GNIMT student is career-ready from day one.</p>
-        </div>
-        <div class="director-sign mt-3">
-          <strong style="color:var(--navy);font-size:1.05rem;">Dr. (Name)</strong><br>
-          <small class="text-muted">Director, GNIMT Patiala & Karnal</small>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        {{-- Stats shown in welcome section above — no duplicate section --}}
 
-{{-- ⑥ TESTIMONIALS --}}
-<section class="section-py" style="background:var(--navy);" aria-label="Student Testimonials">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="text-center mb-5">
-      <div class="gold-line mx-auto"></div>
-      <h2 class="section-title" style="color:#fff;">What Our Students Say</h2>
-    </div>
-    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-      <div class="carousel-inner">
-        @foreach([
-          ['Rajan Preet Singh','B.Voc OT Technology','The practical training at GNIMT was exceptional. Within a month of graduation, I was placed at Fortis Hospital, Mohali. The faculty\'s guidance made all the difference.'],
-          ['Simranjit Kaur','B.Voc Medical Lab Technology','GNIMT gave me skills that no textbook can teach. Real clinical exposure from day one. I\'m now working at SRL Diagnostics and couldn\'t be prouder.'],
-          ['Hardeep Kumar','B.Voc Radiology','The modern imaging lab at GNIMT prepared me for real hospital environments. My batch had 100% placement and I\'m now at AIIMS Bathinda.'],
-        ] as $i => [$name,$course,$text])
-        <div class="carousel-item @if($i===0)active @endif">
-          <div class="testimonial-card mx-auto">
-            <div class="testi-quote"><i class="fas fa-quote-left" aria-hidden="true"></i></div>
-            <p class="testi-text">{{ $text }}</p>
-            <div class="testi-author">
-              <div class="testi-avatar">{{ substr($name,0,1) }}</div>
-              <div><strong>{{ $name }}</strong><br><small>{{ $course }}</small></div>
+        {{-- ─────────────────────────── ABOUT ─────────────────────────── --}}
+        <section class="hp-about" aria-label="About GNIMT">
+            <div class="hp-ctr">
+                <div class="hp-about__grid">
+                    <div class="hp-about__images rvl">
+                        <div class="hp-about__img-main">
+                            <img src="{{ asset('images/slides/Slide-Img-2.jpg') }}" alt="GNIMT Institute Patiala"
+                                loading="lazy">
+                        </div>
+                        <div class="hp-about__img-accent">
+                            <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}" alt="GNIMT Students at Training"
+                                loading="lazy">
+                        </div>
+                        <div class="hp-about__est-badge">
+                            <span class="hp-about__est-year">1991</span>
+                            <span class="hp-about__est-label">Est. Year</span>
+                        </div>
+                    </div>
+                    <div class="hp-about__content rvr">
+                        <span class="hp-eyebrow">About GNIMT</span>
+                        <h2 class="hp-heading" style="margin-top:14px">Punjab's Premier<br><span>Medical Technology</span>
+                            Institute</h2>
+                        <p class="hp-subtext" style="margin-top:16px">Guru Nanak Institute of Medical Technology was
+                            established in 1991 under the S.D. Public Health Educational and Research Society. Dedicated to
+                            promoting quality Para-Medical education, we help students from all backgrounds access
+                            world-class healthcare training.</p>
+                        <p class="hp-subtext" style="margin-top:10px">With affiliations to leading UGC-recognised
+                            universities and a relentless focus on clinical training, our graduates are among the most
+                            sought-after healthcare professionals across India and abroad.</p>
+                        <div class="hp-about__trust">
+                            @foreach (['UGC Recognised', 'NAAC Accredited University', '99.9% Placement Support', 'International Tie-ups'] as $t)
+                                <span class="hp-trust-badge"><i class="fas fa-check-circle"
+                                        aria-hidden="true"></i>{{ $t }}</span>
+                            @endforeach
+                        </div>
+                        <div class="hp-about__actions">
+                            <a href="{{ route('about') }}" class="hp-btn hp-btn--red">Know More <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="#enquiry" class="hp-btn hp-btn--outline">Enquire Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        @endforeach
-      </div>
-      <div class="carousel-indicators testi-indicators">
-        @for($i=0;$i<3;$i++)
-        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="{{ $i }}" @if($i===0)class="active" aria-current="true" @endif aria-label="Testimonial {{ $i+1 }}"></button>
-        @endfor
-      </div>
-    </div>
-  </div>
-</section>
+        </section>
 
-{{-- ⑦ NEWS --}}
-<section class="section-py" aria-label="News and Announcements">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
-      <div>
-        <div class="gold-line"></div>
-        <h2 class="section-title">News & Announcements</h2>
-      </div>
-      <a href="{{ route('news') }}" class="btn-outline-gnimt">View All News</a>
-    </div>
-    <div class="row g-4">
-      @foreach([
-        ['Admissions Open 2025–26','Applications are now open for all B.Voc and Diploma programs. Limited seats available.','15 May 2025'],
-        ['100% Placement Drive Completed','GNIMT Patiala successfully placed its entire 2024 batch in top hospitals across India.','10 Apr 2025'],
-        ['International MOU Signed','GNIMT signs agreement with Canadian institute for global education opportunities.','28 Mar 2025'],
-      ] as [$title,$excerpt,$date])
-      <div class="col-md-4">
-        <article class="news-card">
-          <div class="news-date"><i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>{{ $date }}</div>
-          <h3 class="news-title">{{ $title }}</h3>
-          <p class="news-excerpt">{{ $excerpt }}</p>
-          <a href="{{ route('news') }}" class="news-link">Read More <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-        </article>
-      </div>
-      @endforeach
-    </div>
-  </div>
-</section>
+        {{-- ─────────────────────────── ACHIEVEMENTS & AWARDS ─────────────────────────── --}}
+        <section class="hp-awards" aria-label="Achievements and Awards">
 
-{{-- ⑧ ENQUIRY FORM + CTA --}}
-<section class="section-py" style="background:var(--light);" aria-label="Admission Enquiry">
-  <div class="container-fluid px-4 px-lg-5">
-    <div class="row g-5 align-items-center">
-      <div class="col-lg-5">
-        <div class="gold-line"></div>
-        <h2 class="section-title">Start Your Application Today</h2>
-        <p class="section-subtitle mt-2">Admissions are open. Fill the quick enquiry form and our team will guide you through the entire process.</p>
-        <ul class="enq-checklist mt-4">
-          @foreach(['UGC Recognised Programs','99.9% Placement Support','Hands-on Clinical Training','Modern Labs & Facilities','International Tie-ups Available'] as $item)
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> {{ $item }}</li>
-          @endforeach
-        </ul>
-      </div>
-      <div class="col-lg-7">
-        <div class="enq-form-card">
-          <h3>Quick Admission Enquiry</h3>
-          <form action="{{ route('enquiry.store') }}" method="POST" novalidate>
-            @csrf
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <input type="text" name="name" class="enq-input" placeholder="Full Name *" required autocomplete="name" aria-label="Full Name">
-              </div>
-              <div class="col-sm-6">
-                <input type="tel" name="phone" class="enq-input" placeholder="Phone Number *" required autocomplete="tel" aria-label="Phone Number">
-              </div>
-              <div class="col-sm-6">
-                <input type="email" name="email" class="enq-input" placeholder="Email Address" autocomplete="email" aria-label="Email">
-              </div>
-              <div class="col-sm-6">
-                <select name="course" class="enq-input" aria-label="Course Interested In">
-                  <option value="">Course Interested In</option>
-                  @foreach(['B.Voc OT Technology','B.Voc MLT','B.Voc Radiology','B.Voc Cardiac Care','B.Voc Dialysis','B.Voc Ophthalmic','B.Voc Hospital Management','B.Voc Physiotherapy','DMLT Diploma','X-Ray Technology Diploma'] as $c)
-                  <option>{{ $c }}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-12">
-                <textarea name="message" class="enq-input" rows="3" placeholder="Your Message (Optional)" aria-label="Message"></textarea>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn-primary-gnimt w-100" style="padding:13px;font-size:.9rem;">
-                  <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Submit Enquiry
-                </button>
-              </div>
+            {{-- Header --}}
+            <div class="hp-awards__header">
+                <div class="hp-ctr">
+                    <span class="hp-eyebrow rv" style="justify-content:center">Achievements &amp; Awards</span>
+                    <h2 class="hp-heading rv d1" style="margin-top:12px;text-align:center">Recognition That <span>Defines
+                            Excellence</span></h2>
+                    <p class="hp-subtext rv d2" style="margin:14px auto 0;text-align:center">Three decades of
+                        accreditations, awards, and milestones that cement our place as Punjab's premier healthcare
+                        education institution.</p>
+                </div>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
+            {{-- Recognition tiles --}}
+            <div class="hp-awards__tiles rv d1">
+                <div class="hp-awards__tile" data-bg="UGC">
+                    <div class="hp-awards__tile-icon hp-awards__tile-icon--red"><i class="fas fa-university"
+                            aria-hidden="true"></i></div>
+                    <span class="hp-awards__tile-stat">UGC <span>Recognised</span></span>
+                    <h3 class="hp-awards__tile-title">Government Approved</h3>
+                    <p class="hp-awards__tile-desc">Affiliated to UGC recognised universities — ensuring nationally
+                        accepted, industry-approved B.Voc degrees for every graduate.</p>
+                </div>
+                <div class="hp-awards__tile" data-bg="NAAC">
+                    <div class="hp-awards__tile-icon hp-awards__tile-icon--navy"><i class="fas fa-award"
+                            aria-hidden="true"></i></div>
+                    <span class="hp-awards__tile-stat">NAAC <span>Accredited</span></span>
+                    <h3 class="hp-awards__tile-title">Quality Assured</h3>
+                    <p class="hp-awards__tile-desc">Our partner universities are NAAC accredited — a nationally recognized
+                        mark of academic quality and institutional excellence.</p>
+                </div>
+                <div class="hp-awards__tile" data-bg="MOU">
+                    <div class="hp-awards__tile-icon hp-awards__tile-icon--red"><i class="fas fa-globe"
+                            aria-hidden="true"></i></div>
+                    <span class="hp-awards__tile-stat">5+ <span>Countries</span></span>
+                    <h3 class="hp-awards__tile-title">International MOU</h3>
+                    <p class="hp-awards__tile-desc">Signed MOU with Canadian institutes for global education pathways and
+                        international placement opportunities for eligible students.</p>
+                </div>
+                <div class="hp-awards__tile" data-bg="33">
+                    <div class="hp-awards__tile-icon hp-awards__tile-icon--navy"><i class="fas fa-medal"
+                            aria-hidden="true"></i></div>
+                    <span class="hp-awards__tile-stat">33+ <span>Years</span></span>
+                    <h3 class="hp-awards__tile-title">Proven Legacy</h3>
+                    <p class="hp-awards__tile-desc">Over three decades of uninterrupted excellence in producing skilled,
+                        job-ready healthcare professionals across India and abroad.</p>
+                </div>
+            </div>
+
+            {{-- Stats strip --}}
+            {{-- <div class="hp-awards__stats-bar">
+    @foreach ([['fas fa-calendar-check', '33', 'Years of Excellence'], ['fas fa-user-graduate', '5000', 'Alumni Placed'], ['fas fa-hospital-alt', '50', 'Hospital Tie-Ups'], ['fas fa-book-medical', '20', 'Programs Offered']] as [$icon, $num, $label])
+      <div class="hp-awards__stat rv">
+        <div class="hp-awards__stat-icon"><i class="{{ $icon }}" aria-hidden="true"></i></div>
+        <span class="hp-awards__stat-num" data-target="{{ $num }}">0</span><span class="hp-awards__stat-plus">+</span>
+        <span class="hp-awards__stat-label">{{ $label }}</span>
+      </div>
+    @endforeach
+  </div> --}}
+
+            {{-- Hospital ticker --}}
+            <div class="hp-ctr" style="padding-top:60px;padding-bottom:60px;">
+                <p class="hp-awards__logos-label rv" style="text-align:center">Our Alumni Work At</p>
+                <div class="hp-awards__logos-track rv d1">
+                    <div class="hp-awards__logos-inner">
+                        @php
+                            $recruiters = [
+                                ['fas fa-hospital', 'AIIMS'],
+                                ['fas fa-hospital', 'Fortis Healthcare'],
+                                ['fas fa-hospital', 'Apollo Hospitals'],
+                                ['fas fa-hospital', 'Max Healthcare'],
+                                ['fas fa-hospital', 'PGI Chandigarh'],
+                                ['fas fa-hospital', 'Civil Hospital Patiala'],
+                                ['fas fa-vial', 'SRL Diagnostics'],
+                                ['fas fa-vial', 'Dr Lal PathLabs'],
+                                ['fas fa-vial', 'Thyrocare'],
+                                ['fas fa-hospital', 'Medanta'],
+                                ['fas fa-hospital', 'Narayana Health'],
+                                ['fas fa-hospital', 'Asian Heart Institute'],
+                                ['fas fa-hospital', 'Global Hospitals'],
+                                ['fas fa-hospital', 'Dhanyaa Hospital'],
+                            ];
+                        @endphp
+                        @foreach (array_merge($recruiters, $recruiters) as $r)
+                            <div class="hp-awards__pill"><i class="{{ $r[0] }}"
+                                    aria-hidden="true"></i>{{ $r[1] }}</div>
+                        @endforeach
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:32px" class="rv d2">
+                    <a href="{{ route('achievers') }}" class="hp-btn hp-btn--outline">View All Achievers <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </section>
+
+        {{-- ─────────────────────────── WHY CHOOSE GNIMT ─────────────────────────── --}}
+        <section class="hp-why" aria-label="Why Choose GNIMT">
+            <div class="hp-ctr">
+                <div class="hp-why__grid">
+                    <div class="hp-why__left">
+                        <span class="hp-eyebrow hp-eyebrow--light rv">Why Choose Us</span>
+                        <h2 class="hp-why__h2 rv d1">The GNIMT <span>Difference</span></h2>
+                        <p class="hp-why__body rv d2">We go far beyond the classroom. From day one, you train in real
+                            clinical environments — building not just knowledge, but the confidence and skill to lead.</p>
+                        <div class="hp-why__features rv d2">
+                            @foreach ([['fas fa-briefcase-medical', '99.9% Placements', 'Dedicated placement cell with 50+ hospital partners across India.'], ['fas fa-flask', 'Modern Labs', 'State-of-the-art clinical labs mirroring real hospital environments.'], ['fas fa-chalkboard-teacher', 'Expert Faculty', 'Practicing clinicians and experienced healthcare educators.'], ['fas fa-globe', 'Global Programs', 'Canadian tie-ups for international career opportunities.'], ['fas fa-award', 'UGC Recognised', 'Degrees from leading nationally accredited universities.'], ['fas fa-hands-helping', 'Career Guidance', 'Resume building, interview prep &amp; personalised counselling.']] as [$icon, $title, $desc])
+                                <div class="hp-why__feat">
+                                    <div class="hp-why__feat-icon"><i class="{{ $icon }}"
+                                            aria-hidden="true"></i></div>
+                                    <div>
+                                        <div class="hp-why__feat-title">{{ $title }}</div>
+                                        <div class="hp-why__feat-desc">{!! $desc !!}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="hp-why__right rvr">
+                        <div class="hp-why__img-frame">
+                            <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}" alt="GNIMT Clinical Training"
+                                loading="lazy">
+                        </div>
+                        <div class="hp-why__stat-float">
+                            <div class="hp-why__stat-icon"><i class="fas fa-trophy" aria-hidden="true"></i></div>
+                            <div>
+                                <div class="hp-why__stat-num">99.9%</div>
+                                <div class="hp-why__stat-label">Placement Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── DIRECTOR'S MESSAGE ─────────────────────────── --}}
+        <section class="hp-director" aria-label="Director's Message">
+            <div class="hp-ctr">
+                <div class="hp-director__grid">
+                    <div class="hp-director__img-wrap rvl">
+                        <div class="hp-director__img-frame">
+                            <img src="{{ asset('images/Dr.-Subhash-Dawar.jpg') }}" alt="Director GNIMT" loading="lazy"
+                                onerror="this.src='{{ asset('images/slides/Slide-Img-1.jpg') }}'">
+                        </div>
+                        <div class="hp-director__corner hp-director__corner--tl" aria-hidden="true"></div>
+                        <div class="hp-director__corner hp-director__corner--br" aria-hidden="true"></div>
+                    </div>
+                    <div class="hp-director__content rvr">
+                        <span class="hp-eyebrow">Director's Message</span>
+                        <h2 class="hp-heading" style="margin-top:14px">A Message from<br>Our <span>Director</span></h2>
+                        <div class="hp-director__quote-mark" aria-hidden="true">"</div>
+                        <p class="hp-director__quote">At Guru Nanak Institute of Medical Technology, we believe quality
+                            healthcare begins with quality education. Since 1991, our mission has been to equip students
+                            with not just technical knowledge, but the compassion, integrity, and clinical expertise that
+                            make truly great healthcare professionals.</p>
+                        <p class="hp-director__quote" style="margin-top:14px">We are proud of our legacy — thousands of
+                            graduates placed in leading hospitals across India and abroad. At GNIMT, every student matters,
+                            and every career is our commitment.</p>
+                        <div class="hp-director__meta">
+                            <div class="hp-director__name">S. Dr. Subhash Dawar</div>
+                            <div class="hp-director__role">Director, GNIMT Patiala &amp; Karnal</div>
+                        </div>
+                        <a href="{{ route('about.director') }}" class="hp-btn hp-btn--outline"
+                            style="margin-top:28px;display:inline-flex">Read Full Message <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── TESTIMONIALS ─────────────────────────── --}}
+        <section class="hp-testi" aria-label="Student Testimonials">
+            <div class="hp-ctr">
+                <div class="hp-sec-head rv">
+                    <div>
+                        <span class="hp-eyebrow">Student Stories</span>
+                        <h2 class="hp-heading" style="margin-top:12px">What Our <span>Graduates</span> Say</h2>
+                    </div>
+                    <a href="{{ route('testimonials') }}" class="hp-view-all">All Testimonials <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hp-ctr">
+                <div class="hp-testi__wrap">
+                    <div class="swiper hp-testi__swiper">
+                        <div class="swiper-wrapper">
+                            @php
+                                $testimonials = [
+                                    [
+                                        'R',
+                                        'Rajan Preet Singh',
+                                        'B.Voc OT Technology',
+                                        'Batch 2023',
+                                        'The practical training at GNIMT was exceptional. Within a month of graduation, I was placed at Fortis Hospital, Mohali. The faculty\'s guidance made all the difference.',
+                                        'Fortis Hospital, Mohali',
+                                    ],
+                                    [
+                                        'S',
+                                        'Simranjit Kaur',
+                                        'B.Voc Medical Lab Technology',
+                                        'Batch 2022',
+                                        'GNIMT gave me skills no textbook can teach. Real clinical exposure from day one. I\'m now a senior lab technician at SRL Diagnostics.',
+                                        'SRL Diagnostics',
+                                    ],
+                                    [
+                                        'H',
+                                        'Hardeep Kumar',
+                                        'B.Voc Radiology',
+                                        'Batch 2023',
+                                        'The modern imaging lab prepared me for real hospital environments. My batch had 100% placement — I\'m now posted at AIIMS Bathinda as a Radiographer.',
+                                        'AIIMS Bathinda',
+                                    ],
+                                    [
+                                        'P',
+                                        'Parveen Sharma',
+                                        'B.Voc Cardiac Care',
+                                        'Batch 2022',
+                                        'I was placed in a government hospital before my final exams. GNIMT\'s placement cell is extraordinary and the faculty prepared us extremely well.',
+                                        'Government Hospital Punjab',
+                                    ],
+                                    [
+                                        'A',
+                                        'Amandeep Gill',
+                                        'DMLT Diploma',
+                                        'Batch 2024',
+                                        'Within weeks of completing my diploma I had three job offers. The clinical skills and confidence I built here are truly priceless.',
+                                        'Dr Lal PathLabs',
+                                    ],
+                                ];
+                            @endphp
+                            @foreach ($testimonials as $t)
+                                <div class="swiper-slide" style="height:auto">
+                                    <div class="tc">
+                                        <div class="tc__top">
+                                            <div class="tc__quote-icon" aria-hidden="true"><i
+                                                    class="fas fa-quote-left"></i></div>
+                                            <div class="tc__stars" aria-label="5 stars">★★★★★</div>
+                                        </div>
+                                        <p class="tc__text">{{ $t[4] }}</p>
+                                        <div class="tc__placed">
+                                            <i class="fas fa-hospital-alt" aria-hidden="true"></i>
+                                            <span>{{ $t[5] }}</span>
+                                        </div>
+                                        <div class="tc__footer">
+                                            <div class="tc__avatar" aria-hidden="true">{{ $t[0] }}</div>
+                                            <div class="tc__info">
+                                                <div class="tc__name">{{ $t[1] }}</div>
+                                                <div class="tc__meta">{{ $t[2] }} &nbsp;·&nbsp;
+                                                    {{ $t[3] }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-pagination hp-testi__dots" style="position:relative;margin-top:32px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── NEWS & ANNOUNCEMENTS ─────────────────────────── --}}
+        <section class="hp-news" aria-label="News and Announcements">
+            <div class="hp-ctr">
+                <div class="hp-sec-head rv">
+                    <div>
+                        <span class="hp-eyebrow">Latest Updates</span>
+                        <h2 class="hp-heading" style="margin-top:12px">News &amp; <span>Announcements</span></h2>
+                    </div>
+                    <a href="{{ route('news') }}" class="hp-view-all">All News <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="hp-news__grid rv d1">
+                    <div class="hp-news__featured">
+                        <span class="hp-news__feat-tag">Admissions</span>
+                        <h3 class="hp-news__feat-title">Admissions Open 2025–26 — Limited Seats Across All B.Voc &amp;
+                            Diploma Programs</h3>
+                        <p class="hp-news__feat-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 15 May 2025
+                        </p>
+                        <a href="{{ route('news') }}" class="hp-news__feat-link">Read More <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="hp-news__col">
+                        <div class="hp-news__card">
+                            <span class="hp-news__card-tag">Placement</span>
+                            <h3 class="hp-news__card-title">100% Placement Drive Completed for Batch 2024</h3>
+                            <p class="hp-news__card-excerpt">GNIMT Patiala successfully placed its entire 2024 batch in top
+                                hospitals across Punjab, Haryana and Delhi NCR.</p>
+                            <div class="hp-news__card-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 10
+                                April 2025</div>
+                        </div>
+                        <div class="hp-news__card">
+                            <span class="hp-news__card-tag hp-news__card-tag--red">MOU</span>
+                            <h3 class="hp-news__card-title">International MOU Signed with Canadian Institute</h3>
+                            <p class="hp-news__card-excerpt">GNIMT signs a landmark agreement for global education and
+                                placement for eligible students.</p>
+                            <div class="hp-news__card-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 28
+                                March 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── 360 VIRTUAL TOUR ─────────────────────────── --}}
+        <section class="hp-tour" aria-label="360 Virtual Campus Tour">
+            <div class="hp-ctr">
+                <div class="hp-sec-head rv" style="text-align:center;display:block">
+                    <span class="hp-eyebrow" style="justify-content:center">Virtual Campus Tour</span>
+                    <h2 class="hp-heading" style="margin-top:12px;text-align:center">Welcome To <span>Guru Nanak
+                            Institute</span><br>of Medical Technology</h2>
+                    <p class="hp-subtext" style="margin:14px auto 0;text-align:center">Experience our world-class
+                        facilities from anywhere in the world. Take an immersive 360° virtual tour of our Patiala campus.
+                    </p>
+                </div>
+                <div class="hp-tour__frame rv d1">
+                    <div class="hp-tour__placeholder">
+                        <div class="hp-tour__spin-icon" aria-hidden="true"><i class="fas fa-street-view"></i></div>
+                        <h3 class="hp-tour__placeholder-h">360° Campus Tour</h3>
+                        <p class="hp-tour__placeholder-p">Explore GNIMT Patiala in an immersive virtual experience</p>
+                        <a href="https://www.gurunanakinstitute.com/" target="_blank" rel="noopener"
+                            class="hp-btn hp-btn--red">
+                            <i class="fas fa-vr-cardboard"></i> Launch Virtual Tour
+                        </a>
+                    </div>
+                </div>
+                <div class="hp-tour__pills rv d2">
+                    @foreach ([['fas fa-flask', 'Modern Labs'], ['fas fa-chalkboard', 'Smart Classrooms'], ['fas fa-hospital', 'Clinical Training'], ['fas fa-dumbbell', 'Sports &amp; Wellness'], ['fas fa-book', 'Digital Library']] as [$icon, $label])
+                        <div class="hp-tour__pill"><i class="{{ $icon }}" aria-hidden="true"></i>
+                            {!! $label !!}</div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── ADMISSION PROCESS ─────────────────────────── --}}
+        <section class="hp-admission" aria-label="Admission Process">
+            <div class="hp-ctr">
+                <div class="hp-sec-head rv" style="text-align:center;display:block">
+                    <span class="hp-eyebrow" style="justify-content:center">Admission Process</span>
+                    <h2 class="hp-heading" style="margin-top:12px;text-align:center">Your Journey to <span>GNIMT</span>
+                        Starts Here!</h2>
+                    <p class="hp-subtext" style="margin:14px auto 0;text-align:center">Follow our simple step-by-step
+                        admission process and secure your future in healthcare.</p>
+                </div>
+                <div class="hp-admission__steps rv d1">
+                    @foreach ([['fas fa-file-alt', 'Register &amp; Apply', 'Fill out the online admission form with your personal and academic details.'], ['fas fa-folder-open', 'Submit Documents', 'Upload required documents — 10+2 marksheet, ID proof and passport photo.'], ['fas fa-credit-card', 'Application Fee Payment', 'Pay the nominal application fee to proceed with your admission.'], ['fas fa-graduation-cap', 'Confirm &amp; Pay Fees', 'Pay tuition fees, confirm your seat. Welcome to the GNIMT family!']] as $i => [$icon, $title, $desc])
+                        <div
+                            class="hp-admission__step @if ($i === 3) hp-admission__step--active @endif">
+                            <div class="hp-admission__step-label">Step {{ $i + 1 }}</div>
+                            <div class="hp-admission__step-circle">
+                                <i class="{{ $icon }}" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="hp-admission__step-title">{!! $title !!}</h3>
+                            <p class="hp-admission__step-desc">{!! $desc !!}</p>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="hp-admission__cta rv d2">
+                    <div class="hp-admission__divider">Admissions Open 2025–26</div>
+                    <div class="hp-admission__btns">
+                        <a href="{{ route('admissions') }}" class="hp-btn hp-btn--red"><i class="fas fa-paper-plane"
+                                aria-hidden="true"></i> Apply Today</a>
+                        <a href="tel:8283929908" class="hp-btn hp-btn--outline-navy"><i class="fas fa-phone"
+                                aria-hidden="true"></i> Call for Guidance</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────────────────── CTA / ENQUIRY FORM ─────────────────────────── --}}
+        <section class="hp-enquiry" id="enquiry" aria-label="Admission Enquiry">
+            <div class="hp-ctr">
+                <div class="hp-enquiry__grid">
+
+                    <div class="hp-enquiry__left rv">
+                        <span class="hp-eyebrow hp-eyebrow--light">Get in Touch</span>
+                        <h2 class="hp-enquiry__h2">Start Your<br><span>Medical Career</span> Today</h2>
+                        <p class="hp-enquiry__sub">Admissions are open. Fill the quick form and our counsellors will guide
+                            you through every step.</p>
+                        <ul class="hp-enquiry__list">
+                            @foreach (['UGC Recognised Programs', '99.9% Placement Support', 'Hands-on Clinical Training', 'Modern Labs &amp; Equipment', 'International Tie-ups Available', 'Scholarship for Deserving Students'] as $item)
+                                <li><i class="fas fa-check-circle" aria-hidden="true"></i>{!! $item !!}</li>
+                            @endforeach
+                        </ul>
+                        <div class="hp-enquiry__phones">
+                            <div class="hp-enquiry__phone-item">
+                                <span class="hp-enquiry__phone-loc">Patiala Branch</span>
+                                <a href="tel:8283929908" class="hp-enquiry__phone-num"><i class="fas fa-phone"
+                                        aria-hidden="true"></i>+91-8283929908</a>
+                            </div>
+                            <div class="hp-enquiry__phone-item">
+                                <span class="hp-enquiry__phone-loc">Karnal Branch</span>
+                                <a href="tel:8150019000" class="hp-enquiry__phone-num"><i class="fas fa-phone"
+                                        aria-hidden="true"></i>+91-8150019000</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hp-enquiry__right rvr">
+                        <div class="hp-enquiry__form-box">
+                            <h3 class="hp-enquiry__form-title">Quick Admission <span>Enquiry</span></h3>
+                            <form action="{{ route('enquiry.store') }}" method="POST" novalidate>
+                                @csrf
+                                @if (session('success'))
+                                    <div class="hp-enquiry__success">
+                                        <i class="fas fa-check-circle" aria-hidden="true"></i> {{ session('success') }}
+                                    </div>
+                                @endif
+                                <div class="hp-form__row">
+                                    <input type="text" name="name" class="hp-form__field"
+                                        placeholder="Full Name *" required autocomplete="name" aria-label="Full Name">
+                                    <input type="tel" name="phone" class="hp-form__field"
+                                        placeholder="Phone Number *" required autocomplete="tel" aria-label="Phone">
+                                </div>
+                                <input type="email" name="email" class="hp-form__field" placeholder="Email Address"
+                                    autocomplete="email" aria-label="Email" style="width:100%;margin-bottom:12px;">
+                                <div class="hp-form__row">
+                                    <select name="course" class="hp-form__field" aria-label="Course">
+                                        <option value="">Course Interested In</option>
+                                        @foreach (['B.Voc Operation Theatre Technology', 'B.Voc Medical Lab Technology', 'B.Voc Radiology &amp; Imaging', 'B.Voc Cardiac Care Technology', 'B.Voc Dialysis Technology', 'B.Voc Ophthalmic Technology', 'B.Voc Hospital Management', 'B.Voc Physiotherapy', 'DMLT Diploma', 'X-Ray Technology Diploma', 'CT Scan', 'MRI Scan'] as $c)
+                                            <option>{{ $c }}</option>
+                                        @endforeach
+                                    </select>
+                                    <select name="branch" class="hp-form__field" aria-label="Branch">
+                                        <option value="">Select Branch</option>
+                                        <option>Patiala Branch</option>
+                                        <option>Karnal Branch</option>
+                                    </select>
+                                </div>
+                                <textarea name="message" class="hp-form__field" rows="3" placeholder="Your Message (Optional)"
+                                    aria-label="Message" style="width:100%;margin-bottom:14px;resize:vertical;"></textarea>
+                                <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                                    style="margin-bottom:14px;"></div>
+                                <button type="submit" class="hp-btn hp-btn--red hp-btn--full">
+                                    <i class="fas fa-paper-plane" aria-hidden="true"></i> Submit Enquiry
+                                </button>
+                                <p class="hp-form__privacy"><i class="fas fa-lock" aria-hidden="true"></i> Your
+                                    information is safe. We'll contact you within 24 hours.</p>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>{{-- /hp --}}
 @endsection
 
-@section('styles')
-<style>
-/* HERO */
-.hero-slide{min-height:88vh;display:flex;align-items:center;}
-.hero-content{max-width:640px;padding:40px 0;}
-.hero-content h1{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:16px;}
-.hero-content p{font-size:1.05rem;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:28px;}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
-.btn-hero-outline{border:2px solid rgba(255,255,255,.7);color:#fff;font-size:.85rem;font-weight:700;padding:11px 26px;border-radius:25px;text-decoration:none;transition:all .22s;}
-.btn-hero-outline:hover{background:#fff;color:var(--navy);}
-@media(max-width:767px){.hero-slide{min-height:60vh;}.hero-content h1{font-size:1.9rem;}}
-
-/* WHY */
-.why-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;}
-.why-icon{width:40px;height:40px;border-radius:10px;background:rgba(232,160,32,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.why-icon i{color:var(--gold);font-size:1rem;}
-.why-card{background:var(--navy);border-radius:14px;padding:28px 20px;text-align:center;color:#fff;}
-.why-card i{font-size:2rem;color:var(--gold);margin-bottom:12px;}
-.why-card h3{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;margin-bottom:4px;}
-.why-card p{font-size:.8rem;opacity:.75;}
-
-/* COURSES */
-.course-card-icon-bg{background:linear-gradient(135deg,var(--light) 0%,#dde9ff 100%);display:flex;align-items:center;justify-content:center;}
-.course-icon-wrap i{font-size:3.5rem;color:var(--navy);opacity:.35;}
-
-/* DIRECTOR */
-.director-img-wrap{display:inline-block;border-radius:50%;padding:5px;background:linear-gradient(135deg,var(--gold),var(--red));}
-.director-img{width:220px;height:220px;object-fit:cover;border-radius:50%;border:5px solid #fff;}
-.director-quote p{font-size:.92rem;color:var(--muted);line-height:1.8;border-left:3px solid var(--gold);padding-left:18px;}
-
-/* TESTIMONIALS */
-.testimonial-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:36px 40px;max-width:720px;text-align:center;}
-.testi-quote i{font-size:2rem;color:var(--gold);opacity:.6;margin-bottom:16px;}
-.testi-text{font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.8;margin-bottom:24px;}
-.testi-author{display:flex;align-items:center;gap:14px;justify-content:center;}
-.testi-avatar{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff;flex-shrink:0;}
-.testi-author strong{color:#fff;font-size:.92rem;}
-.testi-author small{color:rgba(255,255,255,.6);}
-.testi-indicators{position:relative;margin-top:28px;}
-.testi-indicators button{background:rgba(255,255,255,.35);width:10px;height:10px;border-radius:50%;border:none;}
-.testi-indicators button.active{background:var(--gold);}
-
-/* NEWS */
-.news-card{background:var(--white);border-radius:12px;padding:24px;box-shadow:0 4px 20px rgba(26,53,102,.07);height:100%;border-top:3px solid var(--gold);transition:transform .22s;}
-.news-card:hover{transform:translateY(-4px);}
-.news-date{font-size:.73rem;color:var(--gold);font-weight:600;margin-bottom:8px;}
-.news-title{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.4;}
-.news-excerpt{font-size:.82rem;color:var(--muted);line-height:1.65;}
-.news-link{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;color:var(--gold);text-decoration:none;margin-top:14px;}
-.news-link:hover{color:var(--navy);}
-
-/* ENQUIRY */
-.enq-checklist{list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;}
-.enq-checklist li{display:flex;align-items:center;gap:10px;font-size:.88rem;}
-.enq-checklist i{color:var(--gold);}
-.enq-form-card{background:#fff;border-radius:16px;padding:36px;box-shadow:0 8px 40px rgba(26,53,102,.10);}
-.enq-form-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:22px;}
-.enq-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:11px 15px;font-size:.84rem;font-family:'Poppins',sans-serif;color:var(--txt);outline:none;transition:border-color .2s;background:#fff;}
-.enq-input:focus{border-color:var(--gold);}
-</style>
+@section('scripts')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

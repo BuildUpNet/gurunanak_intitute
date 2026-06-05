@@ -1,4 +1,4 @@
-/* public/js/gnimt.js */
+/* public/js/main.js */
 (function () {
     "use strict";
     var sw = document.getElementById("sw");
@@ -133,33 +133,90 @@
     var fy = document.getElementById("fyear");
     if (fy) fy.textContent = new Date().getFullYear();
 
-    /* Counter animation */
+    /* ─── Counter animation ─── */
     function animateCount(el) {
         var target = +el.dataset.target,
-            start = 0,
-            duration = 1600,
-            step = (target / duration) * 16;
+            start  = 0,
+            dur    = 1800,
+            step   = (target / dur) * 16;
         var timer = setInterval(function () {
             start += step;
-            if (start >= target) {
-                start = target;
-                clearInterval(timer);
-            }
+            if (start >= target) { start = target; clearInterval(timer); }
             el.textContent = Math.floor(start).toLocaleString();
         }, 16);
     }
-    var io = new IntersectionObserver(
-        function (entries) {
-            entries.forEach(function (en) {
-                if (en.isIntersecting) {
-                    animateCount(en.target);
-                    io.unobserve(en.target);
+    var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (en.isIntersecting) { animateCount(en.target); cio.unobserve(en.target); }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll("[data-target]").forEach(function (el) { cio.observe(el); });
+
+    /* ─── Floating back-to-top ─── */
+    var floatTop = document.getElementById("floatingTop");
+    if (floatTop) {
+        window.addEventListener("scroll", function () {
+            floatTop.classList.toggle("show", window.scrollY > 320);
+        }, { passive: true });
+        floatTop.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
+
+    /* ─── Scroll reveal ─── */
+    var revIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (en.isIntersecting) {
+                en.target.classList.add("vis");
+                revIO.unobserve(en.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".rv,.rvl,.rvr").forEach(function (el) { revIO.observe(el); });
+
+    /* ─── Hero Swiper ─── */
+    if (document.querySelector(".hp-hero__swiper") && typeof Swiper !== "undefined") {
+        var heroSwiper = new Swiper(".hp-hero__swiper", {
+            loop: true,
+            speed: 900,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            effect: "fade",
+            fadeEffect: { crossFade: true },
+            pagination: { el: ".hp-hero__dots", clickable: true },
+            navigation: { nextEl: ".hp-hero__next", prevEl: ".hp-hero__prev" },
+            on: {
+                slideChange: function () {
+                    var el = document.getElementById("heroSlideNum");
+                    if (el) {
+                        var n = this.realIndex + 1;
+                        el.textContent = n < 10 ? "0" + n : n;
+                    }
                 }
-            });
-        },
-        { threshold: 0.5 },
-    );
-    document.querySelectorAll("[data-target]").forEach(function (el) {
-        io.observe(el);
-    });
+            }
+        });
+    }
+
+    /* ─── Testimonials Swiper ─── */
+    if (document.querySelector(".hp-testi__swiper") && typeof Swiper !== "undefined") {
+        new Swiper(".hp-testi__swiper", {
+            loop: true,
+            speed: 700,
+            spaceBetween: 24,
+            slidesPerView: 1,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            pagination: {
+                el: ".hp-testi__dots",
+                clickable: true
+            },
+            breakpoints: {
+                640:  { slidesPerView: 2, spaceBetween: 20 },   /* tablet */
+                1024: { slidesPerView: 3, spaceBetween: 24 }    /* desktop */
+            }
+        });
+    }
+
 })();

@@ -89,4 +89,8 @@ class PageController extends Controller
     {
         return view('pages.disclaimer');
     }
+    public function portalLogin()
+    {
+        return view('pages.portal-login');
+    }
 }
