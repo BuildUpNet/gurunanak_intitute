@@ -23,51 +23,57 @@
             });
     }
 
-    /* MEGA */
+    /* MEGA — fixed: dual-hover guard so panel stays open during mouse travel */
     document.querySelectorAll(".nvl li.hm").forEach(function (li) {
         var p = document.getElementById(li.dataset.mp);
         if (!p) return;
-        li.addEventListener("mouseenter", function () {
+        var t;
+        function doOpen() {
+            clearTimeout(t);
             closeAll();
             li.classList.add("mpopen");
             p.classList.add("open");
-        });
-        li.addEventListener("mouseleave", function () {
-            setTimeout(function () {
-                if (!p.matches(":hover")) {
+        }
+        function schedClose() {
+            clearTimeout(t);
+            t = setTimeout(function () {
+                if (!li.matches(":hover") && !p.matches(":hover")) {
                     li.classList.remove("mpopen");
                     p.classList.remove("open");
                 }
-            }, 60);
-        });
-        p.addEventListener("mouseleave", function () {
-            li.classList.remove("mpopen");
-            p.classList.remove("open");
-        });
+            }, 180);
+        }
+        li.addEventListener("mouseenter", doOpen);
+        li.addEventListener("mouseleave", schedClose);
+        p.addEventListener("mouseenter", function () { clearTimeout(t); });
+        p.addEventListener("mouseleave", schedClose);
     });
 
-    /* DROPS */
+    /* DROPS — same dual-hover fix */
     document.querySelectorAll(".nvl li.hd").forEach(function (li) {
         var p = document.getElementById(li.dataset.dp);
         if (!p) return;
-        li.addEventListener("mouseenter", function () {
+        var t;
+        function doOpen() {
+            clearTimeout(t);
             closeAll();
             posDrop(li, p);
             li.classList.add("dpopen");
             p.classList.add("open");
-        });
-        li.addEventListener("mouseleave", function () {
-            setTimeout(function () {
-                if (!p.matches(":hover")) {
+        }
+        function schedClose() {
+            clearTimeout(t);
+            t = setTimeout(function () {
+                if (!li.matches(":hover") && !p.matches(":hover")) {
                     li.classList.remove("dpopen");
                     p.classList.remove("open");
                 }
-            }, 60);
-        });
-        p.addEventListener("mouseleave", function () {
-            li.classList.remove("dpopen");
-            p.classList.remove("open");
-        });
+            }, 180);
+        }
+        li.addEventListener("mouseenter", doOpen);
+        li.addEventListener("mouseleave", schedClose);
+        p.addEventListener("mouseenter", function () { clearTimeout(t); });
+        p.addEventListener("mouseleave", schedClose);
     });
 
     document.addEventListener("click", function (e) {
@@ -117,6 +123,23 @@
                 s.classList.add("open");
                 t.classList.add("open");
             }
+        });
+    });
+
+    /* ─── Two-panel Courses mega: hover left category → show right panel ─── */
+    document.querySelectorAll(".mp2-cat").forEach(function (cat) {
+        cat.addEventListener("mouseenter", function () {
+            var targetId = cat.dataset.cat;
+            var target = document.getElementById(targetId);
+            if (!target) return;
+            cat.closest(".mp2-cats").querySelectorAll(".mp2-cat").forEach(function (c) {
+                c.classList.remove("active");
+            });
+            cat.closest(".mp2-wrap").querySelectorAll(".mp2-panel").forEach(function (p) {
+                p.classList.remove("active");
+            });
+            cat.classList.add("active");
+            target.classList.add("active");
         });
     });
 

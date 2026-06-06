@@ -276,7 +276,7 @@
         </section>
 
         {{-- ─────────────────────────── DIRECTOR'S MESSAGE ─────────────────────────── --}}
-        <section class="hp-director" aria-label="Director's Message">
+        {{-- <section class="hp-director" aria-label="Director's Message">
             <div class="hp-ctr">
                 <div class="hp-director__grid">
                     <div class="hp-director__img-wrap rvl">
@@ -308,7 +308,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         {{-- ─────────────────────────── TESTIMONIALS ─────────────────────────── --}}
         <section class="hp-testi" aria-label="Student Testimonials">

@@ -110,141 +110,418 @@
 
         </nav>
 
-        {{-- MEGA: ABOUT --}}
-        <div class="mega-panel" id="mp-about" role="region" aria-label="About Us Menu">
-            <div class="row g-4">
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-university"></i> Our Institution</div>
-                    <a class="mlink" href="{{ route('about') }}#about"><i class="fas fa-dot-circle"></i> About GNIMT
-                        &amp; Patiala</a>
-                    <a class="mlink" href="{{ route('about') }}#directors-message"><i class="fas fa-dot-circle"></i>
-                        Director's Message</a>
-                    <a class="mlink" href="{{ route('about') }}#vision-mission"><i class="fas fa-dot-circle"></i>
-                        Vision &amp; Mission</a>
-                    <a class="mlink" href="{{ route('about') }}#infrastructure"><i class="fas fa-dot-circle"></i>
-                        Infrastructure</a>
-                    <a class="mlink" href="{{ route('about') }}#rules-regulations"><i class="fas fa-dot-circle"></i>
-                        Rules &amp; Regulations</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-newspaper"></i> Media &amp; Updates</div>
-                    <a class="mlink" href="{{ route('media') }}"><i class="fas fa-dot-circle"></i> Media
-                        Coverage</a>
-                    <a class="mlink" href="{{ route('news') }}"><i class="fas fa-dot-circle"></i> News &amp;
-                        Events</a>
-                    <a class="mlink" href="{{ route('gallery') }}"><i class="fas fa-dot-circle"></i> GNIMT
-                        Gallery</a>
-                    <a class="mlink" href="{{ route('announcements') }}"><i class="fas fa-dot-circle"></i>
-                        Announcements</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-trophy"></i> Achievements</div>
-                    <a class="mlink" href="{{ route('achievers') }}"><i class="fas fa-dot-circle"></i> Our
-                        Achievers</a>
-                    <a class="mlink" href="{{ route('testimonials') }}"><i class="fas fa-dot-circle"></i>
-                        Testimonials</a>
-                    <a class="mlink" href="{{ route('alumni') }}"><i class="fas fa-dot-circle"></i> Alumni
-                        Network</a>
-                    <a class="mlink" href="{{ route('placements') }}"><i class="fas fa-dot-circle"></i> Placement
-                        Records</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="fc">
-                        <img src="{{ asset('images/campus-1.jpg') }}" alt="GNIMT Campus" loading="lazy"
-                            onerror="this.style.display='none'">
-                        <h5><i class="fas fa-award me-2"></i>UGC Recognised</h5>
-                        <p>Decades of excellence. GNIMT produces skilled professionals placed in top hospitals across
-                            India.</p>
-                        <a href="{{ route('about') }}" class="fc-cta">Know More →</a>
+        {{-- MEGA: ABOUT — Two-panel flyout --}}
+        <div class="mega-panel mp2" id="mp-about" role="region" aria-label="About Us Menu">
+            <div class="mp2-wrap">
+
+                <nav class="mp2-cats" aria-label="About categories">
+                    <div class="mp2-cat active" data-cat="mp2-institution" role="button" tabindex="0">
+                        <i class="fas fa-university mp2-icon"></i>
+                        <span>Our Institution</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                    <div class="mp2-cat" data-cat="mp2-media" role="button" tabindex="0">
+                        <i class="fas fa-newspaper mp2-icon"></i>
+                        <span>Media &amp; Updates</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                    <div class="mp2-cat" data-cat="mp2-achievements" role="button" tabindex="0">
+                        <i class="fas fa-trophy mp2-icon"></i>
+                        <span>Achievements</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                </nav>
+
+                <div class="mp2-content">
+                    {{-- Our Institution --}}
+                    <div class="mp2-panel active" id="mp2-institution">
+                        <div class="mp2-panel-hd"><i class="fas fa-university"></i><h4>Our Institution</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('about') }}#about"><i class="fas fa-dot-circle"></i> About GNIMT &amp; Patiala</a>
+                            <a class="mlink" href="{{ route('about') }}#directors-message"><i class="fas fa-dot-circle"></i> Director's Message</a>
+                            <a class="mlink" href="{{ route('about') }}#vision-mission"><i class="fas fa-dot-circle"></i> Vision &amp; Mission</a>
+                            <a class="mlink" href="{{ route('about') }}#infrastructure"><i class="fas fa-dot-circle"></i> Infrastructure</a>
+                            <a class="mlink" href="{{ route('about') }}#rules-regulations"><i class="fas fa-dot-circle"></i> Rules &amp; Regulations</a>
+                        </div>
+                        <div class="mp2-apply"><a href="{{ route('about') }}" class="fc-cta">Know More →</a></div>
+                    </div>
+
+                    {{-- Media & Updates --}}
+                    <div class="mp2-panel" id="mp2-media">
+                        <div class="mp2-panel-hd"><i class="fas fa-newspaper"></i><h4>Media &amp; Updates</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('media') }}"><i class="fas fa-dot-circle"></i> Media Coverage</a>
+                            <a class="mlink" href="{{ route('news') }}"><i class="fas fa-dot-circle"></i> News &amp; Events</a>
+                            <a class="mlink" href="{{ route('gallery') }}"><i class="fas fa-dot-circle"></i> GNIMT Gallery</a>
+                            <a class="mlink" href="{{ route('announcements') }}"><i class="fas fa-dot-circle"></i> Announcements</a>
+                        </div>
+                        <div class="mp2-apply"><a href="{{ route('news') }}" class="fc-cta">Latest News →</a></div>
+                    </div>
+
+                    {{-- Achievements --}}
+                    <div class="mp2-panel" id="mp2-achievements">
+                        <div class="mp2-panel-hd"><i class="fas fa-trophy"></i><h4>Achievements</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('achievers') }}"><i class="fas fa-dot-circle"></i> Our Achievers</a>
+                            <a class="mlink" href="{{ route('testimonials') }}"><i class="fas fa-dot-circle"></i> Testimonials</a>
+                            <a class="mlink" href="{{ route('alumni') }}"><i class="fas fa-dot-circle"></i> Alumni Network</a>
+                            <a class="mlink" href="{{ route('placements') }}"><i class="fas fa-dot-circle"></i> Placement Records</a>
+                        </div>
+                        <div class="mp2-apply"><a href="{{ route('achievers') }}" class="fc-cta">Our Achievers →</a></div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        {{-- MEGA: COURSES --}}
-        <div class="mega-panel" id="mp-courses" role="region" aria-label="Courses Menu">
-            <div class="row g-4">
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-graduation-cap"></i> Bachelor Degree (B.Voc.)</div>
-                    @foreach ([['Operation Theatre Technology', 'courses.show', 'operation-theatre-technology'], ['Medical Lab Technology', 'courses.show', 'medical-lab-technology'], ['Ophthalmic Technology', 'courses.show', 'ophthalmic-technology'], ['Cardiac Care Technology', 'courses.show', 'cardiac-care-technology'], ['Dialysis Technology', 'courses.show', 'dialysis-technology'], ['Radiology &amp; Imaging', 'courses.show', 'radiology-imaging-technology'], ['Hospital Management', 'courses.show', 'hospital-management'], ['B.Voc Physiotherapy', 'courses.show', 'physiotherapy']] as [$name, $route, $slug])
-                        <a class="mlink" href="{{ route($route, $slug) }}"><i class="fas fa-dot-circle"></i>
-                            {!! $name !!}</a>
-                    @endforeach
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-certificate"></i> Diploma Courses</div>
-                    @foreach (['Medical Lab Technology (DMLT)', 'Operation Theatre Technology', 'X-Ray Technology', 'Ophthalmic Assistant', 'Cath Lab Technology', 'Electro Cardiography Technology', 'CT Scan Technology', 'MRI Scan Technology'] as $name)
-                        <a class="mlink" href="{{ route('academics') }}#diploma"><i class="fas fa-dot-circle"></i>
-                            {{ $name }}</a>
-                    @endforeach
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-globe"></i> International Tie-up</div>
-                    @foreach (['Digital Media Studies Advanced Diploma', 'ICT With Co-op', 'Business Fundamentals With Co-op', 'Business Hospitality Management', 'Tourism, Hospitality &amp; Services'] as $name)
-                        <a class="mlink" href="{{ route('academics') }}#international"><i
-                                class="fas fa-dot-circle"></i> {!! $name !!}</a>
-                    @endforeach
-                    <div class="mch mt"><i class="fas fa-plus-circle"></i> Other</div>
-                    <a class="mlink" href="{{ route('academics') }}#other"><i class="fas fa-dot-circle"></i> Nanny
-                        Course</a>
-                    <a class="mlink" href="{{ route('academics') }}#other"><i class="fas fa-dot-circle"></i> First
-                        Aid Specialist Diploma</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="fc">
-                        <img src="{{ asset('images/campus-2.jpg') }}" alt="GNIMT Courses" loading="lazy"
-                            onerror="this.style.display='none'">
-                        <h5><i class="fas fa-stethoscope me-2"></i>Start Your Medical Career</h5>
-                        <p>Choose from 20+ healthcare programs with hands-on clinical training and 99.9% placement
-                            support.</p>
-                        <a href="{{ route('academics') }}" class="fc-cta">View All Courses →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{-- MEGA: COURSES — Two-panel flyout (left: school categories | right: courses on hover) --}}
+        <div class="mega-panel mp2" id="mp-courses" role="region" aria-label="Courses Menu">
+            <div class="mp2-wrap">
 
-        {{-- MEGA: ADMISSIONS --}}
-        <div class="mega-panel" id="mp-adm" role="region" aria-label="Admissions Menu">
-            <div class="row g-4">
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-file-alt"></i> Admission Process</div>
-                    <a class="mlink" href="{{ route('admissions') }}#how-to-apply"><i
-                            class="fas fa-dot-circle"></i> How to Apply?</a>
-                    <a class="mlink" href="{{ route('admissions') }}#guidance"><i class="fas fa-dot-circle"></i>
-                        Admission Guidance</a>
-                    <a class="mlink" href="{{ route('admissions') }}#eligibility"><i class="fas fa-dot-circle"></i>
-                        Eligibility Criteria</a>
-                    <a class="mlink" href="{{ route('admissions') }}#fees"><i class="fas fa-dot-circle"></i> Fee
-                        Structure</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-info-circle"></i> Important Info</div>
-                    <a class="mlink" href="{{ route('admissions') }}#rules"><i class="fas fa-dot-circle"></i> Rules
-                        &amp; Regulations</a>
-                    <a class="mlink" href="{{ route('admissions') }}#scholarship"><i class="fas fa-dot-circle"></i>
-                        Scholarship Info</a>
-                    <a class="mlink" href="{{ route('admissions') }}#dates"><i class="fas fa-dot-circle"></i>
-                        Important Dates</a>
-                    <a class="mlink" href="{{ route('admissions') }}#documents"><i class="fas fa-dot-circle"></i>
-                        Documents Required</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="mch"><i class="fas fa-map-marker-alt"></i> Our Branches</div>
-                    <a class="mlink" href="{{ route('contact') }}#patiala"><i class="fas fa-dot-circle"></i>
-                        Patiala Branch</a>
-                    <a class="mlink" href="{{ route('contact') }}#karnal"><i class="fas fa-dot-circle"></i> Karnal
-                        Branch</a>
-                </div>
-                <div class="col-lg-3">
-                    <div class="fc">
-                        <img src="{{ asset('images/campus-3.jpg') }}" alt="GNIMT Admissions" loading="lazy"
-                            onerror="this.style.display='none'">
-                        <h5><i class="fas fa-user-plus me-2"></i>Admissions Open 2025–26</h5>
-                        <p>Limited seats available. Apply early to secure your admission in your preferred healthcare
-                            program.</p>
-                        <a href="{{ route('admissions') }}" class="fc-cta">Apply Now →</a>
+                {{-- ── LEFT: School category list ── --}}
+                <nav class="mp2-cats" aria-label="School categories">
+
+                    <div class="mp2-cat active" data-cat="mp2-allied" role="button" tabindex="0">
+                        <i class="fas fa-stethoscope mp2-icon"></i>
+                        <span>School of Allied Health Sciences</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-healthcare" role="button" tabindex="0">
+                        <i class="fas fa-hospital mp2-icon"></i>
+                        <span>School of Healthcare Management &amp; Community Health</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-dental" role="button" tabindex="0">
+                        <i class="fas fa-tooth mp2-icon"></i>
+                        <span>School of Dental Sciences</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-ayurveda" role="button" tabindex="0">
+                        <i class="fas fa-leaf mp2-icon"></i>
+                        <span>School of Ayurveda &amp; Wellness Sciences</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-design" role="button" tabindex="0">
+                        <i class="fas fa-palette mp2-icon"></i>
+                        <span>School of Design &amp; Fashion Technology</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-management" role="button" tabindex="0">
+                        <i class="fas fa-chart-line mp2-icon"></i>
+                        <span>School of Management &amp; Commerce</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-computer" role="button" tabindex="0">
+                        <i class="fas fa-laptop mp2-icon"></i>
+                        <span>School of Computer Applications</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-humanities" role="button" tabindex="0">
+                        <i class="fas fa-book mp2-icon"></i>
+                        <span>School of Humanities &amp; Social Sciences</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-journalism" role="button" tabindex="0">
+                        <i class="fas fa-newspaper mp2-icon"></i>
+                        <span>School of Journalism &amp; Mass Communication</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-library" role="button" tabindex="0">
+                        <i class="fas fa-book-open mp2-icon"></i>
+                        <span>School of Library &amp; Information Sciences</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                    <div class="mp2-cat" data-cat="mp2-hospitality" role="button" tabindex="0">
+                        <i class="fas fa-hotel mp2-icon"></i>
+                        <span>School of Hospitality, Tourism &amp; Travel Management</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+
+                </nav>
+
+                {{-- ── RIGHT: Course panels (shown on hover) ── --}}
+                <div class="mp2-content">
+
+                    {{-- Allied Health Sciences --}}
+                    <div class="mp2-panel active" id="mp2-allied">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-stethoscope"></i>
+                            <h4>School of Allied Health Sciences</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid">
+                            <a class="mlink" href="{{ route('courses.show', 'physiotherapy') }}"><i class="fas fa-dot-circle"></i> Physiotherapy</a>
+                            <a class="mlink" href="{{ route('courses.show', 'medical-lab-technology') }}"><i class="fas fa-dot-circle"></i> Medical Lab Technology</a>
+                            <a class="mlink" href="{{ route('courses.show', 'radiology-imaging-technology') }}"><i class="fas fa-dot-circle"></i> Radiology &amp; Medical Imaging Technology</a>
+                            <a class="mlink" href="{{ route('courses.show', 'operation-theatre-technology') }}"><i class="fas fa-dot-circle"></i> OT &amp; Anaesthesia Technology</a>
+                            <a class="mlink" href="{{ route('courses.show', 'cardiac-care-technology') }}"><i class="fas fa-dot-circle"></i> Cardiac Care Technology</a>
+                            <a class="mlink" href="{{ route('courses.show', 'dialysis-technology') }}"><i class="fas fa-dot-circle"></i> Dialysis Technology</a>
+                            <a class="mlink" href="{{ route('courses.show', 'ophthalmic-technology') }}"><i class="fas fa-dot-circle"></i> Optometry Technology</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Emergency &amp; Trauma Care</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Critical Care Management</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Hospital Sterilization Technology</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> CMS &amp; ED</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('academics') }}" class="fc-cta">View All Programs →</a>
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Healthcare Management --}}
+                    <div class="mp2-panel" id="mp2-healthcare">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-hospital"></i>
+                            <h4>School of Healthcare Management &amp; Community Health</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid">
+                            <a class="mlink" href="{{ route('courses.show', 'hospital-management') }}"><i class="fas fa-dot-circle"></i> Hospital Management</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Hospital Administration</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Patient Care Management</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Hospital Waste Management</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Health &amp; Sanitary Inspector</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Multipurpose Health Worker</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Community Care Provider</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Home Care Provider</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Nanny Training</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('academics') }}" class="fc-cta">View All Programs →</a>
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Dental Sciences --}}
+                    <div class="mp2-panel" id="mp2-dental">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-tooth"></i>
+                            <h4>School of Dental Sciences</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Dental Chair Side Assistant</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Ayurveda & Wellness --}}
+                    <div class="mp2-panel" id="mp2-ayurveda">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-leaf"></i>
+                            <h4>School of Ayurveda &amp; Wellness Sciences</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Panchkarma</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Design & Fashion --}}
+                    <div class="mp2-panel" id="mp2-design">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-palette"></i>
+                            <h4>School of Design &amp; Fashion Technology</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Fashion Technology</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Textile Designing</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Interior Designing</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Management & Commerce --}}
+                    <div class="mp2-panel" id="mp2-management">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>School of Management &amp; Commerce</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Bachelor of Business Administration (BBA)</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Business Administration (MBA)</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Bachelor of Commerce (B.Com.)</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Commerce (M.Com.)</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Computer Applications --}}
+                    <div class="mp2-panel" id="mp2-computer">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-laptop"></i>
+                            <h4>School of Computer Applications</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Computer Applications (MCA)</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Humanities & Social Sciences --}}
+                    <div class="mp2-panel" id="mp2-humanities">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-book"></i>
+                            <h4>School of Humanities &amp; Social Sciences</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Bachelor of Arts (BA)</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MA in Hindi</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MA in English</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MA in Punjabi</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MA in Political Science</a>
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MA in History</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Journalism & Mass Communication --}}
+                    <div class="mp2-panel" id="mp2-journalism">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-newspaper"></i>
+                            <h4>School of Journalism &amp; Mass Communication</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Journalism &amp; Mass Communication (MJMC)</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Library & Information Sciences --}}
+                    <div class="mp2-panel" id="mp2-library">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-book-open"></i>
+                            <h4>School of Library &amp; Information Sciences</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Library &amp; Information Science (MLISc)</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Hospitality, Tourism & Travel Management --}}
+                    <div class="mp2-panel" id="mp2-hospitality">
+                        <div class="mp2-panel-hd">
+                            <i class="fas fa-hotel"></i>
+                            <h4>School of Hospitality, Tourism &amp; Travel Management</h4>
+                        </div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Master of Tourism &amp; Travel Management (MTTM)</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
+                    </div>
+
+                </div>{{-- /mp2-content --}}
+            </div>{{-- /mp2-wrap --}}
+        </div>{{-- /mp-courses --}}
+
+        {{-- MEGA: ADMISSIONS — Two-panel flyout --}}
+        <div class="mega-panel mp2" id="mp-adm" role="region" aria-label="Admissions Menu">
+            <div class="mp2-wrap">
+
+                <nav class="mp2-cats" aria-label="Admissions categories">
+                    <div class="mp2-cat active" data-cat="mp2-process" role="button" tabindex="0">
+                        <i class="fas fa-file-alt mp2-icon"></i>
+                        <span>Admission Process</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                    <div class="mp2-cat" data-cat="mp2-info" role="button" tabindex="0">
+                        <i class="fas fa-info-circle mp2-icon"></i>
+                        <span>Important Info</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                    <div class="mp2-cat" data-cat="mp2-branches" role="button" tabindex="0">
+                        <i class="fas fa-map-marker-alt mp2-icon"></i>
+                        <span>Our Branches</span>
+                        <i class="fas fa-chevron-right mp2-arr"></i>
+                    </div>
+                </nav>
+
+                <div class="mp2-content">
+                    {{-- Admission Process --}}
+                    <div class="mp2-panel active" id="mp2-process">
+                        <div class="mp2-panel-hd"><i class="fas fa-file-alt"></i><h4>Admission Process</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('admissions') }}#how-to-apply"><i class="fas fa-dot-circle"></i> How to Apply?</a>
+                            <a class="mlink" href="{{ route('admissions') }}#guidance"><i class="fas fa-dot-circle"></i> Admission Guidance</a>
+                            <a class="mlink" href="{{ route('admissions') }}#eligibility"><i class="fas fa-dot-circle"></i> Eligibility Criteria</a>
+                            <a class="mlink" href="{{ route('admissions') }}#fees"><i class="fas fa-dot-circle"></i> Fee Structure</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    {{-- Important Info --}}
+                    <div class="mp2-panel" id="mp2-info">
+                        <div class="mp2-panel-hd"><i class="fas fa-info-circle"></i><h4>Important Info</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('admissions') }}#rules"><i class="fas fa-dot-circle"></i> Rules &amp; Regulations</a>
+                            <a class="mlink" href="{{ route('admissions') }}#scholarship"><i class="fas fa-dot-circle"></i> Scholarship Info</a>
+                            <a class="mlink" href="{{ route('admissions') }}#dates"><i class="fas fa-dot-circle"></i> Important Dates</a>
+                            <a class="mlink" href="{{ route('admissions') }}#documents"><i class="fas fa-dot-circle"></i> Documents Required</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('admissions') }}" class="fc-cta">View Details →</a>
+                        </div>
+                    </div>
+
+                    {{-- Our Branches --}}
+                    <div class="mp2-panel" id="mp2-branches">
+                        <div class="mp2-panel-hd"><i class="fas fa-map-marker-alt"></i><h4>Our Branches</h4></div>
+                        <div class="mp2-divider"></div>
+                        <div class="mp2-grid mp2-grid-2">
+                            <a class="mlink" href="{{ route('contact') }}#patiala"><i class="fas fa-dot-circle"></i> Patiala Branch</a>
+                            <a class="mlink" href="{{ route('contact') }}#karnal"><i class="fas fa-dot-circle"></i> Karnal Branch</a>
+                        </div>
+                        <div class="mp2-apply">
+                            <a href="{{ route('contact') }}" class="fc-cta">Contact Us →</a>
+                            <a href="{{ route('admissions') }}" class="fc-cta mp2-apply-enq">Apply Now →</a>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -265,6 +542,45 @@
         </div>
 
     </div>{{-- /sw --}}
+
+    {{-- ══════════════════════════════════════
+     ANNOUNCEMENT TICKER  (rbuchd.in style)
+══════════════════════════════════════ --}}
+    <div class="ann-ticker" aria-label="Announcements">
+        <div class="ann-label">
+            <i class="fas fa-bullhorn"></i>
+            <span>Announcement</span>
+        </div>
+        <div class="ann-marquee-wrap">
+            <div class="ann-marquee">
+                <span>Admissions Open 2025–26 – Limited seats available. Apply Early!</span>
+                <span class="ann-sep">|</span>
+                <span>GNIMT – <strong>Health Icon Award 2024</strong> Winner – Excellence in Paramedical Education</span>
+                <span class="ann-sep">|</span>
+                <span>Established 1991 – Trusted by <strong>35,000+ Students</strong> across India &amp; Abroad</span>
+                <span class="ann-sep">|</span>
+                <span>Punjab De No. 1 Paramedical Institute – <strong>UGC Recognised</strong></span>
+                <span class="ann-sep">|</span>
+                <span>Patiala Helpline: <a href="tel:8283929908">+91-8283929908</a> &nbsp;|&nbsp; Karnal Helpline: <a href="tel:8150019000">+91-8150019000</a></span>
+                <span class="ann-sep">|</span>
+                <span>Pioneer in Paramedical Education Award &amp; Global Achiever Award, Dubai (2014)</span>
+                <span class="ann-sep">|</span>
+                {{-- duplicate for seamless infinite loop --}}
+                <span>Admissions Open 2025–26 – Limited seats available. Apply Early!</span>
+                <span class="ann-sep">|</span>
+                <span>GNIMT – <strong>Health Icon Award 2024</strong> Winner – Excellence in Paramedical Education</span>
+                <span class="ann-sep">|</span>
+                <span>Established 1991 – Trusted by <strong>35,000+ Students</strong> across India &amp; Abroad</span>
+                <span class="ann-sep">|</span>
+                <span>Punjab De No. 1 Paramedical Institute – <strong>UGC Recognised</strong></span>
+                <span class="ann-sep">|</span>
+                <span>Patiala Helpline: <a href="tel:8283929908">+91-8283929908</a> &nbsp;|&nbsp; Karnal Helpline: <a href="tel:8150019000">+91-8150019000</a></span>
+                <span class="ann-sep">|</span>
+                <span>Pioneer in Paramedical Education Award &amp; Global Achiever Award, Dubai (2014)</span>
+                <span class="ann-sep">|</span>
+            </div>
+        </div>
+    </div>
 
     {{-- MOBILE DRAWER --}}
     <div class="d-ov" id="dov" aria-hidden="true"></div>
@@ -297,19 +613,28 @@
             <div class="dmi">
                 <div class="dml" data-ds="ds-courses">Courses <i class="fas fa-chevron-down da"></i></div>
                 <div class="dms" id="ds-courses">
-                    <div class="dms-h">Bachelor Degree (B.Voc.)</div>
-                    <a href="{{ route('courses.show', 'operation-theatre-technology') }}"><i
-                            class="fas fa-dot-circle"></i> OT Technology</a>
-                    <a href="{{ route('courses.show', 'medical-lab-technology') }}"><i class="fas fa-dot-circle"></i>
-                        Medical Lab Technology</a>
-                    <a href="{{ route('courses.show', 'radiology-imaging-technology') }}"><i
-                            class="fas fa-dot-circle"></i> Radiology &amp; Imaging</a>
-                    <a href="{{ route('courses.show', 'cardiac-care-technology') }}"><i
-                            class="fas fa-dot-circle"></i>
-                        Cardiac Care</a>
-                    <div class="dms-h">Diploma</div>
-                    <a href="{{ route('academics') }}#diploma"><i class="fas fa-dot-circle"></i> DMLT</a>
-                    <a href="{{ route('academics') }}#diploma"><i class="fas fa-dot-circle"></i> CT / MRI Scan</a>
+                    <div class="dms-h">School of Allied Health Sciences</div>
+                    <a href="{{ route('courses.show', 'physiotherapy') }}"><i class="fas fa-dot-circle"></i> Physiotherapy</a>
+                    <a href="{{ route('courses.show', 'medical-lab-technology') }}"><i class="fas fa-dot-circle"></i> Medical Lab Technology</a>
+                    <a href="{{ route('courses.show', 'radiology-imaging-technology') }}"><i class="fas fa-dot-circle"></i> Radiology &amp; Medical Imaging</a>
+                    <a href="{{ route('courses.show', 'operation-theatre-technology') }}"><i class="fas fa-dot-circle"></i> OT &amp; Anaesthesia Technology</a>
+                    <a href="{{ route('courses.show', 'cardiac-care-technology') }}"><i class="fas fa-dot-circle"></i> Cardiac Care Technology</a>
+                    <a href="{{ route('courses.show', 'dialysis-technology') }}"><i class="fas fa-dot-circle"></i> Dialysis Technology</a>
+                    <a href="{{ route('courses.show', 'ophthalmic-technology') }}"><i class="fas fa-dot-circle"></i> Optometry Technology</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Emergency &amp; Trauma Care</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Critical Care Management</a>
+                    <div class="dms-h">School of Healthcare Management</div>
+                    <a href="{{ route('courses.show', 'hospital-management') }}"><i class="fas fa-dot-circle"></i> Hospital Management</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Hospital Administration</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Patient Care Management</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Nanny Training</a>
+                    <div class="dms-h">Design, Management &amp; Others</div>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Fashion Technology</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> BBA / MBA / B.Com. / M.Com.</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> MCA</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Dental Chair Side Assistant</a>
+                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Panchkarma</a>
+                    <a href="{{ route('academics') }}" style="font-weight:700;color:var(--red)"><i class="fas fa-arrow-right"></i> View All Programs</a>
                 </div>
             </div>
             <div class="dmi">

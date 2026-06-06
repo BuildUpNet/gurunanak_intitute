@@ -49,6 +49,11 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    {{-- Fixed: Enquire Now sidebar tab (rbuchd.in style) --}}
+    <a href="{{ route('admissions') }}" class="enq-sidebar" aria-label="Enquire Now for Admissions">
+        <span>Enquire Now</span>
+    </a>
+
     {{-- Fixed: Social media sidebar (right edge) --}}
     <div class="social-sidebar" aria-label="Follow us">
         <a href="https://www.facebook.com/Guru-Nanak-Institute-of-Medical-Technology-689772771089266" target="_blank" rel="noopener" aria-label="Facebook" class="ss-link ss-link--fb"><i class="fab fa-facebook-f"></i></a>

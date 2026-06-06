@@ -16,10 +16,12 @@
   </div>
   {{-- Inline section navigation --}}
   <nav class="abt-page-nav" aria-label="About page sections">
-    <a href="#about"            class="abt-nav-link">About GNIMT</a>
+    <a href="#about"             class="abt-nav-link">About GNIMT</a>
+    <a href="#highlights"        class="abt-nav-link">Key Highlights</a>
+    <a href="#awards"            class="abt-nav-link">Awards</a>
     <a href="#directors-message" class="abt-nav-link">Director's Message</a>
-    <a href="#vision-mission"   class="abt-nav-link">Vision &amp; Mission</a>
-    <a href="#infrastructure"   class="abt-nav-link">Infrastructure</a>
+    <a href="#vision-mission"    class="abt-nav-link">Vision &amp; Mission</a>
+    <a href="#infrastructure"    class="abt-nav-link">Infrastructure</a>
     <a href="#rules-regulations" class="abt-nav-link">Rules &amp; Regulations</a>
   </nav>
 </section>
@@ -42,8 +44,8 @@
       <div class="abt-split__content rvr">
         <span class="abt-eyebrow">Our Heritage &amp; Trust</span>
         <h2 class="abt-heading">Punjab's Premier<br><span>Medical Technology</span> Institute</h2>
-        <p class="abt-body">Established in 1991, Guru Nanak Institute of Medical Technology is a premier institution operating under the guidance of the S.D. Public Health Educational and Research Society. Over the last three decades, we have committed ourselves to providing top-tier healthcare education, producing skilled professionals for leading hospitals across India and abroad.</p>
-        <p class="abt-body" style="margin-top:14px">Our academic structure is strictly industry-aligned, ensuring that theoretical foundations are seamlessly combined with extensive practical experience in live hospital environments.</p>
+        <p class="abt-body">Established in 1991 in Patiala, Punjab, Guru Nanak Institute of Medical Technology stands as a premier institution in the field of paramedical and healthcare education. Operating under the aegis of the S.D. Public Health Educational and Research Society, the institute has built a distinguished legacy spanning more than three decades, marked by academic distinction, professional integrity, and a sustained commitment to healthcare advancement.</p>
+        <p class="abt-body" style="margin-top:14px">GNIMT has played a pioneering role in redefining paramedical education by creating inclusive, skill-oriented academic pathways — particularly for students from 10+2 Arts backgrounds — empowering thousands to transition into successful clinical and healthcare careers, contributing significantly to a skilled healthcare workforce in India and abroad.</p>
         <div class="abt-trust-row">
           @foreach(['UGC Recognised','NAAC Accredited University','99.9% Placement Support','International Tie-ups','33+ Years of Excellence','50+ Hospital Partners'] as $t)
             <span class="abt-trust-badge"><i class="fas fa-check-circle"></i>{{ $t }}</span>
@@ -55,6 +57,66 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+{{-- ─── KEY HIGHLIGHTS ─── --}}
+<section id="highlights" class="abt-section abt-section--light">
+  <div class="abt-ctr">
+    <div class="abt-sec-head rv" style="text-align:center;display:block">
+      <span class="abt-eyebrow" style="justify-content:center">Why Choose GNIMT</span>
+      <h2 class="abt-heading" style="margin-top:12px;text-align:center">Key <span>Highlights</span></h2>
+      <p class="abt-body" style="margin:14px auto 0;text-align:center;max-width:600px">What makes Guru Nanak Institute of Medical Technology a trusted name in paramedical education for over 35 years.</p>
+    </div>
+    <div class="abt-hl-grid rv d1">
+      @foreach([
+        ['fas fa-history',           'Legacy of Excellence (Since 1991)',        'A distinguished institution with over 35 years of continuous contribution to paramedical education, academic quality, and healthcare skill development.'],
+        ['fas fa-trophy',            'Pioneer in Paramedical Training',           'Recognized for its specialized focus on career-oriented paramedical programs designed to meet the evolving demands of the healthcare sector.'],
+        ['fas fa-graduation-cap',    'Outcome-Based Education Model',            'A structured academic framework that integrates theoretical learning with intensive clinical and laboratory-based practical training.'],
+        ['fas fa-hospital',          'Extensive Clinical Exposure',              'Students are trained in real-time hospital environments, diagnostic laboratories, and community healthcare settings to ensure professional competency.'],
+        ['fas fa-users',             'Proven Track Record of Success',           'Thousands of trained professionals have graduated and are successfully contributing to healthcare systems nationally and internationally.'],
+        ['fas fa-briefcase',         'Strong Employability & Placement Support', 'A dedicated approach toward career development ensuring every student is guided towards meaningful employment opportunities in healthcare.'],
+        ['fas fa-chalkboard-teacher','Experienced & Qualified Faculty Team',     'Highly skilled educators and healthcare professionals committed to delivering academic excellence and professional mentorship.'],
+        ['fas fa-hands-helping',     'Inclusive Educational Access',             'A strong commitment to providing quality education to students from diverse and economically weaker backgrounds.'],
+        ['fas fa-book-open',         'Industry-Relevant Curriculum',             'Continuously updated academic programs aligned with current healthcare standards, technologies, and global best practices.'],
+        ['fas fa-award',             'Recognition & Achievements',               'Recipient of multiple prestigious awards acknowledging excellence in paramedical education, training innovation, and institutional performance.'],
+        ['fas fa-balance-scale',     'Ethics-Driven Learning Environment',       'Emphasis on discipline, compassion, professionalism, and ethical responsibility in healthcare practice.'],
+        ['fas fa-user-graduate',     'Student-Centric Academic Ecosystem',       'A supportive learning environment focused on personal growth, confidence building, and lifelong career development.'],
+      ] as [$icon, $title, $desc])
+        <div class="abt-hl-card">
+          <div class="abt-hl-icon"><i class="{{ $icon }}"></i></div>
+          <h3 class="abt-hl-title">{{ $title }}</h3>
+          <p class="abt-hl-desc">{{ $desc }}</p>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+{{-- ─── AWARDS & RECOGNITIONS ─── --}}
+<section id="awards" class="abt-section abt-section--white">
+  <div class="abt-ctr">
+    <div class="abt-sec-head rv" style="text-align:center;display:block">
+      <span class="abt-eyebrow" style="justify-content:center">Our Achievements</span>
+      <h2 class="abt-heading" style="margin-top:12px;text-align:center">Awards &amp; <span>Recognitions</span></h2>
+      <p class="abt-body" style="margin:14px auto 0;text-align:center;max-width:600px">GNIMT's consistent contributions to healthcare education and skill development have been recognized through several prestigious national and international honors.</p>
+    </div>
+    <div class="abt-awards-row rv d1">
+      @foreach([
+        ['fas fa-medal',     '#c0262d', 'Punjab De No. 1 Award',                          '2009', 'Recognized as Punjab\'s premier paramedical institution, celebrating decades of educational excellence and lasting community impact.'],
+        ['fas fa-globe',     '#1a3566', 'Global Achiever Award',                          '2014', 'Received at Dubai for global contributions to paramedical education, training innovation, and international healthcare development.'],
+        ['fas fa-star',      '#c0262d', 'Pioneer in Paramedical Education Award',         '',     'Honoured for pioneering career-oriented paramedical programs and creating inclusive academic pathways for healthcare aspirants.'],
+        ['fas fa-heartbeat', '#1a3566', 'Health Icon Award',                              '2024', 'Latest recognition for excellence in paramedical education, training innovation, and commitment to community service.'],
+        ['fas fa-award',     '#c0262d', 'Excellence in Paramedical Educational Institute Award', '', 'Awarded for the unwavering pursuit of excellence, innovation in paramedical training, and institutional performance.'],
+      ] as [$icon, $color, $title, $year, $desc])
+        <div class="abt-award-card">
+          <div class="abt-award-icon" style="background:{{ $color }}"><i class="{{ $icon }}"></i></div>
+          @if($year)<span class="abt-award-year">{{ $year }}</span>@endif
+          <h3 class="abt-award-title">{{ $title }}</h3>
+          <p class="abt-award-desc">{{ $desc }}</p>
+        </div>
+      @endforeach
     </div>
   </div>
 </section>
@@ -82,10 +144,11 @@
         <h2 class="abt-heading">Shaping the Future of<br><span>Allied Health Sciences</span></h2>
         <div class="abt-quote-mark" aria-hidden="true">"</div>
         <div class="abt-dir-quotes">
-          <p class="abt-dir-quote">Welcome to the Guru Nanak Institute of Medical Technology. Since our inception in 1991, our core objective has been to deliver top-notch professional clinical training that transforms passionate students into highly skilled, compassionate healthcare practitioners.</p>
-          <p class="abt-dir-quote">The global healthcare architecture is continuously evolving, demanding technically proficient professionals who can operate advanced diagnostic and surgical machinery with high precision. At GNIMT, we address this by continuously updating our training modules and modernizing our clinical laboratories.</p>
-          <p class="abt-dir-quote">At GNIMT, every student matters, and every career is our commitment. We are immensely proud of our legacy of maintaining a stellar placement track record, placing our alumni into apex medical institutions across the nation and globally.</p>
-          <p class="abt-dir-quote" style="font-weight:600;color:#0b1f3a">I invite you to explore our advanced vocational degree structures and embark on a rewarding professional journey with us.</p>
+          <p class="abt-dir-quote">It is a matter of great pride and privilege to serve as the Director of Guru Nanak Institute of Medical Technology — a premier institution dedicated to excellence in paramedical education for over 35 remarkable years. Since its establishment in 1991, the institute has consistently upheld its mission of delivering quality education, skill-based training, and professional excellence in the healthcare sector.</p>
+          <p class="abt-dir-quote">Over the decades, GNIMT has successfully trained thousands of students, transforming them into skilled and confident healthcare professionals. Our alumni are proudly serving in reputed hospitals, diagnostic laboratories, research centers, and healthcare organizations across India and abroad. This strong legacy reflects our unwavering commitment to academic excellence and practical, career-oriented learning.</p>
+          <p class="abt-dir-quote">Our core strength lies in paramedical education, where we emphasize a balanced integration of theoretical knowledge and intensive hands-on clinical training. Through structured exposure in hospitals, laboratories, and community healthcare settings, we ensure that every student develops real-world competencies required in modern healthcare systems.</p>
+          <p class="abt-dir-quote">At GNIMT, every student is guided, mentored, and empowered to achieve professional success. Our philosophy is clear — education must lead to opportunity, and opportunity must lead to dignity and independence. No student who trains here is left without direction or purpose; every effort is made to ensure they build a meaningful career in healthcare.</p>
+          <blockquote class="abt-dir-signature-quote">"Success is not just about learning — it is about transforming knowledge into service that changes lives."</blockquote>
         </div>
       </div>
 
@@ -104,12 +167,20 @@
       <div class="abt-vm-card">
         <div class="abt-vm-icon"><i class="fas fa-eye"></i></div>
         <h3 class="abt-vm-title">Our Vision</h3>
-        <p class="abt-vm-text">To be internationally recognized as a premier educational institution in Allied Health Sciences, driving innovation, practical knowledge transfer, and academic excellence to foster highly specialized healthcare professionals dedicated to transforming patient care globally.</p>
+        <p class="abt-vm-text">To become a transformative hub of paramedical education, recognized for producing globally competent healthcare professionals who combine scientific excellence with human compassion.</p>
       </div>
       <div class="abt-vm-card">
         <div class="abt-vm-icon"><i class="fas fa-bullseye"></i></div>
         <h3 class="abt-vm-title">Our Mission</h3>
-        <p class="abt-vm-text">To administer state-of-the-art educational methodologies combining practical clinical operations with absolute ethical guidelines — installing expert skill sets, promoting deep industry integrations with premier medical institutions, and providing comprehensive ecosystem support for successful employment outcomes for every student.</p>
+        <ul class="abt-vm-list">
+          <li>To provide high-quality paramedical education that combines academic excellence with practical clinical training.</li>
+          <li>To develop skilled, confident, and job-ready healthcare professionals capable of meeting global healthcare standards.</li>
+          <li>To promote hands-on learning through hospital-based training, laboratory exposure, and community healthcare programs.</li>
+          <li>To ensure inclusive education by supporting students from diverse and economically weaker backgrounds.</li>
+          <li>To foster a culture of discipline, ethics, compassion, and lifelong learning in healthcare practice.</li>
+          <li>To strengthen employability by guiding students toward successful careers in hospitals, diagnostic centers, and healthcare institutions worldwide.</li>
+          <li>To continuously upgrade teaching methodologies in line with modern advancements in medical science and technology.</li>
+        </ul>
       </div>
     </div>
     <div class="abt-values rv d2">
@@ -465,6 +536,91 @@ section[id] { scroll-margin-top: 145px; }
 .abt-infra-title { font-size: .96rem; font-weight: 700; color: #111827; margin-bottom: 10px; }
 .abt-infra-desc  { font-size: .79rem; color: #4b5675; line-height: 1.75; }
 
+/* ── Key Highlights Grid (12 cards, 4-col) ── */
+.abt-hl-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px; margin-top: 52px;
+}
+.abt-hl-card {
+    background: #fff; border: 1px solid #dce5f5;
+    border-radius: 10px; padding: 28px 22px;
+    transition: transform .24s, box-shadow .24s;
+    text-align: center;
+}
+.abt-hl-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(11,31,58,.1); }
+.abt-hl-icon {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: linear-gradient(135deg, #c0262d, #9b1e24);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem; color: #fff;
+    margin: 0 auto 16px;
+}
+.abt-hl-title { font-size: .88rem; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.35; }
+.abt-hl-desc  { font-size: .76rem; color: #4b5675; line-height: 1.72; margin: 0; }
+
+/* ── Awards Row (5 cards) ── */
+.abt-awards-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px; margin-top: 52px;
+}
+.abt-award-card {
+    background: #f4f7fd; border: 1px solid #dce5f5;
+    border-radius: 10px; padding: 28px 20px 24px;
+    text-align: center;
+    transition: transform .24s, box-shadow .24s, background .24s;
+    position: relative; overflow: hidden;
+}
+.abt-award-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: #c0262d;
+    transform: scaleX(0); transition: transform .3s;
+}
+.abt-award-card:hover { transform: translateY(-5px); box-shadow: 0 16px 44px rgba(11,31,58,.1); background: #fff; }
+.abt-award-card:hover::before { transform: scaleX(1); }
+.abt-award-icon {
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; color: #fff;
+    margin: 0 auto 14px;
+}
+.abt-award-year {
+    display: inline-block;
+    background: #1a3566; color: #fff;
+    font-size: .62rem; font-weight: 700;
+    letter-spacing: .1em; padding: 3px 10px;
+    border-radius: 20px; margin-bottom: 10px;
+}
+.abt-award-title { font-size: .88rem; font-weight: 700; color: #111827; margin-bottom: 10px; line-height: 1.35; }
+.abt-award-desc  { font-size: .75rem; color: #4b5675; line-height: 1.7; margin: 0; }
+
+/* ── Director signature quote ── */
+.abt-dir-signature-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: #c0262d; font-style: italic;
+    border-left: none; padding: 18px 24px;
+    background: rgba(192,38,45,.06);
+    border-radius: 6px; margin: 8px 0 0;
+    line-height: 1.6;
+}
+
+/* ── Mission list ── */
+.abt-vm-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.abt-vm-list li {
+    font-size: .84rem; color: rgba(255,255,255,.62);
+    line-height: 1.7; padding-left: 20px;
+    position: relative;
+}
+.abt-vm-list li::before {
+    content: '›'; position: absolute; left: 0;
+    color: #f87171; font-weight: 700; font-size: 1rem;
+}
+
 /* ── Rules ── */
 .abt-rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 52px; }
 .abt-rule-card {
@@ -495,6 +651,8 @@ section[id] { scroll-margin-top: 145px; }
     .abt-values { grid-template-columns: repeat(2, 1fr); }
     .abt-img-stack { height: 360px; }
     .abt-dir-frame { height: 380px; }
+    .abt-hl-grid { grid-template-columns: repeat(3, 1fr); }
+    .abt-awards-row { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
     .abt-ctr { padding: 0 20px; }
@@ -505,10 +663,14 @@ section[id] { scroll-margin-top: 145px; }
     .abt-values { grid-template-columns: 1fr 1fr; }
     .abt-dir-name-card { white-space: normal; min-width: unset; }
     section[id] { scroll-margin-top: 160px; }
+    .abt-hl-grid { grid-template-columns: repeat(2, 1fr); }
+    .abt-awards-row { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
     .abt-values { grid-template-columns: 1fr 1fr; }
     .abt-hero__h1 { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+    .abt-hl-grid { grid-template-columns: 1fr; }
+    .abt-awards-row { grid-template-columns: 1fr; }
 }
 </style>
 @endsection
