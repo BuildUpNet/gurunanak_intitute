@@ -1,0 +1,65 @@
+        /* Enlarge the shared PDF preview for on-screen admin viewing only — the PDF itself keeps its print-tuned size */
+        .ar-doc {
+            font-size: 15px;
+        }
+
+        .ar-doc .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 28px;
+            padding: 28px 34px;
+        }
+
+        .ar-doc .title {
+            font-size: 26px;
+        }
+
+        .ar-doc .section-head {
+            font-size: 16px;
+        }
+
+        .ar-doc .char-box {
+            width: 24px;
+            height: 26px;
+            line-height: 24px;
+            font-size: 15px;
+        }
+
+        .ar-doc .tick-box {
+            width: 16px;
+            height: 16px;
+        }
+
+        .ar-doc .tick-box.checked .tick-mark {
+            left: 4px;
+            top: -1px;
+            width: 5px;
+            height: 10px;
+        }
+
+        .ar-doc .edu-table {
+            font-size: 14px;
+        }
+
+        .ar-doc .edu-table th {
+            font-size: 13px;
+            padding: 10px 12px;
+        }
+
+        .ar-doc .edu-table td {
+            padding: 10px 12px;
+        }
+
+        .ar-doc .terms-title,
+        .ar-doc .decl-title {
+            font-size: 17px;
+        }
+
+        .ar-doc .terms-list li {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .ar-doc .sign-label {
+            font-size: 15px;
+        }

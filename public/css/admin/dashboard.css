@@ -1,0 +1,223 @@
+/* ADMIN DASHBOARD — page-specific styles
+   Prefixed with dash- to avoid colliding with shared classes in admin/layouts/admin.blade.php
+   (this page used to redefine .panel-card/.page-title/.stats-grid/.stat-card generically,
+   which only worked because it was previously inlined and page-scoped; prefixed here to be safe
+   now that it lives in a shared external stylesheet alongside other admin pages). */
+
+.dashboard-wrapper {
+    padding: 10px 0 30px;
+}
+
+.dash-page-title {
+    background: linear-gradient(135deg, #0f2b5b, #1f4b93);
+    padding: 28px 32px;
+    border-radius: 18px;
+    color: #fff;
+    margin-bottom: 28px;
+    box-shadow: 0 12px 35px rgba(15, 43, 91, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-page-title::after {
+    content: "";
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 180px;
+    height: 180px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+}
+
+.dash-page-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: #e4e9f2;
+}
+
+.dash-page-title p {
+    margin: 0;
+    color: rgba(255,255,255,0.82);
+    font-size: 15px;
+}
+
+.dash-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-bottom: 28px;
+}
+
+.dash-stat-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 10px 30px rgba(15, 43, 91, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.dash-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 45px rgba(15, 43, 91, 0.14);
+}
+
+.dash-stat-card::after {
+    content: "";
+    position: absolute;
+    right: -35px;
+    bottom: -35px;
+    width: 100px;
+    height: 100px;
+    background: rgba(15, 43, 91, 0.06);
+    border-radius: 50%;
+}
+
+.dash-stat-card.red::after {
+    background: rgba(214, 37, 44, 0.08);
+}
+
+.dash-stat-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #eef4ff;
+    color: #0f2b5b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.dash-stat-card.red .dash-stat-card-icon {
+    background: #fff0f1;
+    color: #d6252c;
+}
+
+.dash-stat-card h3 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #10233f;
+    margin: 0 0 4px;
+}
+
+.dash-stat-card span {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+}
+
+.dash-panel-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 10px 30px rgba(15, 43, 91, 0.08);
+    padding: 24px;
+}
+
+.dash-panel-card h4 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #10233f;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.dash-activity-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed #e4e9f2;
+}
+
+.dash-activity-item:last-child {
+    border-bottom: none;
+}
+
+.dash-activity-dot {
+    width: 11px;
+    height: 11px;
+    background: #d6252c;
+    border-radius: 50%;
+    margin-top: 6px;
+    box-shadow: 0 0 0 5px rgba(214, 37, 44, 0.12);
+    flex-shrink: 0;
+}
+
+.dash-activity-item p {
+    margin: 0 0 4px;
+    color: #26364f;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.dash-activity-item small {
+    color: #8a95a6;
+    font-size: 12px;
+}
+
+.dash-quick-actions {
+    display: grid;
+    gap: 12px;
+}
+
+.dash-quick-actions a {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    background: #f7f9fc;
+    color: #10233f;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid #e8edf5;
+    transition: 0.3s ease;
+}
+
+.dash-quick-actions a:hover {
+    background: #0f2b5b;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.dash-quick-actions a i {
+    color: #d6252c;
+}
+
+.dash-quick-actions a:hover i {
+    color: #fff;
+}
+
+@media (max-width: 1199px) {
+    .dash-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .dash-page-title {
+        padding: 22px;
+    }
+
+    .dash-page-title h2 {
+        font-size: 24px;
+    }
+
+    .dash-stats-grid,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

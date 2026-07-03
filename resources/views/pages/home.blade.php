@@ -27,37 +27,37 @@
 @section('content')
     <div class="hp">
 
-        {{-- ─────────────────────────── HERO ─────────────────────────── --}}
         <section class="hp-hero" aria-label="GNIMT Campus">
             <div class="swiper hp-hero__swiper">
                 <div class="swiper-wrapper">
-                    @php
-                        $slides = [
-                            ['src' => asset('images/slides/Slide-Img-1.jpg'), 'alt' => 'GNIMT Patiala Campus'],
-                            ['src' => asset('images/slides/Slide-Img-2.jpg'), 'alt' => 'GNIMT Medical Labs'],
-                            ['src' => asset('images/slides/Slide-Img-3.jpg'), 'alt' => 'GNIMT Convocation'],
-                            ['src' => asset('images/slides/Slide-Img-4.jpg'), 'alt' => 'GNIMT Placement Drive'],
-                        ];
-                    @endphp
-                    @foreach ($slides as $slide)
+                    @forelse($slides as $slide)
                         <div class="swiper-slide hp-hero__slide">
-                            <img src="{{ $slide['src'] }}" alt="{{ $slide['alt'] }}"
-                                loading="{{ $loop->first ? 'eager' : 'lazy' }}">
+                            <img src="{{ asset('uploads/hero-slides/' . $slide->image) }}"
+                                alt="{{ $slide->alt_text ?? 'Hero Slide' }}" loading="{{ $loop->first ? 'eager' : 'lazy' }}">
                             <div class="hp-hero__overlay"></div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="swiper-slide hp-hero__slide">
+                            <img src="{{ asset('images/default-banner.jpg') }}" alt="Default Banner">
+                        </div>
+                    @endforelse
                 </div>
+
                 <div class="swiper-pagination hp-hero__dots"></div>
-                <div class="swiper-button-prev hp-hero__prev" aria-label="Previous"></div>
-                <div class="swiper-button-next hp-hero__next" aria-label="Next"></div>
+                <div class="swiper-button-prev hp-hero__prev"></div>
+                <div class="swiper-button-next hp-hero__next"></div>
             </div>
-            <div class="hp-hero__counter" aria-hidden="true">
+
+            <div class="hp-hero__counter">
                 <span class="hp-hero__cnum" id="heroSlideNum">01</span>
-                <div class="hp-hero__ctrack"><span class="hp-hero__cbar"></span></div>
-                <span class="hp-hero__ctotal">/ 04</span>
+                <div class="hp-hero__ctrack">
+                    <span class="hp-hero__cbar"></span>
+                </div>
+                <span class="hp-hero__ctotal">
+                    / {{ str_pad($slides->count(), 2, '0', STR_PAD_LEFT) }}
+                </span>
             </div>
         </section>
-
         {{-- ─────────────────────────── WELCOME ─────────────────────────── --}}
         <section class="hp-welcome" aria-label="Welcome to GNIMT">
             <div class="hp-ctr">
@@ -70,7 +70,7 @@
                             &amp; Diploma programs in allied health sciences. Hands-on clinical training, modern labs, and
                             99.9% placement support across two campuses.</p>
                         <div class="hp-welcome__actions">
-                            <a href="{{ route('admissions') }}" class="hp-btn hp-btn--red">Apply Now <i
+                            <a href="{{ route('admissions.form') }}" class="hp-btn hp-btn--red">Apply Now <i
                                     class="fas fa-arrow-right"></i></a>
                             <a href="{{ route('academics') }}" class="hp-btn hp-btn--ghost">Explore Programs <i
                                     class="fas fa-compass"></i></a>
@@ -455,15 +455,12 @@
                     </p>
                 </div>
                 <div class="hp-tour__frame rv d1">
-                    <div class="hp-tour__placeholder">
-                        <div class="hp-tour__spin-icon" aria-hidden="true"><i class="fas fa-street-view"></i></div>
-                        <h3 class="hp-tour__placeholder-h">360° Campus Tour</h3>
-                        <p class="hp-tour__placeholder-p">Explore GNIMT Patiala in an immersive virtual experience</p>
-                        <a href="https://www.gurunanakinstitute.com/" target="_blank" rel="noopener"
-                            class="hp-btn hp-btn--red">
-                            <i class="fas fa-vr-cardboard"></i> Launch Virtual Tour
-                        </a>
-                    </div>
+                    <a name="gmap">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!4v1568973292919!6m8!1m7!1sCAoSLEFGMVFpcE9wWU9oMV85QnBFUE0xUG1RMGNVZDVPSXdjOWJYQjRrRXUzSVBF!2m2!1d30.34745806000156!2d76.4032962698193!3f2.1121352009145307!4f9.757556637490396!5f1.9363799169362208"
+                            width="100%" height="450" frameborder="0" style="border:0;display:block;"
+                            allowfullscreen loading="lazy"></iframe>
+                    </a>
                 </div>
                 <div class="hp-tour__pills rv d2">
                     @foreach ([['fas fa-flask', 'Modern Labs'], ['fas fa-chalkboard', 'Smart Classrooms'], ['fas fa-hospital', 'Clinical Training'], ['fas fa-dumbbell', 'Sports &amp; Wellness'], ['fas fa-book', 'Digital Library']] as [$icon, $label])
@@ -473,6 +470,8 @@
                 </div>
             </div>
         </section>
+
+
 
         {{-- ─────────────────────────── ADMISSION PROCESS ─────────────────────────── --}}
         <section class="hp-admission" aria-label="Admission Process">
@@ -500,8 +499,8 @@
                 <div class="hp-admission__cta rv d2">
                     <div class="hp-admission__divider">Admissions Open 2025–26</div>
                     <div class="hp-admission__btns">
-                        <a href="{{ route('admissions') }}" class="hp-btn hp-btn--red"><i class="fas fa-paper-plane"
-                                aria-hidden="true"></i> Apply Today</a>
+                        <a href="{{ route('admissions.form') }}" class="hp-btn hp-btn--red"><i
+                                class="fas fa-paper-plane" aria-hidden="true"></i> Apply Today</a>
                         <a href="tel:8283929908" class="hp-btn hp-btn--outline-navy"><i class="fas fa-phone"
                                 aria-hidden="true"></i> Call for Guidance</a>
                     </div>
@@ -541,13 +540,31 @@
                     <div class="hp-enquiry__right rvr">
                         <div class="hp-enquiry__form-box">
                             <h3 class="hp-enquiry__form-title">Quick Admission <span>Enquiry</span></h3>
+                            @if (session('success'))
+                                <div class="hp-enquiry__success">
+                                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if (session('error'))
+                                <div class="hp-enquiry__error">
+                                    <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="hp-enquiry__error">
+                                    <ul style="margin:0;padding-left:18px;">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <form action="{{ route('enquiry.store') }}" method="POST" novalidate>
                                 @csrf
-                                @if (session('success'))
-                                    <div class="hp-enquiry__success">
-                                        <i class="fas fa-check-circle" aria-hidden="true"></i> {{ session('success') }}
-                                    </div>
-                                @endif
+                                @include('partials.honeypot')
+
                                 <div class="hp-form__row">
                                     <input type="text" name="name" class="hp-form__field"
                                         placeholder="Full Name *" required autocomplete="name" aria-label="Full Name">
@@ -556,17 +573,24 @@
                                 </div>
                                 <input type="email" name="email" class="hp-form__field" placeholder="Email Address"
                                     autocomplete="email" aria-label="Email" style="width:100%;margin-bottom:12px;">
+                                <select name="course_category_id" id="hp_course_category_id" class="hp-form__field"
+                                    style="width:100%;margin-bottom:12px;">
+                                    <option value="">Select Department</option>
+                                    @foreach ($courseCategories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+
+                                <select name="course_id" id="hp_course_id" class="hp-form__field"
+                                    style="width:100%;margin-bottom:12px;">
+                                    <option value="">Course Interested In</option>
+                                </select>
+
                                 <div class="hp-form__row">
-                                    <select name="course" class="hp-form__field" aria-label="Course">
-                                        <option value="">Course Interested In</option>
-                                        @foreach (['B.Voc Operation Theatre Technology', 'B.Voc Medical Lab Technology', 'B.Voc Radiology &amp; Imaging', 'B.Voc Cardiac Care Technology', 'B.Voc Dialysis Technology', 'B.Voc Ophthalmic Technology', 'B.Voc Hospital Management', 'B.Voc Physiotherapy', 'DMLT Diploma', 'X-Ray Technology Diploma', 'CT Scan', 'MRI Scan'] as $c)
-                                            <option>{{ $c }}</option>
-                                        @endforeach
-                                    </select>
                                     <select name="branch" class="hp-form__field" aria-label="Branch">
                                         <option value="">Select Branch</option>
-                                        <option>Patiala Branch</option>
-                                        <option>Karnal Branch</option>
+                                        <option value="Patiala">Patiala Branch</option>
+                                        <option value="Karnal">Karnal Branch</option>
                                     </select>
                                 </div>
                                 <textarea name="message" class="hp-form__field" rows="3" placeholder="Your Message (Optional)"
@@ -587,10 +611,82 @@
         </section>
 
     </div>{{-- /hp --}}
+
+    @include('partials.faq', [
+        'title' => 'Frequently Asked Questions',
+        'subtitle' => 'Everything you need to know about GNIMT — courses, admissions, and campus life.',
+        'faqs' => $globalFaqs,
+    ])
+
 @endsection
 
 @section('scripts')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        @php
+            $hpCoursesByCategory = $courseCategories->mapWithKeys(function ($category) {
+                return [
+                    $category->id => $category->courses
+                        ->map(fn($c) => ['id' => $c->id, 'title' => $c->title])
+                        ->values(),
+                ];
+            });
+        @endphp
+        const hpCoursesByCategory = @json($hpCoursesByCategory);
+        const hpAllCourses = Object.values(hpCoursesByCategory).flat();
+        document.addEventListener('DOMContentLoaded', function () {
+            const catSel = document.getElementById('hp_course_category_id');
+            const courSel = document.getElementById('hp_course_id');
+            if (catSel && courSel) {
+                function renderCourses(list) {
+                    courSel.innerHTML = '<option value="">Course Interested In</option>';
+                    list.forEach(function (c) {
+                        courSel.innerHTML += `<option value="${c.id}">${c.title}</option>`;
+                    });
+                }
+                renderCourses(hpAllCourses);
+                catSel.addEventListener('change', function () {
+                    renderCourses(this.value ? (hpCoursesByCategory[this.value] || []) : hpAllCourses);
+                });
+            }
+        });
+    </script>
+    <script>
+        (function() {
+            function countUp(el, target, duration) {
+                var start = 0,
+                    step = Math.ceil(target / (duration / 16));
+                var suffix = el.dataset.suffix || '';
+                var timer = setInterval(function() {
+                    start += step;
+                    if (start >= target) {
+                        start = target;
+                        clearInterval(timer);
+                    }
+                    el.textContent = start.toLocaleString() + suffix;
+                }, 16);
+            }
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !entry.target.dataset.counted) {
+                        entry.target.dataset.counted = '1';
+                        countUp(entry.target, +entry.target.dataset.target, 1800);
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            document.querySelectorAll('.hp-welcome__badge-num').forEach(function(el) {
+                var raw = el.textContent.trim();
+                var num = parseInt(raw.replace(/[^0-9]/g, ''), 10);
+                var suffix = raw.replace(/[0-9,]/g, '');
+                el.dataset.target = num;
+                el.dataset.suffix = suffix;
+                el.textContent = '0' + suffix;
+                observer.observe(el);
+            });
+        })();
+    </script>
 @endsection

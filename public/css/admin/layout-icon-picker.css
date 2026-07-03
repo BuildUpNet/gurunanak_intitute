@@ -1,0 +1,179 @@
+        /* ── Icon Picker Modal ───────────────────────────────── */
+        #ipm-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(11,31,58,.55);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        #ipm-box {
+            background: #fff;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 60px rgba(0,0,0,.22);
+            overflow: hidden;
+        }
+        #ipm-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            flex-shrink: 0;
+        }
+        #ipm-title {
+            font-weight: 800;
+            font-size: 16px;
+            color: #0b1f3a;
+            white-space: nowrap;
+        }
+        #ipm-title i { color: #d32f2f; margin-right: 6px; }
+        #ipm-search {
+            flex: 1;
+            border: 1px solid #dbe3ef;
+            border-radius: 10px;
+            height: 40px;
+            padding: 0 14px;
+            font-size: 14px;
+            outline: none;
+        }
+        #ipm-search:focus { border-color: #0d47a1; }
+        #ipm-close {
+            border: none;
+            background: #f1f5f9;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        #ipm-close:hover { background: #fee2e2; color: #d32f2f; }
+        #ipm-tabs {
+            display: flex;
+            gap: 6px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            flex-shrink: 0;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        .ipm-tab {
+            border: 1px solid #dbe3ef;
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: .18s;
+        }
+        .ipm-tab:hover { border-color: #0d47a1; color: #0d47a1; }
+        .ipm-tab--active { background: #0d47a1; color: #fff; border-color: #0d47a1; }
+        #ipm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+            gap: 8px;
+            padding: 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .ipm-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px 4px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: .18s;
+        }
+        .ipm-card:hover { border-color: #0d47a1; background: #eef2ff; color: #0d47a1; transform: translateY(-2px); }
+        .ipm-card i { font-size: 22px; color: #334155; }
+        .ipm-card:hover i { color: #0d47a1; }
+        .ipm-card span { font-size: 9px; color: #94a3b8; word-break: break-all; text-align: center; line-height: 1.2; }
+        /* ── Icon Pick Field Wrapper ─────────────────────────── */
+        .icon-pick-wrap {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            border: 1px solid #dbe3ef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .icon-pick-wrap .icon-input {
+            flex: 1;
+            height: 52px;
+            border: none;
+            padding: 0 14px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+        }
+        .icon-pick-wrap .icon-input:focus { background: #f8fafc; }
+        .icon-pick-wrap .icon-pick-btn {
+            flex-shrink: 0;
+            border: none;
+            border-left: 1px solid #dbe3ef;
+            background: #f1f5f9;
+            padding: 0 16px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #0d47a1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            transition: .18s;
+        }
+        .icon-pick-wrap .icon-pick-btn:hover { background: #0d47a1; color: #fff; }
+        .icon-pick-wrap .icon-live-preview { font-size: 20px; }
+        /* small variant for opp rows */
+        .icon-pick-wrap-sm {
+            display: flex;
+            align-items: stretch;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .icon-pick-wrap-sm .icon-input {
+            flex: 1;
+            height: 32px;
+            border: none;
+            padding: 0 8px;
+            font-size: 13px;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+        }
+        .icon-pick-wrap-sm .icon-pick-btn {
+            border: none;
+            border-left: 1px solid #dee2e6;
+            background: #f8f9fa;
+            padding: 0 10px;
+            cursor: pointer;
+            color: #0d47a1;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: .18s;
+        }
+        .icon-pick-wrap-sm .icon-pick-btn:hover { background: #0d47a1; color: #fff; }

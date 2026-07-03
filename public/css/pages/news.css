@@ -1,0 +1,173 @@
+/* ══════════════════════════════════════════════════════════
+   NEWS & ANNOUNCEMENTS PAGE
+   Prefix: nw-  (Navy · Red · Cream palette, matches lx- design system)
+══════════════════════════════════════════════════════════ */
+
+.nw-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+/* ── Featured / lead story ── */
+.nw-featured {
+    display: block;
+    background: linear-gradient(135deg, var(--lx-navy) 0%, var(--lx-black) 100%);
+    border-radius: 22px;
+    padding: 48px 44px;
+    color: var(--lx-white);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.nw-featured:hover {
+    color: var(--lx-white);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 44px rgba(4,16,30,.28);
+}
+.nw-featured::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% 15%, rgba(192,38,45,.22), transparent 55%);
+    pointer-events: none;
+}
+.nw-featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--lx-cream);
+    opacity: .75;
+    margin-bottom: 20px;
+}
+.nw-featured-label i { color: var(--lx-red); }
+.nw-featured-tag {
+    display: inline-block;
+    background: var(--lx-red);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+}
+.nw-featured-title {
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    max-width: 720px;
+    position: relative;
+}
+.nw-featured-excerpt {
+    color: rgba(255,255,255,.72);
+    font-size: 1.02rem;
+    line-height: 1.75;
+    max-width: 640px;
+    margin-bottom: 22px;
+    position: relative;
+}
+.nw-featured-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .85rem;
+    color: rgba(255,255,255,.6);
+    position: relative;
+}
+.nw-featured-date i { color: var(--lx-red); }
+
+/* ── Secondary list ── */
+.nw-list-heading {
+    font-family: "Playfair Display", serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--lx-navy);
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left: 4px solid var(--lx-red);
+}
+
+.nw-item {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #e7ebf3;
+    border-radius: 16px;
+    padding: 26px 28px;
+    margin-bottom: 18px;
+    text-decoration: none;
+    transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.nw-item:hover {
+    box-shadow: 0 14px 34px rgba(26,53,102,.1);
+    border-color: var(--lx-red);
+    transform: translateY(-2px);
+}
+.nw-item-date {
+    flex-shrink: 0;
+    width: 84px;
+    text-align: center;
+    padding: 10px 8px;
+    background: var(--lx-cream);
+    border-radius: 12px;
+}
+.nw-item-date .nw-day {
+    display: block;
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--lx-navy);
+    line-height: 1;
+}
+.nw-item-date .nw-month {
+    display: block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--lx-red);
+    margin-top: 4px;
+}
+.nw-item-body { flex: 1; min-width: 0; }
+.nw-item-tag {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--lx-red);
+    background: rgba(192,38,45,.08);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+.nw-item-title {
+    font-family: "Playfair Display", serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--lx-navy);
+    margin-bottom: 8px;
+}
+.nw-item-excerpt {
+    color: var(--muted, #5a6380);
+    font-size: .94rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+@media (max-width: 576px) {
+    .nw-featured { padding: 34px 26px; border-radius: 16px; }
+    .nw-item { flex-direction: column; gap: 14px; padding: 20px; }
+    .nw-item-date { width: auto; display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px; }
+    .nw-item-date .nw-day { font-size: 1.1rem; }
+    .nw-item-date .nw-month { margin-top: 0; }
+}

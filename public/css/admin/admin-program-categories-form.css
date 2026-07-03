@@ -1,0 +1,21 @@
+        .hero-card { border-radius: 22px; border-top: 5px solid #0d47a1; padding: 25px; background: #fff; }
+        .form-section-title { display: flex; align-items: center; gap: 10px; color: #0b1f3a; font-size: 18px; font-weight: 800; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #e5e7eb; }
+        .form-section-title i { width: 42px; height: 42px; border-radius: 12px; background: #f3f6ff; color: #0d47a1; display: flex; align-items: center; justify-content: center; }
+        .form-label { font-weight: 700; color: #0b1f3a; margin-bottom: 8px; }
+        .form-label span { color: #d32f2f; }
+        .custom-input { height: 52px; border: 1px solid #dbe3ef; border-radius: 12px; padding: 0 14px; font-weight: 600; color: #334155; transition: .25s; }
+        .custom-input:focus { border-color: #0d47a1; box-shadow: 0 0 0 4px rgba(13,71,161,.1); }
+        .icon-preview-box { display: flex; gap: 15px; align-items: center; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 16px; padding: 18px; }
+        .preview-icon { width: 58px; height: 58px; border-radius: 14px; background: #f3f6ff; color: #0d47a1; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+        .icon-preview-box strong { color: #0b1f3a; font-size: 15px; }
+        .icon-preview-box p { margin: 4px 0 0; color: #64748b; font-size: 14px; }
+        .status-box { display: flex; gap: 14px; align-items: flex-start; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; cursor: pointer; transition: .25s; }
+        .status-box:hover { border-color: #0d47a1; background: #f3f6ff; }
+        .status-box input[type="checkbox"] { width: 20px; height: 20px; margin-top: 3px; accent-color: #0d47a1; }
+        .status-box strong { color: #0b1f3a; font-size: 15px; }
+        .status-box p { margin: 3px 0 0; color: #64748b; font-size: 14px; }
+        .form-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .save-btn { background: #0d47a1; color: #fff; border-radius: 10px; padding: 11px 24px; font-weight: 800; }
+        .save-btn:hover { background: #d32f2f; color: #fff; }
+        .back-btn { background: #6b7280; color: #fff; border-radius: 10px; padding: 11px 24px; font-weight: 800; }
+        .back-btn:hover { background: #0b1f3a; color: #fff; }

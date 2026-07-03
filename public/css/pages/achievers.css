@@ -1,0 +1,579 @@
+        /* ═══ ACHIEVERS PAGE — PREMIUM DESIGN ═══ */
+
+        /* Hero */
+        .ach-hero {
+            background: linear-gradient(135deg, #0d1f45 0%, #1a3566 60%, #1e3d6e 100%);
+            padding: 72px 0 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ach-hero::before {
+            content: '';
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(192, 38, 45, 0.07);
+            pointer-events: none;
+        }
+
+        .ach-hero::after {
+            content: '';
+            position: absolute;
+            left: 10%;
+            bottom: -60px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+
+        .ach-hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #e8a0a5;
+            margin-bottom: 18px;
+        }
+
+        .ach-hero__eyebrow::before {
+            content: '';
+            width: 28px;
+            height: 2px;
+            background: #c0262d;
+            border-radius: 2px;
+        }
+
+        .ach-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin: 0 0 16px;
+        }
+
+        .ach-hero h1 span {
+            color: #f0a0a5;
+        }
+
+        .ach-hero p {
+            font-size: 0.97rem;
+            color: rgba(255, 255, 255, 0.72);
+            max-width: 560px;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .ach-hero__stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .ach-hero__stat-num {
+            display: block;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .ach-hero__stat-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 0.08em;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* ── Tab Nav ── */
+        .ach-tabs-wrap {
+            background: #fff;
+            border-bottom: 2px solid #eef0f8;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            box-shadow: 0 2px 12px rgba(26, 53, 102, 0.07);
+        }
+
+        .ach-tabs {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .ach-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ach-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 28px;
+            font-size: 0.83rem;
+            font-weight: 700;
+            color: #6c7a9c;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .ach-tab i {
+            font-size: 0.82rem;
+        }
+
+        .ach-tab:hover {
+            color: #1a3566;
+            border-bottom-color: #d0d8f0;
+        }
+
+        .ach-tab.active {
+            color: #1a3566;
+            border-bottom-color: #c0262d;
+        }
+
+        /* ── Section headers ── */
+        .ach-sec-head {
+            text-align: center;
+            margin-bottom: 52px;
+        }
+
+        .ach-sec-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #c0262d;
+            margin-bottom: 14px;
+        }
+
+        .ach-sec-eyebrow::before,
+        .ach-sec-eyebrow::after {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: #c0262d;
+            border-radius: 2px;
+        }
+
+        .ach-sec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            font-weight: 800;
+            color: #1a3566;
+            line-height: 1.2;
+            margin: 0 0 14px;
+        }
+
+        .ach-sec-title span {
+            color: #c0262d;
+        }
+
+        .ach-sec-sub {
+            font-size: 0.9rem;
+            color: #6c7a9c;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── Placement Cards ── */
+        .ach-place-card {
+            background: #fff;
+            border-radius: 20px;
+            border: 1.5px solid #e8edf8;
+            padding: 32px 24px;
+            text-align: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .ach-place-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1a3566, #c0262d);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            transform-origin: left;
+        }
+
+        .ach-place-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(26, 53, 102, 0.12);
+            border-color: #d0d8f0;
+        }
+
+        .ach-place-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .ach-place-card__avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.6rem;
+            color: #1a3566;
+            border: 3px solid #dce5ff;
+            transition: background 0.25s;
+        }
+
+        .ach-place-card:hover .ach-place-card__avatar {
+            background: #1a3566;
+            border-color: #1a3566;
+            color: #fff;
+        }
+
+        .ach-place-card__name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a3566;
+            margin-bottom: 4px;
+        }
+
+        .ach-place-card__course {
+            font-size: 0.78rem;
+            color: #8898aa;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .ach-place-card__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0f5ff;
+            color: #1a3566;
+            font-size: 0.76rem;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 7px 16px;
+            border: 1.5px solid #dce5ff;
+        }
+
+        /* ── Govt Job Cards ── */
+        .ach-govt-card {
+            background: #fff;
+            border-radius: 18px;
+            border: 1.5px solid #e8edf8;
+            padding: 26px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s, box-shadow 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ach-govt-card::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #1a3566, #c0262d);
+            border-radius: 4px 0 0 4px;
+            transform: scaleY(0);
+            transition: transform 0.3s;
+            transform-origin: top;
+        }
+
+        .ach-govt-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(26, 53, 102, 0.11);
+        }
+
+        .ach-govt-card:hover::after {
+            transform: scaleY(1);
+        }
+
+        .ach-govt-card__top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .ach-govt-card__icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1a3566, #243d7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .ach-govt-card__name {
+            font-size: 0.97rem;
+            font-weight: 700;
+            color: #1a3566;
+            margin-bottom: 2px;
+        }
+
+        .ach-govt-card__course {
+            font-size: 0.74rem;
+            color: #8898aa;
+            font-weight: 600;
+        }
+
+        .ach-govt-card__divider {
+            height: 1px;
+            background: #eef0f8;
+            margin-bottom: 14px;
+        }
+
+        .ach-govt-card__role {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #c0262d;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .ach-govt-card__org {
+            font-size: 0.79rem;
+            color: #6c7a9c;
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+            line-height: 1.5;
+        }
+
+        /* ── Self-Employed Cards ── */
+        .ach-biz-card {
+            background: #fff;
+            border-radius: 20px;
+            border: 1.5px solid #e8edf8;
+            padding: 28px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .ach-biz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #8e1a20, #c0262d, #e84a52);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .ach-biz-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(192, 38, 45, 0.14);
+            border-color: #ffd0d2;
+        }
+
+        .ach-biz-card__icon-wrap {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(192, 38, 45, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c0262d;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            border: 2px solid rgba(192, 38, 45, 0.2);
+            transition: all 0.25s;
+        }
+
+        .ach-biz-card:hover .ach-biz-card__icon-wrap {
+            background: linear-gradient(135deg, #c0262d, #a71f26);
+            color: #fff;
+            border-color: #c0262d;
+        }
+
+        .ach-biz-card__name {
+            font-size: 0.97rem;
+            font-weight: 700;
+            color: #1a3566;
+            margin-bottom: 2px;
+        }
+
+        .ach-biz-card__course {
+            font-size: 0.74rem;
+            color: #8898aa;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .ach-biz-card__venture {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1a3566;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ach-biz-card__venture i {
+            color: #c0262d;
+        }
+
+        .ach-biz-card__desc {
+            font-size: 0.79rem;
+            color: #6c7a9c;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+        }
+
+        .ach-biz-card__desc i {
+            color: #c0262d;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .ach-biz-card__tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(192, 38, 45, 0.07);
+            color: #c0262d;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 4px 12px;
+            border: 1px solid rgba(192, 38, 45, 0.25);
+            margin-top: auto;
+            padding-top: 16px;
+            width: fit-content;
+        }
+
+        /* ── Stats Strip ── */
+        .ach-stats-strip {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-top: 56px;
+            background: linear-gradient(135deg, #0d1f45 0%, #1a3566 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 16px 48px rgba(13, 31, 69, 0.2);
+        }
+
+        .ach-stats-strip__item {
+            flex: 1;
+            padding: 32px 20px;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            min-width: 140px;
+        }
+
+        .ach-stats-strip__item:last-child {
+            border-right: none;
+        }
+
+        .ach-stats-strip__num {
+            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .ach-stats-strip__num.gold-num {
+            color: #f0a0a5;
+        }
+
+        .ach-stats-strip__label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ── Section backgrounds ── */
+        .ach-sec-light {
+            background: #f7f9ff;
+        }
+
+        .ach-sec-white {
+            background: #fff;
+        }
+
+        .ach-sec-dark {
+            background: linear-gradient(135deg, #0d1f45, #1a3566);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .ach-hero {
+                padding: 52px 0 40px;
+            }
+
+            .ach-hero__stats {
+                gap: 24px;
+            }
+
+            .ach-tab {
+                padding: 14px 18px;
+            }
+
+            .ach-stats-strip {
+                flex-direction: column;
+                border-radius: 16px;
+            }
+
+            .ach-stats-strip__item {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .ach-stats-strip__item:last-child {
+                border-bottom: none;
+            }
+        }

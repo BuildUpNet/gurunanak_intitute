@@ -1,0 +1,182 @@
+    .enquiry-table thead th {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #64748b;
+        padding: 14px 16px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .enquiry-table tbody td {
+        padding: 16px;
+        vertical-align: middle;
+        border-bottom: 1px solid #eef2f7;
+        font-size: 14px;
+        color: #334155;
+    }
+
+    .enquiry-row:hover {
+        background: #f8fafc;
+    }
+
+    .student-name {
+        font-weight: 800;
+        color: #0b1f3a;
+    }
+
+    .branch-badge {
+        display: inline-flex;
+        padding: 5px 12px;
+        border-radius: 50px;
+        background: #fee2e2;
+        color: #b91c1c;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .course-badge {
+        display: inline-flex;
+        padding: 5px 12px;
+        border-radius: 50px;
+        background: #e0f2fe;
+        color: #075985;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .toggle-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #0b1f3a;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .enquiry-detail-box {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-left: 4px solid #d32f2f;
+        border-radius: 14px;
+        padding: 22px;
+        margin: 6px 0 12px;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .detail-item {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 14px 16px;
+    }
+
+    .detail-item.full {
+        grid-column: 1 / -1;
+    }
+
+    .detail-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #94a3b8;
+        margin-bottom: 5px;
+    }
+
+    .detail-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #0f172a;
+        line-height: 1.6;
+    }
+
+    @media(max-width: 768px) {
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .custom-pagination-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 22px;
+    margin-top: 10px;
+    border-top: 1px solid #eef2f7;
+    flex-wrap: wrap;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.custom-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pg-btn,
+.pg-number {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    transition: .2s;
+}
+
+.pg-btn:hover,
+.pg-number:hover {
+    background: #0b1f3a;
+    color: #fff;
+    border-color: #0b1f3a;
+}
+
+.pg-number.active {
+    background: #d32f2f;
+    color: #fff;
+    border-color: #d32f2f;
+    box-shadow: 0 8px 18px rgba(211, 47, 47, .25);
+}
+
+.pg-btn.disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media(max-width: 768px) {
+    .custom-pagination-wrap {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .pagination-info,
+    .custom-pagination {
+        width: 100%;
+        justify-content: center;
+    }
+}

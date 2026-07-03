@@ -1,0 +1,362 @@
+        :root {
+            --af-blue: #1a3c8f;
+            --af-gold: #b8952a;
+            --af-navy: #0a2240;
+        }
+
+        .af-wrapper {
+            background: #f4f6f9;
+            padding: 40px 0 70px;
+        }
+
+        .af-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Success banner */
+        .af-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 18px 24px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .af-success i {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Form sheet */
+        .af-sheet {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, .08);
+            overflow: hidden;
+        }
+
+        .af-sheet-header {
+            background: var(--af-blue);
+            color: #fff;
+            text-align: center;
+            padding: 22px 24px 18px;
+        }
+
+        .af-sheet-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .af-sheet-header p {
+            font-size: 13px;
+            opacity: .85;
+            margin: 4px 0 0;
+        }
+
+        .af-body {
+            padding: 32px 36px 36px;
+        }
+
+        /* Section headings */
+        .af-section {
+            background: var(--af-blue);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 4px;
+            margin: 28px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .af-section:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Field groups */
+        .af-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .af-col-full {
+            flex: 1 1 100%;
+        }
+
+        .af-col-half {
+            flex: 1 1 calc(50% - 10px);
+            min-width: 200px;
+        }
+
+        .af-col-third {
+            flex: 1 1 calc(33% - 14px);
+            min-width: 160px;
+        }
+
+        /* Labels & inputs */
+        .af-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .af-label span {
+            color: #e3342f;
+        }
+
+        .af-input,
+        .af-select,
+        .af-textarea {
+            width: 100%;
+            border: 1.5px solid #d0d5dd;
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 14px;
+            color: #222;
+            background: #fff;
+            transition: border-color .2s, box-shadow .2s;
+            outline: none;
+        }
+
+        .af-input:focus,
+        .af-select:focus,
+        .af-textarea:focus {
+            border-color: var(--af-blue);
+            box-shadow: 0 0 0 3px rgba(26, 60, 143, .1);
+        }
+
+        .af-input.is-invalid,
+        .af-select.is-invalid,
+        .af-textarea.is-invalid {
+            border-color: #e3342f;
+        }
+
+        .af-error {
+            font-size: 11.5px;
+            color: #e3342f;
+            margin-top: 4px;
+        }
+
+        .af-textarea {
+            resize: vertical;
+            min-height: 72px;
+        }
+
+        .af-hint {
+            font-size: 11px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        /* Checkbox / Radio groups */
+        .af-check-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .af-check-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            user-select: none;
+        }
+
+        .af-check-item input[type="radio"],
+        .af-check-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--af-blue);
+            flex-shrink: 0;
+        }
+
+        /* Education table */
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .edu-table th {
+            background: var(--af-blue);
+            color: #fff;
+            padding: 9px 10px;
+            text-align: center;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, .2);
+        }
+
+        .edu-table td {
+            border: 1px solid #e0e0e0;
+            padding: 4px 6px;
+            vertical-align: middle;
+        }
+
+        .edu-table td:first-child {
+            background: #f7f9fc;
+            font-weight: 600;
+            font-size: 12.5px;
+            padding: 8px 12px;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .edu-table input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 6px 8px;
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .edu-table input:focus {
+            background: #eef2ff;
+            border-radius: 4px;
+        }
+
+        /* Terms box */
+        .af-terms-box {
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px 24px;
+            background: #fafafa;
+            max-height: 320px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.65;
+            color: #333;
+        }
+
+        .af-terms-box h6 {
+            font-weight: 700;
+            font-size: 13.5px;
+            margin-bottom: 10px;
+        }
+
+        .af-terms-box ol {
+            padding-left: 18px;
+            margin: 0 0 14px;
+        }
+
+        .af-terms-box ol li {
+            margin-bottom: 6px;
+            text-align: justify;
+        }
+
+        .af-terms-box ul {
+            padding-left: 18px;
+            margin: 4px 0 4px;
+        }
+
+        .af-terms-box ul li {
+            margin-bottom: 3px;
+        }
+
+        /* Declaration checkbox */
+        .af-declaration {
+            background: #fff8e1;
+            border: 1.5px solid #f0c040;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-top: 16px;
+        }
+
+        .af-declaration label {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .af-declaration input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+            accent-color: var(--af-blue);
+        }
+
+        /* Submit button */
+        .af-submit-row {
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        .af-btn-submit {
+            background: var(--af-blue);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 48px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: .5px;
+            transition: background .2s, transform .1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .af-btn-submit:hover {
+            background: #142d6e;
+            transform: translateY(-1px);
+        }
+
+        .af-btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .af-btn-submit:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+        .af-submit-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        /* Required star legend */
+        .af-req-note {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .af-req-note span {
+            color: #e3342f;
+        }

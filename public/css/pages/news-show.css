@@ -1,0 +1,115 @@
+/* ══════════════════════════════════════════════════════════
+   NEWS DETAIL PAGE
+   Prefix: nws-  (shares --lx-* theme tokens with the News listing page)
+══════════════════════════════════════════════════════════ */
+
+.nws-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.nws-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--lx-red);
+    text-decoration: none;
+    margin-bottom: 28px;
+}
+.nws-back:hover { color: var(--lx-red2); }
+
+.nws-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+.nws-tag {
+    display: inline-block;
+    background: var(--lx-red);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 6px 16px;
+    border-radius: 50px;
+}
+.nws-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .85rem;
+    color: var(--muted, #5a6380);
+}
+.nws-date i { color: var(--lx-red); }
+
+.nws-title {
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+    line-height: 1.2;
+    color: var(--lx-navy);
+    margin-bottom: 28px;
+}
+
+.nws-image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 32px;
+    display: block;
+}
+
+.nws-content {
+    font-size: 1.02rem;
+    line-height: 1.9;
+    color: #333c52;
+}
+.nws-content p { margin-bottom: 20px; }
+.nws-content p:last-child { margin-bottom: 0; }
+
+.nws-related {
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid #e7ebf3;
+}
+.nws-related-heading {
+    font-family: "Playfair Display", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--lx-navy);
+    margin-bottom: 20px;
+    padding-left: 16px;
+    border-left: 4px solid var(--lx-red);
+}
+.nws-related-item {
+    display: block;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f3f8;
+    text-decoration: none;
+    color: inherit;
+}
+.nws-related-item:last-child { border-bottom: none; }
+.nws-related-item:hover .nws-related-title { color: var(--lx-red); }
+.nws-related-date {
+    display: block;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted, #5a6380);
+    margin-bottom: 4px;
+}
+.nws-related-title {
+    font-weight: 700;
+    color: var(--lx-navy);
+    transition: color .2s;
+}
+
+@media (max-width: 576px) {
+    .nws-image { max-height: 260px; }
+}

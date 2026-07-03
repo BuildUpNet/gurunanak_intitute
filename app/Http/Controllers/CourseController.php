@@ -1,122 +1,182 @@
 <?php
-// app/Http/Controllers/CourseController.php
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\CourseCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
-    /* All courses data — add DB later, static for now */
-    private static array $courses = [
-        'operation-theatre-technology' => [
-            'title' => 'B.Voc in Operation Theatre Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science (PCB/PCM)',
-            'seats' => 30,
-            'overview' => 'Train as a skilled OT technician who assists surgeons during surgical procedures. Learn sterilisation, anaesthesia support, and patient care in a modern OT environment.',
-            'career' => ['OT Technician', 'Scrub Technician', 'Anaesthesia Assistant', 'Hospital Administrator', 'ICU Technician'],
-            'recruiters' => ['AIIMS', 'Fortis', 'Apollo', 'Max Healthcare', 'PGI Chandigarh', 'Civil Hospital'],
-            'image' => 'courses/ot.jpg',
-        ],
-        'medical-lab-technology' => [
-            'title' => 'B.Voc in Medical Lab Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science (PCB)',
-            'seats' => 30,
-            'overview' => 'Become a qualified laboratory technician capable of conducting clinical tests that aid in diagnosis and treatment of diseases.',
-            'career' => ['Lab Technician', 'Pathology Technician', 'Blood Bank Technician', 'Research Assistant', 'Lab Manager'],
-            'recruiters' => ['SRL Diagnostics', 'Thyrocare', 'Dr Lal PathLabs', 'AIIMS', 'Govt. Hospitals'],
-            'image' => 'courses/mlt.jpg',
-        ],
-        'ophthalmic-technology' => [
-            'title' => 'B.Voc in Ophthalmic Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science',
-            'seats' => 20,
-            'overview' => 'Specialise in assisting ophthalmologists in diagnosis and treatment of eye disorders using advanced ophthalmic equipment.',
-            'career' => ['Ophthalmic Technician', 'Optometrist Assistant', 'Eye Bank Coordinator', 'Lasik Technician'],
-            'recruiters' => ['Sankara Eye Hospital', 'Eye-Q', 'Dr Shroff', 'Vasan Eye Care'],
-            'image' => 'courses/ophthalmic.jpg',
-        ],
-        'cardiac-care-technology' => [
-            'title' => 'B.Voc in Cardiac Care Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science (PCB)',
-            'seats' => 20,
-            'overview' => 'Learn to operate ECG machines, cardiac monitors, and assist cardiologists in catheterisation labs and ICUs.',
-            'career' => ['Cardiac Technician', 'Cath Lab Technician', 'ICU Technician', 'ECG Technician', 'Perfusionist'],
-            'recruiters' => ['Fortis Heart Institute', 'Max Cardiology', 'Asian Heart', 'Narayana Health'],
-            'image' => 'courses/cardiac.jpg',
-        ],
-        'dialysis-technology' => [
-            'title' => 'B.Voc in Dialysis Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science',
-            'seats' => 20,
-            'overview' => 'Operate and maintain haemodialysis and peritoneal dialysis equipment for patients with chronic kidney disease.',
-            'career' => ['Dialysis Technician', 'Renal Technician', 'Transplant Coordinator', 'ICU Specialist'],
-            'recruiters' => ['Kidney Care Centres', 'Apollo Dialysis', 'NKF', 'Govt. Hospitals'],
-            'image' => 'courses/dialysis.jpg',
-        ],
-        'radiology-imaging-technology' => [
-            'title' => 'B.Voc in Radiology & Medical Imaging Technology',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science (PCB/PCM)',
-            'seats' => 30,
-            'overview' => 'Learn to operate X-ray, CT, MRI, and ultrasound equipment for diagnostic imaging in hospitals and diagnostic centres.',
-            'career' => ['Radiographer', 'CT Technician', 'MRI Technician', 'Sonographer', 'Imaging Coordinator'],
-            'recruiters' => ['Medanta', 'Apollo', 'GE Healthcare', 'Philips Medical', 'Govt. Hospitals'],
-            'image' => 'courses/radiology.jpg',
-        ],
-        'hospital-management' => [
-            'title' => 'B.Voc in Hospital Management',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 (Any Stream)',
-            'seats' => 30,
-            'overview' => 'Gain expertise in hospital administration, healthcare finance, HR management, and quality control in healthcare settings.',
-            'career' => ['Hospital Administrator', 'Ward Manager', 'Healthcare Consultant', 'Medical Billing Executive'],
-            'recruiters' => ['Max Healthcare', 'Fortis', 'Columbia Asia', 'Insurance Companies'],
-            'image' => 'courses/hospital-mgmt.jpg',
-        ],
-        'physiotherapy' => [
-            'title' => 'B.Voc in Physiotherapy',
-            'badge' => 'B.Voc',
-            'duration' => '3 Years',
-            'eligibility' => '10+2 with Science (PCB)',
-            'seats' => 20,
-            'overview' => 'Learn rehabilitative techniques to help patients recover from injuries, surgeries, and chronic conditions through evidence-based physical therapy.',
-            'career' => ['Physiotherapist', 'Sports Therapist', 'Rehab Specialist', 'Home Care Therapist'],
-            'recruiters' => ['Fortis Rehab', 'Apollo', 'Sports Medicine Centres', 'Govt. Hospitals'],
-            'image' => 'courses/physio.jpg',
-        ],
-    ];
-
-    public function show(string $slug)
+    public function index(Request $request)
     {
-        $course = self::$courses[$slug] ?? null;
-        if (!$course)
-            abort(404);
+        $courses = Course::with('category')
+            ->when($request->filled('search'), fn($q) => $q->where('title', 'LIKE', '%' . $request->search . '%'))
+            ->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
+            ->when($request->filled('course_category_id'), fn($q) => $q->where('course_category_id', $request->course_category_id))
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
-        /* Related courses — exclude current */
-        $related = collect(self::$courses)
-            ->except($slug)
-            ->take(3)
-            ->map(fn($c, $s) => array_merge($c, ['slug' => $s]))
-            ->values();
+        $categories = CourseCategory::where('status', 1)->orderBy('sort_order', 'asc')->get();
 
-        return view('pages.course', compact('course', 'slug', 'related'));
+        return view('admin.courses.index', compact('courses', 'categories'));
     }
 
-    public static function all(): array
+    public function create()
     {
-        return self::$courses;
+        $courses = CourseCategory::where('status', 1)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
+        return view('admin.courses.create', compact('courses'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'course_category_id' => 'required|exists:course_categories,id',
+            'title' => 'required|max:255',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $course = Course::create([
+            'course_category_id' => $request->course_category_id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->slug ?? $request->title),
+            'short_description' => $request->short_description,
+            'banner_title' => $request->banner_title,
+            'quote' => $request->quote,
+            'duration_title_one' => $request->duration_title_one,
+            'duration_one' => $request->duration_one,
+
+            'duration_title_two' => $request->duration_title_two,
+            'duration_two' => $request->duration_two,
+
+            'duration_title_three' => $request->duration_title_three,
+            'duration_three' => $request->duration_three,
+            'eligibility' => $request->eligibility,
+            'recognition' => $request->recognition,
+            'placement_rate' => $request->placement_rate,
+            'program_overview' => $request->program_overview,
+            'about_course' => $request->about_course,
+            'status' => $request->status,
+        ]);
+
+        $this->saveCourseExtraData($request, $course);
+
+        return redirect()->route('admin.courses.index')
+            ->with('success', 'Course added successfully');
+    }
+
+    public function edit(Course $course)
+    {
+        $course->load([
+            'employmentOpportunities',
+            'careerRoles',
+            'graduatesWork',
+            'faqs'
+        ]);
+
+        $coursecategories = CourseCategory::where('status', 1)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
+        return view('admin.courses.edit', compact('course', 'coursecategories'));
+    }
+
+    public function update(Request $request, Course $course)
+    {
+        $request->validate([
+            'course_category_id' => 'required|exists:course_categories,id',
+            'title' => 'required|max:255',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $course->update([
+            'course_category_id' => $request->course_category_id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->slug ?? $request->title),
+            'short_description' => $request->short_description,
+            'quote' => $request->quote,
+            'duration_title_one' => $request->duration_title_one,
+            'duration_one' => $request->duration_one,
+
+            'duration_title_two' => $request->duration_title_two,
+            'duration_two' => $request->duration_two,
+
+            'duration_title_three' => $request->duration_title_three,
+            'duration_three' => $request->duration_three,
+            'eligibility' => $request->eligibility,
+            'recognition' => $request->recognition,
+            'placement_rate' => $request->placement_rate,
+            'program_overview' => $request->program_overview,
+            'about_course' => $request->about_course,
+            'status' => $request->status,
+        ]);
+
+        $course->employmentOpportunities()->delete();
+        $course->careerRoles()->delete();
+        $course->graduatesWork()->delete();
+        $course->faqs()->delete();
+
+        $this->saveCourseExtraData($request, $course);
+
+        return redirect()->route('admin.courses.index')
+            ->with('success', 'Course updated successfully');
+    }
+
+    public function destroy(Course $course)
+    {
+        $course->delete();
+
+        return back()->with('success', 'Course deleted successfully');
+    }
+
+    private function saveCourseExtraData(Request $request, Course $course)
+    {
+        if ($request->employment_opportunities) {
+            foreach ($request->employment_opportunities as $title) {
+                if (!empty($title)) {
+                    $course->employmentOpportunities()->create([
+                        'title' => $title
+                    ]);
+                }
+            }
+        }
+
+        if ($request->career_roles) {
+            foreach ($request->career_roles as $title) {
+                if (!empty($title)) {
+                    $course->careerRoles()->create([
+                        'title' => $title
+                    ]);
+                }
+            }
+        }
+
+        if ($request->graduates_work) {
+            foreach ($request->graduates_work as $title) {
+                if (!empty($title)) {
+                    $course->graduatesWork()->create([
+                        'title' => $title
+                    ]);
+                }
+            }
+        }
+
+        if ($request->faqs) {
+            foreach ($request->faqs as $faq) {
+
+                if (!empty($faq['question'])) {
+
+                    $course->faqs()->create([
+                        'question' => $faq['question'],
+                        'answer' => $faq['answer'] ?? null,
+                    ]);
+                }
+            }
+        }
     }
 }

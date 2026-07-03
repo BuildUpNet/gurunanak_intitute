@@ -1,0 +1,136 @@
+        .app-table thead th {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: #64748b;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .app-table tbody td {
+            padding: 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .candidate-name {
+            font-weight: 800;
+            color: #0b1f3a;
+        }
+
+        .course-badge {
+            display: inline-flex;
+            padding: 5px 12px;
+            border-radius: 50px;
+            background: #e0f2fe;
+            color: #075985;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-view {
+            background: #0d47a1;
+            color: #fff;
+            border-radius: 10px;
+            padding: 7px 13px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .btn-view:hover {
+            background: #0b1f3a;
+            color: #fff;
+        }
+
+        .btn-pdf {
+            background: #d32f2f;
+            color: #fff;
+            border-radius: 10px;
+            padding: 7px 13px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .btn-pdf:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+        .custom-pagination-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 22px;
+            margin-top: 10px;
+            border-top: 1px solid #eef2f7;
+            flex-wrap: wrap;
+        }
+
+        .pagination-info {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .custom-pagination {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pg-btn,
+        .pg-number {
+            min-width: 40px;
+            height: 40px;
+            padding: 0 14px;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            transition: .2s;
+        }
+
+        .pg-btn:hover,
+        .pg-number:hover {
+            background: #0b1f3a;
+            color: #fff;
+            border-color: #0b1f3a;
+        }
+
+        .pg-number.active {
+            background: #d32f2f;
+            color: #fff;
+            border-color: #d32f2f;
+            box-shadow: 0 8px 18px rgba(211, 47, 47, .25);
+        }
+
+        .pg-btn.disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        @media(max-width: 768px) {
+            .custom-pagination-wrap {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .pagination-info,
+            .custom-pagination {
+                width: 100%;
+                justify-content: center;
+            }
+        }

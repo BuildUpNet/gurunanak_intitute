@@ -56,10 +56,17 @@
 
     {{-- Fixed: Social media sidebar (right edge) --}}
     <div class="social-sidebar" aria-label="Follow us">
-        <a href="https://www.facebook.com/Guru-Nanak-Institute-of-Medical-Technology-689772771089266" target="_blank" rel="noopener" aria-label="Facebook" class="ss-link ss-link--fb"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/gnimtpatiala/" target="_blank" rel="noopener" aria-label="Instagram" class="ss-link ss-link--ig"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/gurunanakinstitutepatiala" target="_blank" rel="noopener"
+            aria-label="Facebook" class="ss-link ss-link--fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/gnimtpatiala/" target="_blank" rel="noopener" aria-label="Instagram"
+            class="ss-link ss-link--ig"><i class="fab fa-instagram"></i></a>
+        {{-- No YouTube channel link provided yet — re-enable once available:
         <a href="#" target="_blank" rel="noopener" aria-label="YouTube" class="ss-link ss-link--yt"><i class="fab fa-youtube"></i></a>
-        <a href="https://wa.me/918283929908" target="_blank" rel="noopener" aria-label="WhatsApp" class="ss-link ss-link--wa"><i class="fab fa-whatsapp"></i></a>
+        --}}
+        <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter"
+            class="ss-link ss-link--tw"><i class="fab fa-twitter"></i></a>
+        <a href="https://wa.me/918283929908" target="_blank" rel="noopener" aria-label="WhatsApp"
+            class="ss-link ss-link--wa"><i class="fab fa-whatsapp"></i></a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
