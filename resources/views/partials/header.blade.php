@@ -436,9 +436,11 @@
                                 <p class="mp-prog__right-sub">Click a program to view full details, eligibility &amp;
                                     careers</p>
                                 <div class="mp-prog__cat-grid">
+                                    @php $visibleCount = 0; @endphp
                                     @forelse($pc->programLevels as $lvl)
                                         @continue(!$lvl->programDetail)
-                                        <a class="mp-prog__cat-link mp-prog__cat-link--detail"
+                                        @php $visibleCount++; @endphp
+                                        <a class="mp-prog__cat-link mp-prog__cat-link--detail {{ $visibleCount > 4 ? 'mp-prog__cat-link--extra' : '' }}"
                                             href="{{ route('program.show', $lvl->programDetail->slug) }}"
                                             data-search="{{ strtolower($lvl->programDetail->title . ' ' . $lvl->programDetail->short_name . ' ' . $lvl->duration) }}">
                                             <span class="mp-prog__cat-badge">{{ $lvl->duration }}</span>
@@ -450,6 +452,11 @@
                                             <p>No programs added yet</p>
                                         </div>
                                     @endforelse
+                                    @if ($visibleCount > 4)
+                                        <a href="{{ route('academics') }}#{{ $pc->slug }}" class="mp-prog__view-more">
+                                            View More <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @empty

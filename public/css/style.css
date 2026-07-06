@@ -4688,11 +4688,43 @@ body {
     .mp-prog__cat-grid { grid-template-columns: 1fr; }
 }
 
+/* Honeypot anti-bot trap field (partials/honeypot.blade.php) — hidden from real visitors */
+.hp-trap {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
 /* Program detail link badge (short name chip) */
 .mp-prog__cat-link--detail {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+.mp-prog__cat-link--extra {
+    display: none;
+}
+.mp-prog__view-more {
+    grid-column: 1/-1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    justify-self: start;
+    margin-top: 6px;
+    padding: 6px 14px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #c0262d;
+    text-decoration: none;
+    border: 1px dashed #e2c4c4;
+    border-radius: 20px;
+    transition: background 0.18s, color 0.18s;
+}
+.mp-prog__view-more:hover {
+    background: #c0262d;
+    color: #fff;
+    border-color: #c0262d;
 }
 .mp-prog__cat-badge {
     display: inline-block;

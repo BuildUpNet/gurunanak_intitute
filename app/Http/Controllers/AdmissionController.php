@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HasSpamProtection;
 use App\Models\AdmissionApplication;
 use App\Models\Course;
 use App\Mail\AdmissionApplicationMail;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Mail;
 
 class AdmissionController extends Controller
 {
+    use HasSpamProtection;
+
     public function form()
     {
         $courses = Course::where('status', 1)
@@ -23,10 +26,14 @@ class AdmissionController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->filled('website')) {
-            // Hidden honeypot field was filled — silently drop the bot submission.
+        if ($this->isBot($request)) {
+            // Honeypot filled or submitted too fast — silently drop the bot submission.
             return redirect()->route('admissions.form')
                 ->with('success', 'Application submitted successfully.');
+        }
+
+        if (!$this->passesRecaptcha($request)) {
+            return back()->withInput()->with('error', 'reCAPTCHA verification failed. Please try again.');
         }
 
         $data = $request->validate([

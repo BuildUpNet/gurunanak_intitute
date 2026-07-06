@@ -35,6 +35,30 @@
             margin-top: 1px;
         }
 
+        /* Error banner */
+        .af-error-banner {
+            background: #f8d7da;
+            border: 1px solid #f1aeb5;
+            color: #842029;
+            padding: 18px 24px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .af-error-banner i {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .af-recaptcha-row {
+            margin: 20px 0;
+        }
+
         /* Form sheet */
         .af-sheet {
             background: #fff;

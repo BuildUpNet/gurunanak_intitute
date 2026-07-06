@@ -38,6 +38,14 @@
                 </div>
             @endif
 
+            {{-- Error message --}}
+            @if (session('error'))
+                <div class="af-error-banner">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <div>{{ session('error') }}</div>
+                </div>
+            @endif
+
             <div class="af-sheet">
                 <div class="af-sheet-header">
                     <h2>Admission Form</h2>
@@ -440,6 +448,11 @@
                             @enderror
                         </div>
 
+                        {{-- reCAPTCHA --}}
+                        <div class="af-recaptcha-row">
+                            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        </div>
+
                         {{-- Submit --}}
                         <div class="af-submit-row">
                             <button type="submit" class="af-btn-submit" id="submitBtn">
@@ -501,4 +514,5 @@
             });
         }
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

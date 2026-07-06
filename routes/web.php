@@ -35,7 +35,7 @@ Route::get('/about/anti-ragging', [PageController::class, 'antiRagging'])->name(
 Route::get('/academics', [PageController::class, 'academics'])->name('academics');
 Route::get('/admissions', [PageController::class, 'admissions'])->name('admissions');
 Route::get('/admissions/form', [PageController::class, 'admissionForm'])->name('admissions.form');
-Route::post('/admissions/form', [AdmissionController::class, 'store'])->name('admissions.form.store');
+Route::post('/admissions/form', [AdmissionController::class, 'store'])->middleware('throttle:5,1')->name('admissions.form.store');
 Route::get('/admissions/application/{application}', [AdmissionController::class, 'confirmation'])->name('admissions.application');
 Route::get('/admissions/application/{application}/pdf', [AdmissionController::class, 'downloadPdf'])->name('admissions.pdf');
 Route::get('/results', [PageController::class, 'results'])->name('results');
@@ -69,8 +69,8 @@ Route::get('/programs/{slug}', [ProgramDetailController::class, 'show'])->name('
 Route::get('/login', [PageController::class, 'portalLogin'])->name('portal.login');
 
 /* ── FORM SUBMISSIONS ── */
-Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');
-Route::post('/contact', [EnquiryController::class, 'contact'])->name('contact.store');
+Route::post('/enquiry', [EnquiryController::class, 'store'])->middleware('throttle:5,1')->name('enquiry.store');
+Route::post('/contact', [EnquiryController::class, 'contact'])->middleware('throttle:5,1')->name('contact.store');
 
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');

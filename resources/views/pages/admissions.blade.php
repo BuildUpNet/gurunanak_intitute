@@ -77,6 +77,12 @@
                     <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border-top border-4"
                         style="border-color: var(--gold) !important;">
                         <h3 class="fs-4 fw-bold text-navy mb-4 text-center">Quick Application</h3>
+                        @if (session('success'))
+                            <div class="alert alert-success mb-4">{{ session('success') }}</div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger mb-4">{{ session('error') }}</div>
+                        @endif
                         <form action="{{ route('enquiry.store') }}" method="POST">
                             @csrf
                             @include('partials.honeypot')
@@ -101,6 +107,7 @@
                                     <option value="">Select Course *</option>
                                 </select>
                             </div>
+                            <div class="g-recaptcha mb-3" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
                             <button type="submit" class="btn-primary-gnimt w-100 py-3 mt-2">Submit Application <i
                                     class="fas fa-arrow-right ms-2"></i></button>
                         </form>
@@ -136,4 +143,5 @@
             admRenderCourses(this.value ? (admCoursesByCategory[this.value] || []) : admAllCourses);
         });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

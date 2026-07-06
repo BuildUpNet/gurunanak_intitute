@@ -3,42 +3,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HasSpamProtection;
 use App\Mail\ContactEnquiryMail;
 use App\Mail\EnquiryMail;
 use App\Models\ContactEnquiry;
 use App\Models\Enquiry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class EnquiryController extends Controller
 {
-    /**
-     * Bots that fill the hidden honeypot field are silently told "success" so they don't retry.
-     */
-    private function isBot(Request $request): bool
-    {
-        return $request->filled('website');
-    }
-
-    private function passesRecaptcha(Request $request): bool
-    {
-        $secret = env('RECAPTCHA_SECRET_KEY');
-
-        if (empty($secret)) {
-            // No secret configured yet — skip verification rather than block real submissions.
-            return true;
-        }
-
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secret,
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $request->ip(),
-        ]);
-
-        return (bool) ($response->json('success') ?? false);
-    }
+    use HasSpamProtection;
 
     public function store(Request $request)
     {
@@ -97,6 +73,10 @@ class EnquiryController extends Controller
     {
         if ($this->isBot($request)) {
             return back()->with('success', 'Your message has been received. We\'ll get back to you shortly.');
+        }
+
+        if (!$this->passesRecaptcha($request)) {
+            return back()->withInput()->with('error', 'reCAPTCHA verification failed. Please try again.');
         }
 
         try {

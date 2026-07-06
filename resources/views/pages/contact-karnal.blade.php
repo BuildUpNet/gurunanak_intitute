@@ -170,6 +170,9 @@
                         @if (session('success'))
                             <div class="alert alert-success mb-4">{{ session('success') }}</div>
                         @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger mb-4">{{ session('error') }}</div>
+                        @endif
                         @if ($errors->any())
                             <div class="alert alert-danger mb-4">
                                 <ul class="mb-0 ps-3">
@@ -224,6 +227,9 @@
                                     <label class="gc-label" for="kn_message">Message *</label>
                                     <textarea id="kn_message" name="message" class="gc-input" rows="5" required
                                         placeholder="Write your query here..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <div class="g-recaptcha mb-3" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="gc-submit">
@@ -300,4 +306,5 @@
             knRenderCourses(this.value ? (knCoursesByCategory[this.value] || []) : knAllCourses);
         });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

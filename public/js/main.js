@@ -195,11 +195,11 @@
                 });
                 links.forEach(function (link) {
                     var match = link.dataset.search.indexOf(q) !== -1;
-                    link.style.display = match ? "" : "none";
+                    link.style.display = match ? "flex" : "none";
                     if (match) found++;
                 });
             } else {
-                // restore panel-based view (CSS handles active/inactive)
+                // restore panel-based view (CSS handles active/inactive + the 4-item cap)
                 catsArea.querySelectorAll(".mp-prog__cat-panel").forEach(function (p) {
                     p.style.display = "";
                 });
