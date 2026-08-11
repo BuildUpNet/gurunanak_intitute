@@ -136,7 +136,7 @@
 
                         <div class="af-row">
                             <div class="af-col-half">
-                                <label class="af-label">4. Date of Birth <span>*</span></label>
+                                <label class="af-label">3. Date of Birth <span>*</span></label>
                                 <input type="date" name="dob" class="af-input @error('dob') is-invalid @enderror"
                                     value="{{ old('dob') }}" required>
                                 @error('dob')
@@ -156,7 +156,7 @@
 
                         <div class="af-row">
                             <div class="af-col-half">
-                                <label class="af-label">5. Aadhaar No. (UID) <span>*</span></label>
+                                <label class="af-label">4. Aadhaar No. (UID) <span>*</span></label>
                                 <input type="text" name="aadhaar_no"
                                     class="af-input @error('aadhaar_no') is-invalid @enderror"
                                     value="{{ old('aadhaar_no') }}" placeholder="12-digit Aadhaar number" maxlength="12"
@@ -167,77 +167,12 @@
                             </div>
                         </div>
 
-                        {{-- ── FAMILY DETAILS ── --}}
-                        <div class="af-section"><i class="fas fa-users"></i> 6. Family Details</div>
-
-                        <div style="margin-bottom:6px; font-weight:600; font-size:13px; color:#1a3c8f;">(a) Father's
-                            Details</div>
-                        <div class="af-row">
-                            <div class="af-col-half">
-                                <label class="af-label">Father's Name <span>*</span></label>
-                                <input type="text" name="father_name"
-                                    class="af-input @error('father_name') is-invalid @enderror"
-                                    value="{{ old('father_name') }}" placeholder="Father's full name" required>
-                                @error('father_name')
-                                    <div class="af-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="af-col-half">
-                                <label class="af-label">Father's Occupation</label>
-                                <input type="text" name="father_occupation" class="af-input"
-                                    value="{{ old('father_occupation') }}" placeholder="e.g. Farmer, Business, Service">
-                            </div>
-                        </div>
-                        <div class="af-row">
-                            <div class="af-col-half">
-                                <label class="af-label">Father's Mobile No.</label>
-                                <input type="tel" name="father_mobile"
-                                    class="af-input @error('father_mobile') is-invalid @enderror"
-                                    value="{{ old('father_mobile') }}" placeholder="10-digit mobile" maxlength="10"
-                                    inputmode="numeric">
-                                @error('father_mobile')
-                                    <div class="af-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div style="margin: 16px 0 6px; font-weight:600; font-size:13px; color:#1a3c8f;">(b) Mother's
-                            Details</div>
-                        <div class="af-row">
-                            <div class="af-col-half">
-                                <label class="af-label">Mother's Name <span>*</span></label>
-                                <input type="text" name="mother_name"
-                                    class="af-input @error('mother_name') is-invalid @enderror"
-                                    value="{{ old('mother_name') }}" placeholder="Mother's full name" required>
-                                @error('mother_name')
-                                    <div class="af-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="af-col-half">
-                                <label class="af-label">Mother's Occupation</label>
-                                <input type="text" name="mother_occupation" class="af-input"
-                                    value="{{ old('mother_occupation') }}" placeholder="e.g. Homemaker, Service">
-                            </div>
-                        </div>
-                        <div class="af-row">
-                            <div class="af-col-half">
-                                <label class="af-label">Mother's Mobile No.</label>
-                                <input type="tel" name="mother_mobile"
-                                    class="af-input @error('mother_mobile') is-invalid @enderror"
-                                    value="{{ old('mother_mobile') }}" placeholder="10-digit mobile" maxlength="10"
-                                    inputmode="numeric">
-                                @error('mother_mobile')
-                                    <div class="af-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
                         {{-- ── CONTACT DETAILS ── --}}
                         <div class="af-section"><i class="fas fa-address-card"></i> Contact &amp; Address</div>
 
                         <div class="af-row">
                             <div class="af-col-half">
-                                <label class="af-label">7. Nationality <span>*</span></label>
+                                <label class="af-label">5. Nationality <span>*</span></label>
                                 <input type="text" name="nationality"
                                     class="af-input @error('nationality') is-invalid @enderror"
                                     value="{{ old('nationality', 'Indian') }}" required>
@@ -258,7 +193,7 @@
 
                         <div class="af-row">
                             <div class="af-col-full">
-                                <label class="af-label">8. Permanent Address <span>*</span></label>
+                                <label class="af-label">6. Permanent Address <span>*</span></label>
                                 <textarea name="permanent_address" class="af-textarea @error('permanent_address') is-invalid @enderror"
                                     placeholder="House No., Street, Village/City, District, State, PIN" required>{{ old('permanent_address') }}</textarea>
                                 @error('permanent_address')
@@ -269,7 +204,7 @@
 
                         <div class="af-row">
                             <div class="af-col-half">
-                                <label class="af-label">9. Mobile No. (Self) <span>*</span></label>
+                                <label class="af-label">7. Mobile No. (Self) <span>*</span></label>
                                 <input type="tel" name="mobile"
                                     class="af-input @error('mobile') is-invalid @enderror" value="{{ old('mobile') }}"
                                     placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" required>
@@ -286,75 +221,6 @@
                                 @error('email')
                                     <div class="af-error">{{ $message }}</div>
                                 @enderror
-                            </div>
-                        </div>
-
-                        {{-- ── EDUCATION ── --}}
-                        <div class="af-section"><i class="fas fa-graduation-cap"></i> 10. Summary of Education
-                            Qualifications</div>
-
-                        <div style="overflow-x:auto;">
-                            <table class="edu-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width:18%">Previous Exam Passed</th>
-                                        <th style="width:12%">Session</th>
-                                        <th>Name of School / College</th>
-                                        <th style="width:18%">Board / University</th>
-                                        <th style="width:12%">% or Grade</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $eduRows = [
-                                            ['key' => 'matric', 'label' => 'Matric (10th)'],
-                                            ['key' => 'plus2', 'label' => '10+2'],
-                                            ['key' => 'graduation', 'label' => 'Graduation'],
-                                            ['key' => 'postgrad', 'label' => 'Post-Graduation'],
-                                            ['key' => 'other', 'label' => 'Any Other'],
-                                        ];
-                                    @endphp
-                                    @foreach ($eduRows as $i => $row)
-                                        <tr>
-                                            <td>{{ $row['label'] }}</td>
-                                            <td><input type="text" name="education[{{ $i }}][session]"
-                                                    value="{{ old('education.' . $i . '.session') }}"
-                                                    placeholder="e.g. 2022-23"></td>
-                                            <td><input type="text" name="education[{{ $i }}][school]"
-                                                    value="{{ old('education.' . $i . '.school') }}"
-                                                    placeholder="School / College name"></td>
-                                            <td><input type="text" name="education[{{ $i }}][board]"
-                                                    value="{{ old('education.' . $i . '.board') }}"
-                                                    placeholder="Board / University"></td>
-                                            <td><input type="text" name="education[{{ $i }}][percent]"
-                                                    value="{{ old('education.' . $i . '.percent') }}"
-                                                    placeholder="e.g. 78%">
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        {{-- ── HOW DID YOU HEAR ── --}}
-                        <div class="af-section"><i class="fas fa-bullhorn"></i> 11. How Did You Come to Know About GNIMT
-                        </div>
-
-                        <div class="af-check-row" style="flex-wrap:wrap; gap:14px;">
-                            @php $sources = ['Advertisement','Friends','Relatives','Radio','TV','Pamphlet']; @endphp
-                            @foreach ($sources as $src)
-                                <label class="af-check-item">
-                                    <input type="checkbox" name="heard_from[]" value="{{ $src }}"
-                                        {{ in_array($src, old('heard_from', [])) ? 'checked' : '' }}>
-                                    {{ $src }}
-                                </label>
-                            @endforeach
-                        </div>
-                        <div class="af-row" style="margin-top:10px;">
-                            <div class="af-col-half">
-                                <label class="af-label">Others (specify)</label>
-                                <input type="text" name="heard_from_other" class="af-input"
-                                    value="{{ old('heard_from_other') }}" placeholder="e.g. YouTube, College Fair">
                             </div>
                         </div>
 
@@ -450,7 +316,7 @@
 
                         {{-- reCAPTCHA --}}
                         <div class="af-recaptcha-row">
-                            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') ?: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}"></div>
                         </div>
 
                         {{-- Submit --}}

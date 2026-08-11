@@ -55,12 +55,12 @@
             </table>
         </div>
 
-        {{-- 4. DOB & Place of Birth --}}
+        {{-- 3. DOB & Place of Birth --}}
         <div class="field">
             <table class="two-col">
                 <tr>
                     <td style="width:55%;">
-                        <span class="field-label">4. Date of Birth:-</span>&nbsp;
+                        <span class="field-label">3. Date of Birth:-</span>&nbsp;
                         @php
                             $dob = $app->dob->format('d-m-Y');
                             $dobParts = str_split($dob);
@@ -81,9 +81,9 @@
             </table>
         </div>
 
-        {{-- 5. Aadhaar --}}
+        {{-- 4. Aadhaar --}}
         <div class="field">
-            <span class="field-label">5. Aadhaar No. (UID):-</span>&nbsp;
+            <span class="field-label">4. Aadhaar No. (UID):-</span>&nbsp;
             @php $aadhar = str_split($app->aadhaar_no); @endphp
             @foreach ($aadhar as $i => $ch)
                 @if ($i > 0 && $i % 4 == 0)
@@ -93,68 +93,12 @@
             @endforeach
         </div>
 
-        {{-- 6. Family Details --}}
-        <div class="section-head">6. Family Details</div>
-
-        <table style="width:100%; border-collapse:collapse; margin-top:6px;">
-            <tr>
-                <td colspan="2" style="padding:6px 0; font-weight:bold; color:#1a3c8f;">
-                    (a) Father's Details
-                </td>
-            </tr>
-
-            <tr>
-                <td style="width:50%; padding:6px 0;">
-                    <span class="field-label">Father's Name:</span>
-                    <span class="underline-value" style="min-width:170px;">{{ $app->father_name }}</span>
-                </td>
-
-                <td style="width:50%; padding:6px 0;">
-                    <span class="field-label">Father's Occupation:</span>
-                    <span class="underline-value" style="min-width:130px;">{{ $app->father_occupation ?? '' }}</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td style="padding:6px 0;">
-                    <span class="field-label">Father's Mobile No.:</span>
-                    <span class="underline-value" style="min-width:150px;">{{ $app->father_mobile ?? '' }}</span>
-                </td>
-                <td></td>
-            </tr>
-
-            <tr>
-                <td colspan="2" style="padding:12px 0 6px; font-weight:bold; color:#1a3c8f;">
-                    (b) Mother's Details
-                </td>
-            </tr>
-
-            <tr>
-                <td style="width:50%; padding:6px 0;">
-                    <span class="field-label">Mother's Name:</span>
-                    <span class="underline-value" style="min-width:170px;">{{ $app->mother_name }}</span>
-                </td>
-
-                <td style="width:50%; padding:6px 0;">
-                    <span class="field-label">Mother's Occupation:</span>
-                    <span class="underline-value" style="min-width:130px;">{{ $app->mother_occupation ?? '' }}</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td style="padding:6px 0;">
-                    <span class="field-label">Mother's Mobile No.:</span>
-                    <span class="underline-value" style="min-width:150px;">{{ $app->mother_mobile ?? '' }}</span>
-                </td>
-                <td></td>
-            </tr>
-        </table>
-        {{-- 7. Nationality --}}
+        {{-- 5. Nationality --}}
         <div class="field">
             <table class="two-col">
                 <tr>
                     <td style="width:50%;">
-                        <span class="field-label">7. Nationality:</span>
+                        <span class="field-label">5. Nationality:</span>
                         <span class="underline-value" style="min-width:120px;"> {{ $app->nationality }}</span>
                     </td>
                     <td>
@@ -165,18 +109,18 @@
             </table>
         </div>
 
-        {{-- 8. Address --}}
+        {{-- 6. Address --}}
         <div class="field">
-            <span class="field-label">8. Permanent Address:</span>
+            <span class="field-label">6. Permanent Address:</span>
             <span class="underline-full"> {{ $app->permanent_address }}</span>
         </div>
 
-        {{-- 9. Mobile & Email --}}
+        {{-- 7. Mobile & Email --}}
         <div class="field">
             <table class="two-col">
                 <tr>
                     <td style="width:50%;">
-                        <span class="field-label">9. Mobile No. (Self):</span>
+                        <span class="field-label">7. Mobile No. (Self):</span>
                         <span class="underline-value" style="min-width:100px;"> {{ $app->mobile }}</span>
                     </td>
                     <td>
@@ -186,72 +130,6 @@
                 </tr>
             </table>
             <div style="font-size:10px; color:#555;">(Inform the Change in number if any to the authorities)</div>
-        </div>
-
-        {{-- 10. Education --}}
-        <div class="field" style="margin-top:6px;">
-            <div class="field-label" style="margin-bottom:5px;">10. Summary of Education Qualifications:-</div>
-            @php
-                $eduLabels = ['Matric (10th)', '10+2', 'Graduation', 'Post-Graduation', 'Any Other'];
-            @endphp
-            <table class="edu-table">
-                <thead>
-                    <tr>
-                        <th style="width:20%">Previous Exam Passed</th>
-                        <th style="width:12%">Session</th>
-                        <th>Name of School / College</th>
-                        <th style="width:18%">Board / University</th>
-                        <th style="width:12%">Percent or Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($eduLabels as $i => $label)
-                        <tr>
-                            <td class="row-label">{{ $label }}</td>
-                            <td>{{ $app->education[$i]['session'] ?? '' }}</td>
-                            <td style="text-align:left;">{{ $app->education[$i]['school'] ?? '' }}</td>
-                            <td>{{ $app->education[$i]['board'] ?? '' }}</td>
-                            <td>{{ $app->education[$i]['percent'] ?? '' }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        {{-- 11. How did you know --}}
-        <div class="field" style="margin-top:12px;">
-            <div class="field-label" style="margin-bottom:5px;">11. How did you come to know about Guru Nanak
-                Institute of Medical Technology</div>
-            @php
-                $sources = ['Advertisement', 'Friends', 'Relatives', 'Radio', 'TV', 'Pamphlet'];
-                $heard = $app->heard_from ?? [];
-            @endphp
-            <table class="tick-row">
-                <tr>
-                    @foreach (array_slice($sources, 0, 4) as $i => $src)
-                        <td style="width:25%;">
-                            <span class="tick-box {{ in_array($src, $heard) ? 'checked' : '' }}">{!! in_array($src, $heard) ? '<span class="tick-mark"></span>' : '' !!}</span>
-                            ({{ chr(97 + $i) }}) {{ $src }}
-                        </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    @foreach (array_slice($sources, 4) as $j => $src)
-                        @php($i = $j + 4)
-                        <td style="width:25%;">
-                            <span class="tick-box {{ in_array($src, $heard) ? 'checked' : '' }}">{!! in_array($src, $heard) ? '<span class="tick-mark"></span>' : '' !!}</span>
-                            ({{ chr(97 + $i) }}) {{ $src }}
-                        </td>
-                    @endforeach
-                    <td style="width:50%;" colspan="2">
-                        @if ($app->heard_from_other)
-                            (g) Others:- {{ $app->heard_from_other }}
-                        @else
-                            (g) Others:- ____________________
-                        @endif
-                    </td>
-                </tr>
-            </table>
         </div>
 
     </div>{{-- end page 1 --}}

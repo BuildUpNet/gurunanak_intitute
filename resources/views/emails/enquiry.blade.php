@@ -17,7 +17,7 @@
 
                 <tr>
                     <td align="center" style="background:#b91c1c;padding:30px;color:#fff;">
-                        <img src="https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png"
+                        <img src="{{ asset('images/logo.png') }}"
                              alt="GNIMT" width="80">
 
                         <h1 style="margin:15px 0 5px;font-size:26px;">

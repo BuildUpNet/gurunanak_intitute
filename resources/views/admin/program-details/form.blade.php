@@ -222,6 +222,70 @@
         </div>
     </div>
 
+    {{-- ─── PROGRAM AT A GLANCE ─── --}}
+    <div class="panel-card mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4"
+             style="border-bottom:1px solid #f1f5f9;padding-bottom:12px;">
+            <h6 class="fw-bold mb-0" style="color:#0b1f3a;">
+                <i class="fas fa-id-card text-danger me-2"></i>Program at a Glance
+            </h6>
+            <button type="button" id="addGlanceBtn" class="btn btn-outline-danger btn-sm px-3">
+                <i class="fas fa-plus me-1"></i> Add Row
+            </button>
+        </div>
+        <div class="form-text mb-3">Shown in the "Program at a Glance" card on the course page (Degree, Duration, Eligibility). Add one row for a normal course, or multiple rows if this course offers different Degree/Duration/Eligibility per year — each row is shown as its own group in the same card.</div>
+
+        <div id="glanceContainer">
+            @php $glanceRows = $program ? $program->glanceItems : collect(); @endphp
+            @if($glanceRows->isNotEmpty())
+                @foreach($glanceRows as $idx => $gi)
+                    <div class="glance-row row g-2 mb-2 align-items-center">
+                        <div class="col-md-4">
+                            <input type="text" name="glance_items[{{ $idx }}][degree]"
+                                   class="form-control form-control-sm"
+                                   value="{{ old("glance_items.$idx.degree", $gi->degree) }}"
+                                   placeholder="Degree, e.g. Physiotherapy">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="glance_items[{{ $idx }}][duration]"
+                                   class="form-control form-control-sm"
+                                   value="{{ old("glance_items.$idx.duration", $gi->duration) }}"
+                                   placeholder="Duration, e.g. 3 Year">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="glance_items[{{ $idx }}][eligibility]"
+                                   class="form-control form-control-sm"
+                                   value="{{ old("glance_items.$idx.eligibility", $gi->eligibility) }}"
+                                   placeholder="Eligibility, e.g. 10+2 with PCB">
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-outline-danger btn-sm glance-del-btn" title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="glance-row row g-2 mb-2 align-items-center">
+                    <div class="col-md-4">
+                        <input type="text" name="glance_items[0][degree]" class="form-control form-control-sm" placeholder="Degree, e.g. Physiotherapy">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="glance_items[0][duration]" class="form-control form-control-sm" placeholder="Duration, e.g. 3 Year">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="glance_items[0][eligibility]" class="form-control form-control-sm" placeholder="Eligibility, e.g. 10+2 with PCB">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm glance-del-btn" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
     {{-- ─── ELIGIBILITY ─── --}}
     <div class="panel-card mb-4">
         <h6 class="fw-bold mb-4" style="color:#0b1f3a;border-bottom:1px solid #f1f5f9;padding-bottom:12px;">
@@ -439,6 +503,39 @@
     document.getElementById('levelContainer').addEventListener('click', function(e) {
         var btn = e.target.closest('.level-del-btn');
         if (btn) btn.closest('.level-row').remove();
+    });
+
+    // ─── Program at a Glance repeater ───
+    var glanceCounter = {{ $glanceRows->count() ?: 1 }};
+
+    document.getElementById('addGlanceBtn').addEventListener('click', function() {
+        var container = document.getElementById('glanceContainer');
+        var row = document.createElement('div');
+        row.className = 'glance-row row g-2 mb-2 align-items-center';
+        row.innerHTML =
+            '<div class="col-md-4">' +
+                '<input type="text" name="glance_items[' + glanceCounter + '][degree]" ' +
+                'class="form-control form-control-sm" placeholder="Degree, e.g. Physiotherapy">' +
+            '</div>' +
+            '<div class="col-md-3">' +
+                '<input type="text" name="glance_items[' + glanceCounter + '][duration]" ' +
+                'class="form-control form-control-sm" placeholder="Duration, e.g. 3 Year">' +
+            '</div>' +
+            '<div class="col">' +
+                '<input type="text" name="glance_items[' + glanceCounter + '][eligibility]" ' +
+                'class="form-control form-control-sm" placeholder="Eligibility, e.g. 10+2 with PCB">' +
+            '</div>' +
+            '<div class="col-auto">' +
+                '<button type="button" class="btn btn-outline-danger btn-sm glance-del-btn" title="Remove">' +
+                '<i class="fas fa-times"></i></button>' +
+            '</div>';
+        container.appendChild(row);
+        glanceCounter++;
+    });
+
+    document.getElementById('glanceContainer').addEventListener('click', function(e) {
+        var btn = e.target.closest('.glance-del-btn');
+        if (btn) btn.closest('.glance-row').remove();
     });
 
     // ─── Career Roles / Graduates Work repeaters ───

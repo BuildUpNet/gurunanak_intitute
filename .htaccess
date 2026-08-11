@@ -1,0 +1,57 @@
+# ==========================================================================
+# GNIMT — Root .htaccess
+# This file lives next to .env, at the same level as app/, public/, vendor/.
+# Its only jobs: canonicalize the domain, block direct access to anything
+# outside public/, and hand every remaining request to public/ (which then
+# forwards to Laravel's front controller). Runs BEFORE public/.htaccess.
+# ==========================================================================
+
+# ---- 1. Force https:// + www. (single hop, no double redirects) ----
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTP_HOST} ^gurunanakinstitute\.com$ [NC]
+    RewriteRule ^ https://www.gurunanakinstitute.com%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_HOST} ^www\.gurunanakinstitute\.com$ [NC]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://www.gurunanakinstitute.com%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- 2. Block direct access to app internals / config / VCS / dependency files ----
+<IfModule mod_rewrite.c>
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|storage|tests|vendor)(/|$) - [F,L]
+    RewriteRule ^(\.env(\..*)?|\.git(attributes|ignore)?|composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|webpack\.mix\.js|vite\.config\.js|README\.md)$ - [F,L]
+</IfModule>
+
+<FilesMatch "^\.(env|git|gitignore|gitattributes|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+# ---- 3. Harden server behaviour ----
+Options -Indexes -MultiViews
+ServerSignature Off
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)$
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ---- 4. Baseline security headers (covers any asset served straight from here) ----
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header unset X-Powered-By
+    Header unset Server
+</IfModule>
+
+# ---- 5. Hand everything else to the Laravel app in public/ ----
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -17,7 +17,6 @@
 
         <div class="lp-logo">
             <img src="{{ asset('images/logo.png') }}"
-                 onerror="this.src='https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png'"
                  alt="GNIMT Logo">
             <div class="lp-logo-text">
                 <div class="lp-logo-name">Guru Nanak Institute<br>of Medical Technology</div>

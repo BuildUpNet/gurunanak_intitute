@@ -45,34 +45,16 @@ class AdmissionController extends Controller
             'dob'                 => 'required|date|before:today',
             'place_of_birth'      => 'required|string|max:100',
             'aadhaar_no'          => 'required|digits:12',
-            'father_name'         => 'required|string|max:150',
-            'father_occupation'   => 'nullable|string|max:100',
-            'father_mobile'       => 'nullable|digits:10',
-            'mother_name'         => 'required|string|max:150',
-            'mother_occupation'   => 'nullable|string|max:100',
-            'mother_mobile'       => 'nullable|digits:10',
             'nationality'         => 'required|string|max:100',
             'country_citizenship' => 'required|string|max:100',
             'permanent_address'   => 'required|string|max:500',
             'mobile'              => 'required|digits:10',
             'email'               => 'nullable|email|max:150',
-
-            'education'           => 'nullable|array',
-            'education.*.session' => 'nullable|string|max:20',
-            'education.*.school'  => 'nullable|string|max:200',
-            'education.*.board'   => 'nullable|string|max:100',
-            'education.*.percent' => 'nullable|string|max:20',
-
-            'heard_from'          => 'nullable|array',
-            'heard_from.*'        => 'string|max:50',
-            'heard_from_other'    => 'nullable|string|max:100',
             'declaration'         => 'accepted',
         ], [
             'declaration.accepted' => 'You must accept the declaration to submit the form.',
             'aadhaar_no.digits'    => 'Aadhaar number must be exactly 12 digits.',
             'mobile.digits'        => 'Mobile number must be exactly 10 digits.',
-            'father_mobile.digits' => 'Father\'s mobile number must be exactly 10 digits.',
-            'mother_mobile.digits' => 'Mother\'s mobile number must be exactly 10 digits.',
         ]);
 
         $application = AdmissionApplication::create([
@@ -84,20 +66,11 @@ class AdmissionController extends Controller
             'dob'                 => $data['dob'],
             'place_of_birth'      => $data['place_of_birth'],
             'aadhaar_no'          => $data['aadhaar_no'],
-            'father_name'         => $data['father_name'],
-            'father_occupation'   => $data['father_occupation'] ?? null,
-            'father_mobile'       => $data['father_mobile'] ?? null,
-            'mother_name'         => $data['mother_name'],
-            'mother_occupation'   => $data['mother_occupation'] ?? null,
-            'mother_mobile'       => $data['mother_mobile'] ?? null,
             'nationality'         => $data['nationality'],
             'country_citizenship' => $data['country_citizenship'],
             'permanent_address'   => $data['permanent_address'],
             'mobile'              => $data['mobile'],
             'email'               => $data['email'] ?? null,
-            'education'           => $data['education'] ?? [],
-            'heard_from'          => $data['heard_from'] ?? [],
-            'heard_from_other'    => $data['heard_from_other'] ?? null,
         ]);
 
         Mail::to(env('ADMIN_EMAIL'))->send(new AdmissionApplicationMail($application));
@@ -150,5 +123,55 @@ class AdmissionController extends Controller
     public function showlist(AdmissionApplication $application)
     {
         return view('admin.admissions.show', compact('application'));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $applications = AdmissionApplication::query()
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($q2) use ($request) {
+                    $q2->where('candidate_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('mobile', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $request->search . '%');
+                });
+            })
+            ->when($request->filled('course_name'), fn($q) => $q->where('course_name', $request->course_name))
+            ->latest()
+            ->get();
+
+        $filename = 'admission-applications-' . now()->format('Y-m-d') . '.csv';
+
+        return response()->streamDownload(function () use ($applications) {
+            $handle = fopen('php://output', 'w');
+            fputs($handle, "\xEF\xBB\xBF");
+            fputcsv($handle, [
+                'ID', 'Candidate Name', 'Course', 'Gender', 'Category', 'Category Other',
+                'DOB', 'Place of Birth', 'Aadhaar No', 'Nationality', 'Country/Citizenship',
+                'Permanent Address', 'Mobile', 'Email', 'Status', 'Submitted On',
+            ]);
+
+            foreach ($applications as $app) {
+                fputcsv($handle, [
+                    $app->id,
+                    $app->candidate_name,
+                    $app->course_name,
+                    $app->gender,
+                    $app->category,
+                    $app->category_other,
+                    optional($app->dob)->format('d-m-Y'),
+                    $app->place_of_birth,
+                    $app->aadhaar_no,
+                    $app->nationality,
+                    $app->country_citizenship,
+                    $app->permanent_address,
+                    $app->mobile,
+                    $app->email,
+                    $app->status,
+                    $app->created_at->format('d-m-Y H:i'),
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, ['Content-Type' => 'text/csv']);
     }
 }

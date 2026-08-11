@@ -19,6 +19,7 @@
 
             <form method="POST" action="{{ route('admin.login.submit') }}">
                 @csrf
+                @include('partials.honeypot')
 
                 <div class="form-group mb-3">
                     <label>Email Address</label>
@@ -38,6 +39,12 @@
                     @enderror
                 </div>
 
+                <div class="form-group mb-4">
+                    <div class="g-recaptcha"
+                        data-sitekey="{{ config('services.recaptcha.site_key') ?: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}">
+                    </div>
+                </div>
+
                 <button type="submit" class="login-btn">
                     Login Now
                 </button>
@@ -52,4 +59,8 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

@@ -24,7 +24,7 @@ trait HasSpamProtection
 
     protected function passesRecaptcha(Request $request): bool
     {
-        $secret = env('RECAPTCHA_SECRET_KEY');
+        $secret = config('services.recaptcha.secret_key');
 
         if (empty($secret)) {
             // No secret configured yet — skip verification rather than block real submissions.

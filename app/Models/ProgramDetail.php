@@ -35,6 +35,11 @@ class ProgramDetail extends Model
         return $this->hasMany(ProgramLevel::class)->orderBy('sort_order');
     }
 
+    public function glanceItems()
+    {
+        return $this->hasMany(ProgramGlanceItem::class)->orderBy('sort_order');
+    }
+
     public function careerRoles()
     {
         return $this->hasMany(ProgramCareerRole::class)->orderBy('sort_order');

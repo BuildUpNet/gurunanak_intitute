@@ -5,9 +5,25 @@
 
     RewriteEngine On
 
+    # ---- Canonical domain fallback: force https:// + www. ----
+    # (Belt-and-suspenders in case this vhost's docroot points straight at public/,
+    # bypassing the root .htaccess that normally handles this redirect.)
+    # Scoped to the real production hostname only, so localhost/XAMPP dev testing
+    # is left completely untouched.
+    RewriteCond %{HTTP_HOST} ^gurunanakinstitute\.com$ [NC]
+    RewriteRule ^ https://www.gurunanakinstitute.com%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_HOST} ^www\.gurunanakinstitute\.com$ [NC]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://www.gurunanakinstitute.com%{REQUEST_URI} [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Keep .php out of the address bar: /index.php or /index.php?x=y -> /
+    RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+    RewriteRule ^index\.php$ / [L,R=301]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -18,4 +34,38 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+Options -Indexes
+ServerSignature Off
+
+# ---- Block execution of any PHP file except Laravel's front controller ----
+# (Defense in depth against a webshell dropped in uploads/ via a future file-upload bug.)
+<FilesMatch "\.(php|phar|phtml)$">
+    Require all denied
+</FilesMatch>
+<Files "index.php">
+    Require all granted
+</Files>
+
+# ---- Never serve dotfiles (.env, .git, .htaccess itself, etc.) ----
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)$
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ---- Security headers ----
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header unset X-Powered-By
+    Header unset Server
 </IfModule>

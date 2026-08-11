@@ -107,7 +107,7 @@
                                     <option value="">Select Course *</option>
                                 </select>
                             </div>
-                            <div class="g-recaptcha mb-3" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                            <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') ?: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}"></div>
                             <button type="submit" class="btn-primary-gnimt w-100 py-3 mt-2">Submit Application <i
                                     class="fas fa-arrow-right ms-2"></i></button>
                         </form>

@@ -108,39 +108,6 @@
                                 </tr>
                             </table>
 
-                            <!-- Family Details -->
-                            <h2
-                                style="color:#C62828;margin-top:30px;border-bottom:2px solid #C62828;padding-bottom:8px;">
-                                Family Information
-                            </h2>
-
-                            <table width="100%" cellpadding="10" cellspacing="0" style="border-collapse:collapse;">
-
-                                <tr>
-                                    <td width="50%" style="border:1px solid #e5e7eb;">
-                                        <strong style="color:#0D47A1;">Father's Name:</strong><br>
-                                        {{ $application->father_name }}
-                                    </td>
-
-                                    <td width="50%" style="border:1px solid #e5e7eb;">
-                                        <strong style="color:#0D47A1;">Father's Mobile:</strong><br>
-                                        {{ $application->father_mobile }}
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td style="border:1px solid #e5e7eb;">
-                                        <strong style="color:#0D47A1;">Mother's Name:</strong><br>
-                                        {{ $application->mother_name }}
-                                    </td>
-
-                                    <td style="border:1px solid #e5e7eb;">
-                                        <strong style="color:#0D47A1;">Mother's Mobile:</strong><br>
-                                        {{ $application->mother_mobile }}
-                                    </td>
-                                </tr>
-                            </table>
-
                             <!-- Address -->
                             <h2
                                 style="color:#C62828;margin-top:30px;border-bottom:2px solid #C62828;padding-bottom:8px;">

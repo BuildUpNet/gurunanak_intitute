@@ -12,8 +12,8 @@
                     <span class="d-none d-md-inline">info@gurunanakinstitute.com</span>
                 </a>
                 <div class="tbp-socials">
-                    <a href="https://www.facebook.com/gurunanakinstitutepatiala"
-                        target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/gurunanakinstitutepatiala" target="_blank" rel="noopener"
+                        aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/gnimtpatiala/" target="_blank" rel="noopener"
                         aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     {{-- No YouTube channel link provided yet — re-enable once available:
@@ -62,8 +62,8 @@
             <div class="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between w-100">
 
                 <a class="navbar-brand" href="{{ route('home') }}" aria-label="GNIMT Home">
-                    <img src="https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png"
-                        alt="Guru Nanak Institute of Medical Technology" width="56" height="56" loading="eager">
+                    <img src="{{ asset('images/logo.png') }}" alt="Guru Nanak Institute of Medical Technology"
+                        width="56" height="56" loading="eager">
                     <div>
                         <div class="bn1">Guru Nanak Institute</div>
                         <div class="bn2">of Medical Technology<span class="bn2-extra"> &nbsp;|&nbsp; UGC
@@ -173,8 +173,8 @@
                                     class="fas fa-dot-circle"></i> Mission &amp; Vision</a>
                             <a class="mlink" href="{{ route('about') }}#rules-regulations"><i
                                     class="fas fa-dot-circle"></i> Rules &amp; Regulations</a>
-                            <a class="mlink" href="{{ route('about.anti-ragging') }}"><i
-                                    class="fas fa-dot-circle"></i> Anti Ragging Policy</a>
+                            {{-- <a class="mlink" href="{{ route('about.anti-ragging') }}"><i
+                                    class="fas fa-dot-circle"></i> Anti Ragging Policy</a> --}}
                             <a class="mlink" href="{{ route('about') }}#infrastructure"><i
                                     class="fas fa-dot-circle"></i> Infrastructure</a>
                         </div>
@@ -394,39 +394,33 @@
                     </a>
                 </div>
 
+                {{-- Category Tabs — single row across the top --}}
+                <div class="mp-prog__cats-row">
+                    @forelse($programCategories as $pc)
+                        <a href="javascript:void(0)"
+                            class="mp-prog__card {{ $loop->first ? 'mp-prog__card--active' : '' }}"
+                            data-progcat="prog-cat-{{ $pc->id }}"
+                            onclick="switchProgCat('prog-cat-{{ $pc->id }}', this)"
+                            @if ($pc->image) style="background-image: url('{{ asset($pc->image) }}')" @endif>
+                            <div class="mp-prog__card-inner">
+                                <span class="mp-prog__card-bar"></span>
+                                <span class="mp-prog__card-label">{{ $pc->title }}</span>
+                            </div>
+                        </a>
+                    @empty
+                        <a href="{{ route('academics') }}" class="mp-prog__card mp-prog__card--active">
+                            <div class="mp-prog__card-inner">
+                                <span class="mp-prog__card-bar"></span>
+                                <span class="mp-prog__card-label">Programs</span>
+                            </div>
+                        </a>
+                    @endforelse
+                </div>
+
                 {{-- Body --}}
                 <div class="mp-prog__body">
 
-                    {{-- LEFT: Stat + Category Cards (hover/click → right panel) --}}
-                    <div class="mp-prog__left">
-
-
-
-                        <div class="mp-prog__cards">
-                            @forelse($programCategories as $pc)
-                                <a href="javascript:void(0)"
-                                    class="mp-prog__card {{ $loop->first ? 'mp-prog__card--active' : '' }}"
-                                    data-progcat="prog-cat-{{ $pc->id }}"
-                                    onclick="switchProgCat('prog-cat-{{ $pc->id }}', this)"
-                                    @if ($pc->image) style="background-image: url('{{ asset($pc->image) }}')" @endif>
-                                    <div class="mp-prog__card-inner">
-                                        <span class="mp-prog__card-bar"></span>
-                                        <span class="mp-prog__card-label">{{ $pc->title }}</span>
-                                    </div>
-                                </a>
-                            @empty
-                                <a href="{{ route('academics') }}" class="mp-prog__card mp-prog__card--active">
-                                    <div class="mp-prog__card-inner">
-                                        <span class="mp-prog__card-bar"></span>
-                                        <span class="mp-prog__card-label">Programs</span>
-                                    </div>
-                                </a>
-                            @endforelse
-                        </div>
-
-                    </div>
-
-                    {{-- RIGHT: Programs grouped by category (panel per category) --}}
+                    {{-- Programs grouped by category (panel per category) --}}
                     <div class="mp-prog__right" id="progCatsArea">
 
                         @forelse($programCategories as $pc)
@@ -453,7 +447,8 @@
                                         </div>
                                     @endforelse
                                     @if ($visibleCount > 4)
-                                        <a href="{{ route('academics') }}#{{ $pc->slug }}" class="mp-prog__view-more">
+                                        <a href="{{ route('academics') }}#{{ $pc->slug }}"
+                                            class="mp-prog__view-more">
                                             View More <i class="fas fa-arrow-right"></i>
                                         </a>
                                     @endif
@@ -617,7 +612,8 @@
 
                     @foreach ($announcements as $announcement)
                         <span>
-                            <a href="{{ $announcement->link ?: ($announcement->slug ? route('news.show', $announcement->slug) : '#') }}">
+                            <a
+                                href="{{ $announcement->link ?: ($announcement->slug ? route('news.show', $announcement->slug) : '#') }}">
                                 {!! $announcement->title !!}
                             </a>
                         </span>
@@ -628,7 +624,8 @@
                     {{-- duplicate for seamless infinite loop --}}
                     @foreach ($announcements as $announcement)
                         <span>
-                            <a href="{{ $announcement->link ?: ($announcement->slug ? route('news.show', $announcement->slug) : '#') }}">
+                            <a
+                                href="{{ $announcement->link ?: ($announcement->slug ? route('news.show', $announcement->slug) : '#') }}">
                                 {!! $announcement->title !!}
                             </a>
                         </span>
@@ -645,8 +642,7 @@
     <div class="drawer" id="drawer" role="dialog" aria-label="Mobile Navigation" aria-modal="true">
         <div class="d-head">
             <div class="d-head__brand">
-                <img src="{{ asset('images/logo.png') }}" alt="GNIMT" height="44"
-                    onerror="this.src='https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png'">
+                <img src="{{ asset('images/logo.png') }}" alt="GNIMT" height="44">
                 <div>
                     <div class="d-head__bn1">Guru Nanak Institute</div>
                     <div class="d-head__bn2">of Medical Technology</div>
@@ -665,8 +661,8 @@
                         Vision</a>
                     <a href="{{ route('about') }}#rules-regulations"><i class="fas fa-dot-circle"></i> Rules &amp;
                         Regulations</a>
-                    <a href="{{ route('about.anti-ragging') }}"><i class="fas fa-dot-circle"></i> Anti Ragging
-                        Policy</a>
+                    {{-- <a href="{{ route('about.anti-ragging') }}"><i class="fas fa-dot-circle"></i> Anti Ragging
+                        Policy</a> --}}
                     <a href="{{ route('about') }}#infrastructure"><i class="fas fa-dot-circle"></i>
                         Infrastructure</a>
                     <div class="dms-h">Leadership</div>

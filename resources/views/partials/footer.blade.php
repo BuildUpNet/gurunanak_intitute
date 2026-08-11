@@ -9,7 +9,7 @@
                 {{-- COL 1: Brand + Contact --}}
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-logo">
-                        <img src="https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png"
+                        <img src="{{ asset('images/logo.png') }}"
                             alt="Guru Nanak Institute of Medical Technology" width="68" loading="lazy">
                     </div>
                     <div class="footer-brand-name">Guru Nanak Institute<br>of Medical Technology</div>

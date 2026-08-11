@@ -68,6 +68,7 @@ class ProgramDetailController extends Controller
         $program = ProgramDetail::create($data);
         $this->syncOpportunities($program, $request->input('opportunities', []));
         $this->syncLevels($program, $request->input('levels', []));
+        $this->syncGlanceItems($program, $request->input('glance_items', []));
         $this->syncCareerRoles($program, $request->input('career_roles', []));
         $this->syncGraduatesWork($program, $request->input('graduates_work', []));
         $this->syncFaqs($program, $request->input('faqs', []));
@@ -80,7 +81,7 @@ class ProgramDetailController extends Controller
     {
         $programCategories = ProgramCategory::where('status', 1)->orderBy('sort_order')->get();
         $courseCategories = CourseCategory::where('status', 1)->orderBy('sort_order')->get();
-        $programDetail->load('levels', 'careerRoles', 'graduatesWork', 'faqs');
+        $programDetail->load('levels', 'glanceItems', 'careerRoles', 'graduatesWork', 'faqs');
         return view('admin.program-details.form', [
             'program' => $programDetail,
             'programCategories' => $programCategories,
@@ -115,6 +116,7 @@ class ProgramDetailController extends Controller
         $programDetail->update($data);
         $this->syncOpportunities($programDetail, $request->input('opportunities', []));
         $this->syncLevels($programDetail, $request->input('levels', []));
+        $this->syncGlanceItems($programDetail, $request->input('glance_items', []));
         $this->syncCareerRoles($programDetail, $request->input('career_roles', []));
         $this->syncGraduatesWork($programDetail, $request->input('graduates_work', []));
         $this->syncFaqs($programDetail, $request->input('faqs', []));
@@ -199,6 +201,24 @@ class ProgramDetailController extends Controller
                 'program_category_id' => $categoryId,
                 'duration'            => $duration,
                 'sort_order'          => $i++,
+            ]);
+        }
+    }
+
+    private function syncGlanceItems(ProgramDetail $program, array $rows): void
+    {
+        $program->glanceItems()->delete();
+        $i = 0;
+        foreach ($rows as $row) {
+            $degree      = trim($row['degree'] ?? '');
+            $duration    = trim($row['duration'] ?? '');
+            $eligibility = trim($row['eligibility'] ?? '');
+            if ($degree === '' || $duration === '') continue;
+            $program->glanceItems()->create([
+                'degree'      => $degree,
+                'duration'    => $duration,
+                'eligibility' => $eligibility !== '' ? $eligibility : null,
+                'sort_order'  => $i++,
             ]);
         }
     }

@@ -66,9 +66,14 @@
                         <span class="hp-eyebrow">UGC Recognised &nbsp;·&nbsp; Est. 1991 &nbsp;·&nbsp; Patiala &amp;
                             Karnal</span>
                         <h1 class="hp-welcome__h1">Where <em>Medical Careers</em><br>Are Built for Life</h1>
-                        <p class="hp-welcome__body">Guru Nanak Institute of Medical Technology offers industry-leading B.Voc
+                        <p class="hp-welcome__body">Guru Nanak Institute of Medical Technology offers industry-leading B.sc,
+                            B.Voc
                             &amp; Diploma programs in allied health sciences. Hands-on clinical training, modern labs, and
                             99.9% placement support across two campuses.</p>
+
+
+
+
                         <div class="hp-welcome__actions">
                             <a href="{{ route('admissions.form') }}" class="hp-btn hp-btn--red">Apply Now <i
                                     class="fas fa-arrow-right"></i></a>
@@ -77,7 +82,7 @@
                         </div>
                     </div>
                     <div class="hp-welcome__right">
-                        @foreach ([['fas fa-calendar-check', '33+', 'Years of Excellence'], ['fas fa-user-graduate', '5000+', 'Alumni Placed'], ['fas fa-hospital-alt', '50+', 'Hospital Tie-Ups'], ['fas fa-book-medical', '20+', 'Programs Offered']] as [$icon, $num, $label])
+                        @foreach ([['fas fa-calendar-check', '35+', 'Years of Excellence'], ['fas fa-user-graduate', '5000+', 'Alumni Placed'], ['fas fa-hospital-alt', '50+', 'Hospital Tie-Ups'], ['fas fa-book-medical', '20+', 'Programs Offered']] as [$icon, $num, $label])
                             <div class="hp-welcome__badge rv">
                                 <div class="hp-welcome__badge-icon"><i class="{{ $icon }}" aria-hidden="true"></i>
                                 </div>
@@ -414,7 +419,8 @@
                 <div class="hp-news__grid rv d1">
                     <div class="hp-news__featured">
                         <span class="hp-news__feat-tag">Admissions</span>
-                        <h3 class="hp-news__feat-title">Admissions Open 2025–26 — Limited Seats Across All B.Voc &amp;
+                        <h3 class="hp-news__feat-title">Admissions Open 2025–26 — Limited Seats Across All B.sc, B.Voc
+                            &amp;
                             Diploma Programs</h3>
                         <p class="hp-news__feat-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 15 May 2025
                         </p>
@@ -595,7 +601,8 @@
                                 </div>
                                 <textarea name="message" class="hp-form__field" rows="3" placeholder="Your Message (Optional)"
                                     aria-label="Message" style="width:100%;margin-bottom:14px;resize:vertical;"></textarea>
-                                <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                                <div class="g-recaptcha"
+                                    data-sitekey="{{ config('services.recaptcha.site_key') ?: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}"
                                     style="margin-bottom:14px;"></div>
                                 <button type="submit" class="hp-btn hp-btn--red hp-btn--full">
                                     <i class="fas fa-paper-plane" aria-hidden="true"></i> Submit Enquiry
@@ -628,26 +635,24 @@
         @php
             $hpCoursesByCategory = $courseCategories->mapWithKeys(function ($category) {
                 return [
-                    $category->id => $category->courses
-                        ->map(fn($c) => ['id' => $c->id, 'title' => $c->title])
-                        ->values(),
+                    $category->id => $category->courses->map(fn($c) => ['id' => $c->id, 'title' => $c->title])->values(),
                 ];
             });
         @endphp
         const hpCoursesByCategory = @json($hpCoursesByCategory);
         const hpAllCourses = Object.values(hpCoursesByCategory).flat();
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const catSel = document.getElementById('hp_course_category_id');
             const courSel = document.getElementById('hp_course_id');
             if (catSel && courSel) {
                 function renderCourses(list) {
                     courSel.innerHTML = '<option value="">Course Interested In</option>';
-                    list.forEach(function (c) {
+                    list.forEach(function(c) {
                         courSel.innerHTML += `<option value="${c.id}">${c.title}</option>`;
                     });
                 }
                 renderCourses(hpAllCourses);
-                catSel.addEventListener('change', function () {
+                catSel.addEventListener('change', function() {
                     renderCourses(this.value ? (hpCoursesByCategory[this.value] || []) : hpAllCourses);
                 });
             }

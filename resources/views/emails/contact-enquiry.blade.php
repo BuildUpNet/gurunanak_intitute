@@ -15,7 +15,7 @@
 
                     <tr>
                         <td align="center" style="background:#b91c1c;padding:22px 30px;color:#fff;">
-                            <img src="https://www.gurunanakinstitute.com/wp-content/themes/GNIMT/images/logo.png"
+                            <img src="{{ asset('images/logo.png') }}"
                                 alt="GNIMT" width="80">
                             <h2 style="margin:0;font-size:22px;font-weight:700;">New Enquiry Received</h2>
                             <p style="margin:8px 0 0;font-size:12px;">Guru Nanak Institute of Medical Technology</p>

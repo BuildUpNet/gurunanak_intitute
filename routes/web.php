@@ -31,7 +31,7 @@ Route::get('/about/director-message', fn() => redirect('/about#directors-message
 Route::get('/about/vision-mission', fn() => redirect('/about#vision-mission'))->name('about.vision');
 Route::get('/about/infrastructure', fn() => redirect('/about#infrastructure'))->name('about.infrastructure');
 Route::get('/about/rules-regulations', fn() => redirect('/about#rules-regulations'))->name('about.rules');
-Route::get('/about/anti-ragging', [PageController::class, 'antiRagging'])->name('about.anti-ragging');
+// Route::get('/about/anti-ragging', [PageController::class, 'antiRagging'])->name('about.anti-ragging');
 Route::get('/academics', [PageController::class, 'academics'])->name('academics');
 Route::get('/admissions', [PageController::class, 'admissions'])->name('admissions');
 Route::get('/admissions/form', [PageController::class, 'admissionForm'])->name('admissions.form');
@@ -73,7 +73,7 @@ Route::post('/enquiry', [EnquiryController::class, 'store'])->middleware('thrott
 Route::post('/contact', [EnquiryController::class, 'contact'])->middleware('throttle:5,1')->name('contact.store');
 
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
-Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/login', [AuthController::class, 'login'])->middleware('throttle:10,1')->name('admin.login.submit');
 // Admin logout - only logged in users
 Route::post('/admin/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
@@ -130,6 +130,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/admissions', [AdmissionController::class, 'admissiondetail'])
         ->name('admissions.detail');
+    Route::get('/admissions/export', [AdmissionController::class, 'exportExcel'])
+        ->name('admissions.export');
     Route::get('/admissions/{application}', [AdmissionController::class, 'showlist'])
         ->name('admissions.showlist');
 });
@@ -137,6 +139,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 Route::get('/admin/contact-enquiries', [EnquiryController::class, 'contactList'])
     ->middleware(['auth', 'admin'])
     ->name('admin.contact-enquiries.index');
+
+Route::get('/admin/contact-enquiries/export', [EnquiryController::class, 'exportContactExcel'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.contact-enquiries.export');
 
 Route::get('/admin/enquiries', [EnquiryController::class, 'enquiryList'])
     ->middleware(['auth', 'admin'])

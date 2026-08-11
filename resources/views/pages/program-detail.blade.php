@@ -75,15 +75,29 @@
                         </div>
 
                         <div class="lx-glass-rows">
-                            @foreach ([
-                                ['Degree',    $program->title],
-                                ['Duration',  $program->duration],
-                                ['Level',     $program->level],
-                                ['Campus',    $program->locations],
-                            ] as [$lbl, $val])
-                                <div class="lx-glass-row">
-                                    <span class="lx-glass-row__lbl">{{ $lbl }}</span>
-                                    <span class="lx-glass-row__val">{!! $val !!}</span>
+                            @php
+                                $glanceItems = $program->glanceItems->isNotEmpty()
+                                    ? $program->glanceItems
+                                    : collect([(object) [
+                                        'degree'      => $program->title,
+                                        'duration'    => $program->duration,
+                                        'eligibility' => $program->eligibility,
+                                    ]]);
+                            @endphp
+                            @foreach ($glanceItems as $item)
+                                <div class="lx-glass-group">
+                                    @foreach ([
+                                        ['Degree',      $item->degree],
+                                        ['Duration',    $item->duration],
+                                        ['Eligibility', $item->eligibility],
+                                    ] as [$lbl, $val])
+                                        @if($val)
+                                            <div class="lx-glass-row">
+                                                <span class="lx-glass-row__lbl">{{ $lbl }}</span>
+                                                <span class="lx-glass-row__val">{{ $val }}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             @endforeach
                         </div>

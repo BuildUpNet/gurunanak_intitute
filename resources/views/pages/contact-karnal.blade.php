@@ -229,7 +229,7 @@
                                         placeholder="Write your query here..."></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <div class="g-recaptcha mb-3" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                                    <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') ?: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}"></div>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="gc-submit">

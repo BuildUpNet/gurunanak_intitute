@@ -5,9 +5,14 @@
 @endsection
 
 @section('content')
-<div class="page-title mb-4">
-    <h2>Contact Enquiries</h2>
-    <p>Manage Patiala and Karnal branch enquiries</p>
+<div class="page-title mb-4 d-flex justify-content-between align-items-center">
+    <div>
+        <h2>Contact Enquiries</h2>
+        <p>Manage Patiala and Karnal branch enquiries</p>
+    </div>
+    <a href="{{ route('admin.contact-enquiries.export', request()->query()) }}" class="btn btn-success">
+        <i class="fas fa-file-excel me-1"></i> Download Excel
+    </a>
 </div>
 
 <div class="panel-card mb-3 admin-filter-bar">
