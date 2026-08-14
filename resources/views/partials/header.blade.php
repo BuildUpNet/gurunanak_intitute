@@ -7,9 +7,9 @@
     <div class="top-bar-premium">
         <div class="tbp-inner">
             <div class="tbp-left">
-                <a href="mailto:info@gurunanakinstitute.com" class="tbp-email">
+                <a href="mailto:gnimt.official@gmail.com" class="tbp-email">
                     <i class="fas fa-envelope"></i>
-                    <span class="d-none d-md-inline">info@gurunanakinstitute.com</span>
+                    <span class="d-none d-md-inline">gnimt.official@gmail.com</span>
                 </a>
                 <div class="tbp-socials">
                     <a href="https://www.facebook.com/gurunanakinstitutepatiala" target="_blank" rel="noopener"
@@ -33,17 +33,15 @@
                     <a href="tel:8283929908" class="nav-helpline-block">
                         <div class="nav-helpline-icon"><i class="fas fa-phone-alt"></i></div>
                         <div class="nav-helpline-text">
-                            <span class="nav-helpline-label">Admission Helpline</span>
+                            <span class="nav-helpline-label">Admission Helpline Patiala</span>
                             <span class="nav-helpline-num">+91-8283929908</span>
-                            <span class="nav-helpline-city">Patiala</span>
                         </div>
                     </a>
                     <a href="tel:8150019000" class="nav-helpline-block">
                         <div class="nav-helpline-icon"><i class="fas fa-phone-alt"></i></div>
                         <div class="nav-helpline-text">
-                            <span class="nav-helpline-label">Admission Helpline</span>
+                            <span class="nav-helpline-label">Admission Helpline Karnal</span>
                             <span class="nav-helpline-num">+91-8150019000</span>
-                            <span class="nav-helpline-city">Karnal</span>
                         </div>
                     </a>
                 </div>
@@ -91,8 +89,6 @@
                         <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false">Campus life <i
                                 class="fas fa-chevron-down arr"></i></a>
                     </li>
-
-
 
                     <li class="hd" data-dp="dp-ach" role="none">
                         <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false">Achievers <i
@@ -340,37 +336,6 @@
                                 <i class="fas fa-folder-open"></i>
                                 View Gallery
                             </a>
-                        </div>
-                    @endforelse
-                </div>
-
-                {{-- Column 3: Selected Category Image + Description (only for categories with subcategories) --}}
-                <div class="mp3-preview">
-                    @forelse($categories as $key => $category)
-                        @continue($category->subcategories->isEmpty())
-                        <div class="fc gallery-preview-panel {{ optional($firstGalleryCatWithSub)->id === $category->id ? 'active' : '' }}"
-                            id="preview-category-{{ $category->id }}">
-
-                            <img src="{{ asset($category->image) }}" alt="{{ $category->title }}" loading="lazy">
-
-                            <h5>
-                                <i class="fas fa-images me-2" style="color:var(--gold)"></i>
-                                {{ $category->title }}
-                            </h5>
-
-                            <p>
-                                {{ $category->short_description }}
-                            </p>
-
-                            <a href="{{ route('gallery', ['category' => $category->id]) }}" class="fc-cta">
-                                View Gallery →
-                            </a>
-                        </div>
-                    @empty
-                        <div class="fc gallery-preview-panel active">
-                            <h5>Gallery</h5>
-                            <p>No category found.</p>
-                            <a href="{{ route('gallery') }}" class="fc-cta">View Gallery →</a>
                         </div>
                     @endforelse
                 </div>

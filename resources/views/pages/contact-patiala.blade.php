@@ -52,9 +52,9 @@
             <div class="gc-pillar__icon"><i class="fas fa-phone-square-alt"></i></div>
             <div><span class="gc-pillar__lbl">Landline</span><span class="gc-pillar__val">0175-2351810</span></div>
         </a>
-        <a href="mailto:info@gurunanakinstitute.com" class="gc-pillar">
+        <a href="mailto:gnimt.official@gmail.com" class="gc-pillar">
             <div class="gc-pillar__icon"><i class="fas fa-envelope"></i></div>
-            <div><span class="gc-pillar__lbl">Email</span><span class="gc-pillar__val">info@gurunanakinstitute.com</span>
+            <div><span class="gc-pillar__lbl">Email</span><span class="gc-pillar__val">gnimt.official@gmail.com</span>
             </div>
         </a>
         <a href="https://wa.me/918283929908" target="_blank" class="gc-pillar">
@@ -114,7 +114,7 @@
                         <div class="gc-info-block">
                             <div class="gc-info-block__title"><i class="fas fa-envelope"></i> Email &amp; WhatsApp</div>
                             <div class="gc-info-block__body">
-                                <a href="mailto:info@gurunanakinstitute.com">info@gurunanakinstitute.com</a>
+                                <a href="mailto:gnimt.official@gmail.com">gnimt.official@gmail.com</a>
                                 <a href="https://wa.me/918283929908" target="_blank">
                                     <i class="fab fa-whatsapp" style="color:#25d366;"></i> +91-8283929908
                                 </a>

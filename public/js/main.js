@@ -162,17 +162,13 @@
         link.addEventListener("mouseenter", function () {
             document.querySelectorAll(".mp3-cat").forEach(function (c) { c.classList.remove("active"); });
             var yearsContainer = document.querySelector(".mp3-years-container");
-            var preview = document.querySelector(".mp3-preview");
             if (yearsContainer) yearsContainer.style.display = "none";
-            if (preview) preview.style.display = "none";
         });
     });
     document.querySelectorAll(".mp3-cat").forEach(function (cat) {
         cat.addEventListener("mouseenter", function () {
             var yearsContainer = document.querySelector(".mp3-years-container");
-            var preview = document.querySelector(".mp3-preview");
             if (yearsContainer) yearsContainer.style.display = "";
-            if (preview) preview.style.display = "";
         });
     });
 
@@ -383,11 +379,6 @@ window.switchGalleryCat = function (targetId, el) {
     if (target) {
         target.classList.add("active");
     }
-
-    document.querySelectorAll(".gallery-preview-panel").forEach(function (item) {
-        item.classList.remove("active");
-        item.style.display = "none";
-    });
 
     var previewId = el.getAttribute("data-preview");
     var preview = document.getElementById(previewId);

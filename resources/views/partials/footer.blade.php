@@ -9,8 +9,8 @@
                 {{-- COL 1: Brand + Contact --}}
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-logo">
-                        <img src="{{ asset('images/logo.png') }}"
-                            alt="Guru Nanak Institute of Medical Technology" width="68" loading="lazy">
+                        <img src="{{ asset('images/logo.png') }}" alt="Guru Nanak Institute of Medical Technology"
+                            width="68" loading="lazy">
                     </div>
                     <div class="footer-brand-name">Guru Nanak Institute<br>of Medical Technology</div>
                     <div class="footer-tagline">UGC Recognised &nbsp;|&nbsp; Est. 1991</div>
@@ -21,7 +21,10 @@
                     <address class="footer-contacts" style="font-style:normal;">
                         <div class="fc-row">
                             <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                            <span>Near Civil Hospital, Patiala, Punjab – 147001</span>
+                            <a target="_blank"
+                                href="https://www.google.com/maps/place/Guru+Nanak+Institute+of+Medical+Technology/@30.3470399,76.4024656,17z/data=!3m1!4b1!4m6!3m5!1s0x391026e179d3ac77:0x379fe2d59467c69d!8m2!3d30.3470399!4d76.4024656!16s%2Fg%2F11b8zv3n9m">
+                                near bus stand, Main road old factory area, Punjab, INDIA - 147003
+                            </a>
                         </div>
                         <div class="fc-row">
                             <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
@@ -36,7 +39,7 @@
                         </div>
                         <div class="fc-row">
                             <i class="fas fa-envelope" aria-hidden="true"></i>
-                            <a href="mailto:info@gurunanakinstitute.com">info@gurunanakinstitute.com</a>
+                            <a href="mailto:gnimt.official@gmail.com">gnimt.official@gmail.com</a>
                         </div>
                     </address>
                     <div class="footer-social" aria-label="Social Media Links">

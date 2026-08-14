@@ -114,7 +114,7 @@
             </div>
 
             <p class="lp-footer-note">
-                Need help? Contact us at <a href="mailto:info@gurunanakinstitute.com">info@gurunanakinstitute.com</a><br>
+                Need help? Contact us at <a href="mailto:gnimt.official@gmail.com">gnimt.official@gmail.com</a><br>
                 or call <a href="tel:8283929908">+91-8283929908</a> (Patiala) &nbsp;/&nbsp; <a href="tel:8150019000">+91-8150019000</a> (Karnal)
             </p>
         </div>

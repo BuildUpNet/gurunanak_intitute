@@ -4173,11 +4173,6 @@ body {
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
 }
-.mp3-preview {
-    flex: 1;
-    background: #fff;
-    padding: 24px 32px;
-}
 
 /* ═══════════════════════════════════════
    FAQ SECTION — partials/faq.blade.php
@@ -4329,14 +4324,6 @@ body {
         padding-left: 18px;
     }
 }
-.gallery-preview-panel {
-    display: none;
-}
-
-.gallery-preview-panel.active {
-    display: block;
-}
-
 /* ══════════════════════════════════════════════════
    PROGRAMS MEGA PANEL — Redesigned
 ══════════════════════════════════════════════════ */

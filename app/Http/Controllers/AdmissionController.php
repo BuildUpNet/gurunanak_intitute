@@ -122,6 +122,8 @@ class AdmissionController extends Controller
 
     public function showlist(AdmissionApplication $application)
     {
+         $application->is_viewed = true;
+         $application->save();
         return view('admin.admissions.show', compact('application'));
     }
 

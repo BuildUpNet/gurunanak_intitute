@@ -365,7 +365,7 @@
 
                 <div class="lx-cta__kicker">
                     <span class="lx-cta__kicker-line"></span>
-                    <span class="lx-cta__kicker-text">Guru Nanak Institute of Management &amp; Technology</span>
+                    <span class="lx-cta__kicker-text">Guru Nanak Institute of Medical Technology</span>
                     <span class="lx-cta__kicker-line"></span>
                 </div>
 

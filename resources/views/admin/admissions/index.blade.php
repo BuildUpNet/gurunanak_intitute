@@ -54,6 +54,7 @@
                         <th>Mobile</th>
                         <th>Email</th>
                         <th>Date</th>
+                        <th>Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -76,6 +77,14 @@
                             <td>{{ $app->mobile }}</td>
                             <td>{{ $app->email ?? '-' }}</td>
                             <td>{{ $app->created_at->format('d M Y') }}</td>
+
+                            <td>
+                                @if($app->is_viewed)
+                               <span class="status viewed">Viewed</span>
+                                @else
+                               <span class="status pending">Pending</span>
+                                @endif
+                            </td>
 
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">

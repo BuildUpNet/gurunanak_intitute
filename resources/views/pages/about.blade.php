@@ -27,10 +27,22 @@
 
                 <div class="abt-split__img abt-img-stack rvl">
                     <div class="abt-img-main">
-                        <img src="{{ asset('images/slides/Slide-Img-2.jpg') }}" alt="GNIMT Patiala Campus" loading="lazy">
+                        @if($aboutMainImage)
+                            <img src="{{ asset('storage/' . $aboutMainImage->image) }}"
+                                 alt="{{ $aboutMainImage->alt_text ?? 'GNIMT Patiala Campus' }}" loading="lazy">
+                        @else
+                            <img src="{{ asset('images/slides/Slide-Img-2.jpg') }}"
+                                 alt="GNIMT Patiala Campus" loading="lazy">
+                        @endif
                     </div>
                     <div class="abt-img-accent">
-                        <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}" alt="GNIMT Students" loading="lazy">
+                        @if($aboutAccentImage)
+                            <img src="{{ asset('storage/' . $aboutAccentImage->image) }}"
+                                 alt="{{ $aboutAccentImage->alt_text ?? 'GNIMT Students' }}" loading="lazy">
+                        @else
+                            <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}"
+                                 alt="GNIMT Students" loading="lazy">
+                        @endif
                     </div>
                     <div class="abt-est-badge"><span class="abt-est-year">1991</span><span class="abt-est-label">Est.
                             Year</span></div>

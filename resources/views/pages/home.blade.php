@@ -18,7 +18,7 @@
   "description":"Premier medical technology institute offering UGC recognised programs since 1991.",
   "address":{"@type":"PostalAddress","streetAddress":"Near Civil Hospital","addressLocality":"Patiala","addressRegion":"Punjab","postalCode":"147001","addressCountry":"IN"},
   "telephone":"+91-8283929908",
-  "email":"info@gurunanakinstitute.com",
+  "email":"gnimt.official@gmail.com",
   "foundingDate":"1991"
 }
 </script>
@@ -103,12 +103,24 @@
                 <div class="hp-about__grid">
                     <div class="hp-about__images rvl">
                         <div class="hp-about__img-main">
-                            <img src="{{ asset('images/slides/Slide-Img-2.jpg') }}" alt="GNIMT Institute Patiala"
-                                loading="lazy">
+                            @if($aboutMainImage)
+                                <img src="{{ asset('storage/' . $aboutMainImage->image) }}"
+                                     alt="{{ $aboutMainImage->alt_text ?? 'GNIMT Institute Patiala' }}"
+                                     loading="lazy">
+                            @else
+                                <img src="{{ asset('images/slides/Slide-Img-2.jpg') }}"
+                                     alt="GNIMT Institute Patiala" loading="lazy">
+                            @endif
                         </div>
                         <div class="hp-about__img-accent">
-                            <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}" alt="GNIMT Students at Training"
-                                loading="lazy">
+                            @if($aboutAccentImage)
+                                <img src="{{ asset('storage/' . $aboutAccentImage->image) }}"
+                                     alt="{{ $aboutAccentImage->alt_text ?? 'GNIMT Students at Training' }}"
+                                     loading="lazy">
+                            @else
+                                <img src="{{ asset('images/slides/Slide-Img-3.jpg') }}"
+                                     alt="GNIMT Students at Training" loading="lazy">
+                            @endif
                         </div>
                         <div class="hp-about__est-badge">
                             <span class="hp-about__est-year">1991</span>

@@ -116,6 +116,12 @@
                         <span>Hero Slider</span>
                     </a>
                 </li>
+                <li class="{{ request()->routeIs('admin.about-images.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.about-images.index') }}">
+                        <i class="fas fa-image"></i>
+                        <span>About Images</span>
+                    </a>
+                </li>
 <li>
     <a href="{{ route('admin.faqs.index') }}">
         <i class="fas fa-question-circle"></i>

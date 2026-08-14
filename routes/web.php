@@ -21,6 +21,7 @@ use App\Http\Controllers\ProgramDetailController;
 use App\Http\Controllers\ProgramItemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\AboutImageController;
 
 /* ── MAIN PAGES ── */
 
@@ -105,6 +106,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/hero-slides/edit/{id}', [HomeController::class, 'edit'])->name('hero-slides.edit');
     Route::post('/hero-slides/update/{id}', [HomeController::class, 'update'])->name('hero-slides.update');
     Route::delete('/hero-slides/delete/{id}', [HomeController::class, 'destroy'])->name('hero-slides.delete');
+});
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('about-images', AboutImageController::class);
 });
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('course-categories', CourseCategoryController::class);

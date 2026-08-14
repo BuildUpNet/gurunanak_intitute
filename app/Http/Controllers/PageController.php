@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\ProgramDetail;
 use App\Models\Announcement;
 use App\Models\AdmissionApplication;
+use App\Models\AboutImage;
 
 class PageController extends Controller
 {
@@ -33,11 +34,17 @@ class PageController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        return view('pages.home', compact('slides', 'announcements', 'courseCategories'));
+        $aboutMainImage = AboutImage::active()->where('position', 'main')->orderBy('sort_order')->first();
+        $aboutAccentImage = AboutImage::active()->where('position', 'accent')->orderBy('sort_order')->first();
+
+        return view('pages.home', compact('slides', 'announcements', 'courseCategories', 'aboutMainImage', 'aboutAccentImage'));
     }
     public function about()
     {
-        return view('pages.about');
+        $aboutMainImage = AboutImage::active()->where('position', 'main')->orderBy('sort_order')->first();
+        $aboutAccentImage = AboutImage::active()->where('position', 'accent')->orderBy('sort_order')->first();
+
+        return view('pages.about', compact('aboutMainImage', 'aboutAccentImage'));
     }
 
     public function administration()
