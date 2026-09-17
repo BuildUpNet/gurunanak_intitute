@@ -11,12 +11,18 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
+        $sort = in_array($request->get('sort'), ['title', 'slug', 'is_active', 'created_at'])
+            ? $request->get('sort')
+            : 'created_at';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
         $categories = GalleryCategory::query()
             ->when($request->filled('search'), fn($q) => $q->where('title', 'LIKE', '%' . $request->search . '%'))
-            ->latest()
+            ->orderBy($sort, $direction)
             ->paginate(10)
             ->withQueryString();
-        return view('admin.gallery-categories.index', compact('categories'));
+
+        return view('admin.gallery-categories.index', compact('categories', 'sort', 'direction'));
     }
 
     public function create()

@@ -20,8 +20,8 @@
                     <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i
                             class="fab fa-youtube"></i></a>
                     --}}
-                    <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter/X"><i
-                            class="fab fa-twitter"></i></a>
+                    {{-- <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter/X"><i
+                            class="fab fa-twitter"></i></a> --}}
                 </div>
             </div>
             <div class="tbp-right">

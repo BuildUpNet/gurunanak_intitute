@@ -47,8 +47,26 @@
                 <thead class="table-light">
                     <tr>
                         <th>Category</th>
-                        <th>Title</th>
-                        <th>Status</th>
+                        <th class="sortable-th">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'title', 'direction' => $sort === 'title' && $direction === 'asc' ? 'desc' : 'asc']) }}">
+                                Title
+                                @if ($sort === 'title')
+                                    <i class="fas fa-sort-{{ $direction === 'asc' ? 'up' : 'down' }}"></i>
+                                @else
+                                    <i class="fas fa-sort text-muted"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th class="sortable-th">
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'is_active', 'direction' => $sort === 'is_active' && $direction === 'asc' ? 'desc' : 'asc']) }}">
+                                Status
+                                @if ($sort === 'is_active')
+                                    <i class="fas fa-sort-{{ $direction === 'asc' ? 'up' : 'down' }}"></i>
+                                @else
+                                    <i class="fas fa-sort text-muted"></i>
+                                @endif
+                            </a>
+                        </th>
                         <th width="180">Action</th>
                     </tr>
                 </thead>

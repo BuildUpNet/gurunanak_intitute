@@ -63,8 +63,8 @@
         {{-- No YouTube channel link provided yet — re-enable once available:
         <a href="#" target="_blank" rel="noopener" aria-label="YouTube" class="ss-link ss-link--yt"><i class="fab fa-youtube"></i></a>
         --}}
-        <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter"
-            class="ss-link ss-link--tw"><i class="fab fa-twitter"></i></a>
+        {{-- <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter"
+            class="ss-link ss-link--tw"><i class="fab fa-twitter"></i></a> --}}
         <a href="https://wa.me/918283929908" target="_blank" rel="noopener" aria-label="WhatsApp"
             class="ss-link ss-link--wa"><i class="fab fa-whatsapp"></i></a>
     </div>

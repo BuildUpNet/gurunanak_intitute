@@ -203,4 +203,43 @@ class EnquiryController extends Controller
 
         return view('admin.enquiries.index', compact('enquiries'));
     }
+
+    public function exportEnquiryExcel(Request $request)
+    {
+        $enquiries = Enquiry::with(['courseCategory'])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($q2) use ($request) {
+                    $q2->where('name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('phone', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $request->search . '%');
+                });
+            })
+            ->when($request->filled('branch'), fn($q) => $q->where('branch', $request->branch))
+            ->latest()
+            ->get();
+
+        $filename = 'admission-enquiries-' . now()->format('Y-m-d') . '.csv';
+
+        return response()->streamDownload(function () use ($enquiries) {
+            $handle = fopen('php://output', 'w');
+            fputs($handle, "\xEF\xBB\xBF");
+            fputcsv($handle, ['ID', 'Name', 'Phone', 'Email', 'Branch', 'Course Category', 'Course', 'Message', 'Submitted On']);
+
+            foreach ($enquiries as $e) {
+                fputcsv($handle, [
+                    $e->id,
+                    $e->name,
+                    $e->phone,
+                    $e->email,
+                    $e->branch,
+                    $e->courseCategory->title ?? '-',
+                    $e->course ?? '-',
+                    $e->message,
+                    $e->created_at->format('d-m-Y H:i'),
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, ['Content-Type' => 'text/csv']);
+    }
 }

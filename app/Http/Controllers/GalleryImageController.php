@@ -13,18 +13,23 @@ class GalleryImageController extends Controller
 {
     public function index(Request $request)
     {
+        $sort = in_array($request->get('sort'), ['title', 'is_active', 'created_at'])
+            ? $request->get('sort')
+            : 'created_at';
+        $direction = $request->get('direction') === 'asc' ? 'asc' : 'desc';
+
         $images = GalleryImage::with(['category', 'subCategory'])
             ->when($request->filled('search'), fn($q) => $q->where('title', 'LIKE', '%' . $request->search . '%'))
             ->when($request->filled('gallery_category_id'), fn($q) => $q->where('gallery_category_id', $request->gallery_category_id))
             ->when($request->filled('gallery_sub_category_id'), fn($q) => $q->where('gallery_sub_category_id', $request->gallery_sub_category_id))
-            ->latest()
+            ->orderBy($sort, $direction)
             ->paginate(10)
             ->withQueryString();
 
         $categories = GalleryCategory::orderBy('title')->get();
         $subCategories = GallerySubCategory::orderBy('title')->get();
 
-        return view('admin.gallery-images.index', compact('images', 'categories', 'subCategories'));
+        return view('admin.gallery-images.index', compact('images', 'categories', 'subCategories', 'sort', 'direction'));
     }
 
     public function create()

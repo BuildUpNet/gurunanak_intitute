@@ -152,3 +152,7 @@ Route::get('/admin/contact-enquiries/export', [EnquiryController::class, 'export
 Route::get('/admin/enquiries', [EnquiryController::class, 'enquiryList'])
     ->middleware(['auth', 'admin'])
     ->name('admin.enquiries.index');
+
+Route::get('/admin/enquiries/export', [EnquiryController::class, 'exportEnquiryExcel'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.enquiries.export');

@@ -36,8 +36,12 @@
                     </div>
 
                     <h1 class="lx-hero__h1">
-                        {{ Str::beforeLast($program->title, ' ') }}
-                        <em>{{ Str::afterLast($program->title, ' ') }}</em>
+                        @if (Str::contains($program->title, ' '))
+                            {{ Str::beforeLast($program->title, ' ') }}
+                            <em>{{ Str::afterLast($program->title, ' ') }}</em>
+                        @else
+                            <em>{{ $program->title }}</em>
+                        @endif
                     </h1>
 
                     <div class="lx-hero__divline">

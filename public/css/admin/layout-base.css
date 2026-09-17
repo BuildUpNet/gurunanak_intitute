@@ -277,3 +277,23 @@
                 padding: 18px;
             }
         }
+
+.sortable-th a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.sortable-th a:hover {
+    color: #0d47a1;
+}
+
+.sortable-th i {
+    font-size: 12px;
+}
+
+.sortable-th i.text-muted {
+    opacity: 0.4;
+}

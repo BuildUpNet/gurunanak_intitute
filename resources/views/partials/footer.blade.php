@@ -51,8 +51,8 @@
                         <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i
                                 class="fab fa-youtube"></i></a>
                         --}}
-                        <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter"><i
-                                class="fab fa-twitter"></i></a>
+                        {{-- <a href="https://x.com/GuruPatiala" target="_blank" rel="noopener" aria-label="Twitter"><i
+                                class="fab fa-twitter"></i></a> --}}
                         <a href="https://wa.me/918283929908" target="_blank" rel="noopener" aria-label="WhatsApp"><i
                                 class="fab fa-whatsapp"></i></a>
                     </div>
