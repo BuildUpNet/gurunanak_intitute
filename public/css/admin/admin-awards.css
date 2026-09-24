@@ -1,0 +1,22 @@
+/* Admin — Awards & Recognitions (index + form) */
+.award-thead { background: #f5f7fb; }
+.award-action-col { width: 120px; }
+.award-thumb {
+    width: 120px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+.award-form-card { max-width: 760px; }
+.award-preview {
+    display: none;
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px dashed #ccc;
+    margin-top: 10px;
+}
+.award-preview--show { display: block; }
+.award-form-card .ck-editor__editable { min-height: 220px; }

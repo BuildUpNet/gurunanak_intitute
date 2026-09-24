@@ -14,6 +14,7 @@ use App\Models\ProgramDetail;
 use App\Models\Announcement;
 use App\Models\AdmissionApplication;
 use App\Models\AboutImage;
+use App\Models\Award;
 
 class PageController extends Controller
 {
@@ -43,8 +44,9 @@ class PageController extends Controller
     {
         $aboutMainImage = AboutImage::active()->where('position', 'main')->orderBy('sort_order')->first();
         $aboutAccentImage = AboutImage::active()->where('position', 'accent')->orderBy('sort_order')->first();
+        $awards = Award::active()->orderBy('sort_order')->orderBy('id')->get();
 
-        return view('pages.about', compact('aboutMainImage', 'aboutAccentImage'));
+        return view('pages.about', compact('aboutMainImage', 'aboutAccentImage', 'awards'));
     }
 
     public function administration()

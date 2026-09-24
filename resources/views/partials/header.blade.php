@@ -429,7 +429,9 @@
                                         <a class="mp-prog__cat-link mp-prog__cat-link--detail"
                                             href="{{ route('program.show', $pd->slug) }}"
                                             data-search="{{ strtolower($pd->title . ' ' . $pd->short_name . ' ' . $pd->level) }}">
-                                            <span class="mp-prog__cat-badge">{{ $pd->short_name }}</span>
+                                            @if ($pd->short_name)
+                                                <span class="mp-prog__cat-badge">{{ $pd->short_name }}</span>
+                                            @endif
                                             {{ $pd->title }}
                                         </a>
                                     @endforeach
@@ -694,7 +696,7 @@
                         <div class="dms-h">Program Detail Pages</div>
                         @foreach ($programPageDetails as $pd)
                             <a href="{{ route('program.show', $pd->slug) }}">
-                                <i class="fas fa-dot-circle"></i> {{ $pd->short_name }} — {{ $pd->title }}
+                                <i class="fas fa-dot-circle"></i> {{ $pd->short_name ? $pd->short_name . ' — ' : '' }}{{ $pd->title }}
                             </a>
                         @endforeach
                     @endif

@@ -389,3 +389,16 @@ window.switchGalleryCat = function (targetId, el) {
     }
 };
 })();
+
+/* Expose sticky header height as --site-header-h so the home hero can fill exactly one screen below it */
+(function () {
+    "use strict";
+    var header = document.getElementById("siteHeader");
+    if (!header) return;
+    function setHeaderH() {
+        document.documentElement.style.setProperty("--site-header-h", header.offsetHeight + "px");
+    }
+    setHeaderH();
+    window.addEventListener("resize", setHeaderH, { passive: true });
+    window.addEventListener("load", setHeaderH);
+})();

@@ -122,6 +122,18 @@
                         <span>About Images</span>
                     </a>
                 </li>
+                <li class="{{ request()->routeIs('admin.awards.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.awards.index') }}">
+                        <i class="fas fa-award"></i>
+                        <span>Awards &amp; Recognitions</span>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('admin.api-access.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.api-access.index') }}">
+                        <i class="fas fa-plug"></i>
+                        <span>API Access</span>
+                    </a>
+                </li>
 <li>
     <a href="{{ route('admin.faqs.index') }}">
         <i class="fas fa-question-circle"></i>

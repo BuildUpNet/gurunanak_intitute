@@ -2,6 +2,10 @@
 
 @section('title', ($program ? 'Edit' : 'Add') . ' Program | Admin')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin/admin-program-details-form.css') }}">
+@endsection
+
 @section('content')
 <div class="page-title mb-4">
     <h2>{{ $program ? 'Edit Program' : 'Add New Program' }}</h2>
@@ -50,7 +54,7 @@
                 @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Short Name <span class="text-danger">*</span></label>
+                <label class="form-label fw-semibold">Short Name <span class="text-muted fw-normal">(optional)</span></label>
                 <input type="text" name="short_name" class="form-control @error('short_name') is-invalid @enderror"
                        value="{{ old('short_name', $program?->short_name) }}"
                        placeholder="e.g. MCA" maxlength="20">
@@ -107,13 +111,20 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Hero Background Image</label>
-                @if($program?->hero_image)
-                    <div class="mb-2">
-                        <img src="{{ asset($program->hero_image) }}" alt="Hero"
-                             style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;border:1px solid #e2e8f0;">
-                        <div class="form-text mt-1">Current image. Upload new to replace.</div>
+                @php $hasCustomHero = $program?->hero_image && $program->hero_image !== \App\Models\ProgramDetail::DEFAULT_HERO_IMAGE; @endphp
+                <div class="mb-2">
+                    <img src="{{ asset($program ? $program->heroImagePath() : \App\Models\ProgramDetail::DEFAULT_HERO_IMAGE) }}"
+                         alt="Hero" class="pd-hero-preview">
+                    <div class="form-text mt-1">
+                        {{ $hasCustomHero ? 'Current custom image. Upload new to replace.' : 'Default hero image — used automatically when no image is uploaded.' }}
                     </div>
-                @endif
+                    @if($hasCustomHero)
+                        <div class="form-check mt-1">
+                            <input class="form-check-input" type="checkbox" name="remove_hero_image" value="1" id="removeHeroImage">
+                            <label class="form-check-label" for="removeHeroImage">Remove this image and use the default hero image</label>
+                        </div>
+                    @endif
+                </div>
                 <input type="file" name="hero_image" class="form-control @error('hero_image') is-invalid @enderror"
                        accept="image/*">
                 <div class="form-text">Recommended: 1920×800px · JPG/PNG/WebP · Max 2 MB</div>
@@ -219,6 +230,58 @@
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
+
+    {{-- ─── HERO BADGES (small chips under the title in the page hero) ─── --}}
+    <div class="panel-card mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4"
+             style="border-bottom:1px solid #f1f5f9;padding-bottom:12px;">
+            <h6 class="fw-bold mb-0" style="color:#0b1f3a;">
+                <i class="fas fa-tags text-danger me-2"></i>Hero Badges
+            </h6>
+            <button type="button" id="addBadgeBtn" class="btn btn-outline-danger btn-sm px-3">
+                <i class="fas fa-plus me-1"></i> Add Badge
+            </button>
+        </div>
+        <div class="form-text mb-3">Small boxes shown under the program title in the page hero (e.g. "Recognized Program", "3 Year", "Patiala &amp; Karnal"). Add as many as you need — empty rows are ignored. Click the icon button to pick an icon.</div>
+
+        <div id="badgeContainer">
+            @php $badgeRows = $program ? $program->heroBadges : collect(); @endphp
+            @forelse($badgeRows as $idx => $badge)
+                <div class="badge-row row g-2 mb-2 align-items-center">
+                    <div class="col-auto pd-icon-col">
+                        <div class="icon-pick-wrap-sm icon-pick-wrap">
+                            <input type="text" name="hero_badges[{{ $idx }}][icon]" class="icon-input"
+                                   value="{{ old("hero_badges.$idx.icon", $badge->icon) }}" placeholder="fas fa-check-circle" readonly>
+                            <button type="button" class="icon-pick-btn" title="Pick Icon"><i class="fas fa-icons"></i></button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="hero_badges[{{ $idx }}][text]" class="form-control form-control-sm"
+                               value="{{ old("hero_badges.$idx.text", $badge->text) }}" placeholder="e.g. 3 Year">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm badge-del-btn" title="Remove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            @empty
+                <div class="badge-row row g-2 mb-2 align-items-center">
+                    <div class="col-auto pd-icon-col">
+                        <div class="icon-pick-wrap-sm icon-pick-wrap">
+                            <input type="text" name="hero_badges[0][icon]" class="icon-input"
+                                   value="fas fa-check-circle" placeholder="fas fa-check-circle" readonly>
+                            <button type="button" class="icon-pick-btn" title="Pick Icon"><i class="fas fa-icons"></i></button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="hero_badges[0][text]" class="form-control form-control-sm" placeholder="e.g. 3 Year">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm badge-del-btn" title="Remove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -503,6 +566,37 @@
     document.getElementById('levelContainer').addEventListener('click', function(e) {
         var btn = e.target.closest('.level-del-btn');
         if (btn) btn.closest('.level-row').remove();
+    });
+
+    // ─── Hero Badges repeater ───
+    var badgeCounter = {{ $badgeRows->count() ?: 1 }};
+
+    document.getElementById('addBadgeBtn').addEventListener('click', function() {
+        var row = document.createElement('div');
+        row.className = 'badge-row row g-2 mb-2 align-items-center';
+        row.innerHTML =
+            '<div class="col-auto pd-icon-col">' +
+                '<div class="icon-pick-wrap-sm icon-pick-wrap">' +
+                    '<input type="text" name="hero_badges[' + badgeCounter + '][icon]" ' +
+                    'class="icon-input" value="fas fa-check-circle" placeholder="fas fa-check-circle" readonly>' +
+                    '<button type="button" class="icon-pick-btn" title="Pick Icon"><i class="fas fa-icons"></i></button>' +
+                '</div>' +
+            '</div>' +
+            '<div class="col">' +
+                '<input type="text" name="hero_badges[' + badgeCounter + '][text]" ' +
+                'class="form-control form-control-sm" placeholder="e.g. 3 Year">' +
+            '</div>' +
+            '<div class="col-auto">' +
+                '<button type="button" class="btn btn-outline-danger btn-sm badge-del-btn" title="Remove">' +
+                '<i class="fas fa-times"></i></button>' +
+            '</div>';
+        document.getElementById('badgeContainer').appendChild(row);
+        badgeCounter++;
+    });
+
+    document.getElementById('badgeContainer').addEventListener('click', function(e) {
+        var btn = e.target.closest('.badge-del-btn');
+        if (btn) btn.closest('.badge-row').remove();
     });
 
     // ─── Program at a Glance repeater ───

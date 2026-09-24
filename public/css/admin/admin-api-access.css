@@ -1,0 +1,89 @@
+/* Admin — API Access (keys + documentation) */
+.api-card-title {
+    font-weight: 700;
+    color: #0b1f3a;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.api-newkey {
+    background: #fff8e1;
+    border: 1px solid #f5d67a;
+    border-left: 4px solid #e0a800;
+    border-radius: 10px;
+    padding: 14px 18px;
+}
+.api-newkey__head {
+    font-weight: 700;
+    color: #7a5a00;
+    margin-bottom: 8px;
+}
+
+.api-copy-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.api-code {
+    background: #0b1f3a;
+    color: #e6edf7;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: .85rem;
+    word-break: break-all;
+}
+
+.api-pre {
+    background: #0b1f3a;
+    color: #e6edf7;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: .8rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 14px;
+}
+
+.api-note {
+    font-size: .8rem;
+    color: #6b7a99;
+    background: #f0f5ff;
+    border-left: 3px solid #1657d5;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.api-rules { padding-left: 18px; }
+.api-rules li { margin-bottom: 4px; }
+
+.api-ep {
+    border: 1px solid #e9edf5;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+}
+.api-ep:last-child { margin-bottom: 0; }
+.api-ep__title {
+    font-weight: 700;
+    color: #0b1f3a;
+    margin-bottom: 10px;
+}
+.api-ep__route {
+    margin-bottom: 6px;
+    word-break: break-all;
+}
+.api-method {
+    display: inline-block;
+    background: #16a34a;
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+}
+.api-params td { padding: 4px 6px; }
+.api-fields { line-height: 1.7; }

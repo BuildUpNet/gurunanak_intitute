@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProgramDetail extends Model
 {
+    /** Shared hero background used when a program has no image of its own — never delete this file. */
+    public const DEFAULT_HERO_IMAGE = 'images/programs/bg1.jpg';
+
     protected $fillable = [
         'program_category_id',
         'course_category_id',
@@ -35,6 +38,11 @@ class ProgramDetail extends Model
         return $this->hasMany(ProgramLevel::class)->orderBy('sort_order');
     }
 
+    public function heroBadges()
+    {
+        return $this->hasMany(ProgramHeroBadge::class)->orderBy('sort_order');
+    }
+
     public function glanceItems()
     {
         return $this->hasMany(ProgramGlanceItem::class)->orderBy('sort_order');
@@ -53,5 +61,10 @@ class ProgramDetail extends Model
     public function faqs()
     {
         return $this->hasMany(ProgramFaq::class)->orderBy('sort_order');
+    }
+
+    public function heroImagePath(): string
+    {
+        return $this->hero_image ?: self::DEFAULT_HERO_IMAGE;
     }
 }

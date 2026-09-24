@@ -1,0 +1,9 @@
+/* Admin — Program Detail form (hero image preview, hero badges repeater) */
+.pd-hero-preview {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+.pd-icon-col { width: 230px; }

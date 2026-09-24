@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $program->title . ' | GNIMT')
-@section('meta_description', $program->short_name . ' at GNIMT — ' . $program->duration . ' ' . $program->level . ' program in ' . $program->school_name . '.')
+@php $programLabel = $program->short_name ?: $program->title; @endphp
+@section('meta_description', $programLabel . ' at GNIMT — ' . $program->duration . ' ' . $program->level . ' program in ' . $program->school_name . '.')
 
 @section('content')
 
@@ -9,7 +10,7 @@
      HERO
 ════════════════════════════════════════════ --}}
     <section class="lx-hero"
-             style="background-image: url('{{ asset($program->hero_image ?? 'images/programs/bg1.jpg') }}')">
+             style="background-image: url('{{ asset($program->heroImagePath()) }}')">
         <div class="lx-hero__layer lx-hero__layer--glow" aria-hidden="true"></div>
         <div class="lx-hero__layer lx-hero__layer--grid" aria-hidden="true"></div>
 
@@ -20,7 +21,7 @@
                 <span>/</span>
                 <a href="{{ route('academics') }}">Academics</a>
                 <span>/</span>
-                <span class="lx-hero__bc-current">{{ $program->short_name }}</span>
+                <span class="lx-hero__bc-current">{{ $programLabel }}</span>
             </div>
         </div>
 
@@ -44,17 +45,22 @@
                         @endif
                     </h1>
 
-                    <div class="lx-hero__divline">
-                        <span class="lx-hero__divline-bar"></span>
-                        <span class="lx-hero__divline-tag">{{ $program->short_name }}</span>
-                        <span class="lx-hero__divline-bar"></span>
-                    </div>
+                    @if ($program->short_name)
+                        <div class="lx-hero__divline">
+                            <span class="lx-hero__divline-bar"></span>
+                            <span class="lx-hero__divline-tag">{{ $program->short_name }}</span>
+                            <span class="lx-hero__divline-bar"></span>
+                        </div>
+                    @endif
 
-                    <div class="lx-hero__meta">
-                        <span><i class="fas fa-layer-group"></i> {{ $program->level }}</span>
-                        <span><i class="fas fa-clock"></i> {{ $program->duration }}</span>
-                        <span><i class="fas fa-map-marker-alt"></i> {!! $program->locations !!}</span>
-                    </div>
+                    {{-- Hero badges — managed per program in admin (Hero Badges repeater) --}}
+                    @if ($program->heroBadges->isNotEmpty())
+                        <div class="lx-hero__meta">
+                            @foreach ($program->heroBadges as $badge)
+                                <span><i class="{{ $badge->icon ?: 'fas fa-check-circle' }}"></i> {{ $badge->text }}</span>
+                            @endforeach
+                        </div>
+                    @endif
 
                     <div class="lx-hero__actions">
                         <a href="{{ route('admissions.form') }}" class="lx-btn lx-btn--red lx-btn--lg">
@@ -138,7 +144,7 @@
                 <div class="lx-ov__main">
                     <h2 class="lx-display-head">
                         About the<br>
-                        <em>{{ $program->short_name }} Program</em>
+                        <em>{{ $program->title }} Program</em>
                     </h2>
 
                     @if($program->quote)
@@ -178,7 +184,7 @@
                             </div>
                         @endforeach
                         <a href="{{ route('admissions.form') }}" class="lx-detail-btn">
-                            Apply for {{ $program->short_name }} <i class="fas fa-long-arrow-alt-right"></i>
+                            Apply for {{ $programLabel }} <i class="fas fa-long-arrow-alt-right"></i>
                         </a>
                     </div>
                 </div>
@@ -248,7 +254,7 @@
                         Career <em>Pathways</em>
                     </h2>
                     <p class="lx-opp-sub">
-                        Employment opportunities after successful completion of the {{ $program->short_name }} program.
+                        Employment opportunities after successful completion of the {{ $programLabel }} program.
                     </p>
                 </div>
 
@@ -281,7 +287,7 @@
                     Choose Your <em>Level</em>
                 </h2>
                 <p style="font-size:.85rem;color:#64748b;margin:12px 0 28px;">
-                    {{ $program->short_name }} is offered at the following levels — same program, different duration.
+                    {{ $programLabel }} is offered at the following levels — same program, different duration.
                 </p>
                 <div class="lx-opp-grid">
                     @foreach($program->levels as $i => $lvl)
@@ -353,7 +359,7 @@
 ════════════════════════════════════════════ --}}
     @include('partials.faq', [
         'faqs' => $program->faqs,
-        'title' => $program->short_name . ' — Frequently Asked Questions',
+        'title' => $programLabel . ' — Frequently Asked Questions',
         'subtitle' => 'Common questions about the ' . $program->title . ' program.',
     ])
 

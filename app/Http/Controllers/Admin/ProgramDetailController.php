@@ -48,7 +48,7 @@ class ProgramDetailController extends Controller
             'course_category_id' => 'nullable|exists:course_categories,id',
             'slug'        => 'required|string|max:80|unique:program_details,slug|regex:/^[a-z0-9\-]+$/',
             'title'       => 'required|string|max:200',
-            'short_name'  => 'required|string|max:20',
+            'short_name'  => 'nullable|string|max:20',
             'level'       => 'required|string|max:100',
             'locations'   => 'required|string|max:200',
             'quote'       => 'nullable|string',
@@ -69,6 +69,7 @@ class ProgramDetailController extends Controller
         $this->syncOpportunities($program, $request->input('opportunities', []));
         $this->syncLevels($program, $request->input('levels', []));
         $this->syncGlanceItems($program, $request->input('glance_items', []));
+        $this->syncHeroBadges($program, $request->input('hero_badges', []));
         $this->syncCareerRoles($program, $request->input('career_roles', []));
         $this->syncGraduatesWork($program, $request->input('graduates_work', []));
         $this->syncFaqs($program, $request->input('faqs', []));
@@ -81,7 +82,7 @@ class ProgramDetailController extends Controller
     {
         $programCategories = ProgramCategory::where('status', 1)->orderBy('sort_order')->get();
         $courseCategories = CourseCategory::where('status', 1)->orderBy('sort_order')->get();
-        $programDetail->load('levels', 'glanceItems', 'careerRoles', 'graduatesWork', 'faqs');
+        $programDetail->load('levels', 'heroBadges', 'glanceItems', 'careerRoles', 'graduatesWork', 'faqs');
         return view('admin.program-details.form', [
             'program' => $programDetail,
             'programCategories' => $programCategories,
@@ -96,7 +97,7 @@ class ProgramDetailController extends Controller
             'slug'        => ['required','string','max:80','regex:/^[a-z0-9\-]+$/',
                               Rule::unique('program_details','slug')->ignore($programDetail->id)],
             'title'       => 'required|string|max:200',
-            'short_name'  => 'required|string|max:20',
+            'short_name'  => 'nullable|string|max:20',
             'level'       => 'required|string|max:100',
             'locations'   => 'required|string|max:200',
             'quote'       => 'nullable|string',
@@ -117,6 +118,7 @@ class ProgramDetailController extends Controller
         $this->syncOpportunities($programDetail, $request->input('opportunities', []));
         $this->syncLevels($programDetail, $request->input('levels', []));
         $this->syncGlanceItems($programDetail, $request->input('glance_items', []));
+        $this->syncHeroBadges($programDetail, $request->input('hero_badges', []));
         $this->syncCareerRoles($programDetail, $request->input('career_roles', []));
         $this->syncGraduatesWork($programDetail, $request->input('graduates_work', []));
         $this->syncFaqs($programDetail, $request->input('faqs', []));
@@ -127,12 +129,8 @@ class ProgramDetailController extends Controller
 
     public function destroy(ProgramDetail $programDetail)
     {
-        if ($programDetail->hero_image && file_exists(public_path($programDetail->hero_image))) {
-            unlink(public_path($programDetail->hero_image));
-        }
-        if ($programDetail->cta_image && file_exists(public_path($programDetail->cta_image))) {
-            unlink(public_path($programDetail->cta_image));
-        }
+        $this->deleteImageFile($programDetail->hero_image);
+        $this->deleteImageFile($programDetail->cta_image);
         $programDetail->delete();
 
         return redirect()->route('admin.program-details.index')
@@ -149,13 +147,17 @@ class ProgramDetailController extends Controller
         foreach (['hero_image' => 'hero', 'cta_image' => 'cta'] as $field => $suffix) {
             if ($request->hasFile($field)) {
                 // delete old
-                if ($existing && $existing->$field && file_exists(public_path($existing->$field))) {
-                    unlink(public_path($existing->$field));
+                if ($existing) {
+                    $this->deleteImageFile($existing->$field);
                 }
                 $ext  = $request->file($field)->getClientOriginalExtension();
                 $name = $slug . '-' . $suffix . '.' . $ext;
                 $request->file($field)->move($dir, $name);
                 $data[$field] = 'images/programs/' . $name;
+            } elseif ($existing && $field === 'hero_image' && $request->boolean('remove_hero_image')) {
+                // back to the shared default hero image
+                $this->deleteImageFile($existing->hero_image);
+                $data['hero_image'] = null;
             } elseif ($existing) {
                 // keep existing path
                 $data[$field] = $existing->$field;
@@ -163,6 +165,17 @@ class ProgramDetailController extends Controller
         }
 
         return $data;
+    }
+
+    /** Unlink an uploaded program image — the shared default hero image is never deleted. */
+    private function deleteImageFile(?string $path): void
+    {
+        if (! $path || $path === ProgramDetail::DEFAULT_HERO_IMAGE) {
+            return;
+        }
+        if (file_exists(public_path($path))) {
+            unlink(public_path($path));
+        }
     }
 
     private function syncOpportunities(ProgramDetail $program, array $rows): void
@@ -201,6 +214,21 @@ class ProgramDetailController extends Controller
                 'program_category_id' => $categoryId,
                 'duration'            => $duration,
                 'sort_order'          => $i++,
+            ]);
+        }
+    }
+
+    private function syncHeroBadges(ProgramDetail $program, array $rows): void
+    {
+        $program->heroBadges()->delete();
+        $i = 0;
+        foreach ($rows as $row) {
+            $text = trim($row['text'] ?? '');
+            if ($text === '') continue;
+            $program->heroBadges()->create([
+                'icon'       => trim($row['icon'] ?? '') ?: 'fas fa-check-circle',
+                'text'       => $text,
+                'sort_order' => $i++,
             ]);
         }
     }

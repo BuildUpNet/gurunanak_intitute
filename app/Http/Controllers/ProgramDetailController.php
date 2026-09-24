@@ -11,7 +11,7 @@ class ProgramDetailController extends Controller
     {
         $program = ProgramDetail::where('slug', $slug)
             ->where('status', 1)
-            ->with(['opportunities', 'levels.category', 'glanceItems', 'careerRoles', 'graduatesWork', 'faqs'])
+            ->with(['opportunities', 'levels.category', 'heroBadges', 'glanceItems', 'careerRoles', 'graduatesWork', 'faqs'])
             ->firstOrFail();
 
         return view('pages.program-detail', [

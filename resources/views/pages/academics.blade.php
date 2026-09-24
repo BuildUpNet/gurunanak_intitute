@@ -34,7 +34,9 @@
                         @continue(!$lvl->programDetail)
                         @php($pd = $lvl->programDetail)
                         <a href="{{ route('program.show', $pd->slug) }}" class="ac-prog-card">
-                            <div class="ac-prog-card__badge">{{ $pd->short_name }}</div>
+                            @if($pd->short_name)
+                                <div class="ac-prog-card__badge">{{ $pd->short_name }}</div>
+                            @endif
                             <div class="ac-prog-card__title">{{ $pd->title }}</div>
                             <div class="ac-prog-card__meta">
                                 <span><i class="fas fa-clock"></i> {{ $lvl->duration }}</span>
@@ -72,7 +74,9 @@
                     @foreach($cc->programDetails as $course)
                         <a href="{{ route('program.show', $course->slug) }}" class="ac-course-card">
                             <div class="ac-course-card__title">{{ $course->title }}</div>
-                            <span class="ac-course-card__badge">{{ $course->short_name }}</span>
+                            @if($course->short_name)
+                                <span class="ac-course-card__badge">{{ $course->short_name }}</span>
+                            @endif
                             <div class="ac-course-card__arrow"><i class="fas fa-arrow-right"></i></div>
                         </a>
                     @endforeach

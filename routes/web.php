@@ -22,6 +22,8 @@ use App\Http\Controllers\ProgramItemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AboutImageController;
+use App\Http\Controllers\Admin\AwardController;
+use App\Http\Controllers\Admin\ApiAccessController;
 
 /* ── MAIN PAGES ── */
 
@@ -110,6 +112,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('about-images', AboutImageController::class);
+    Route::resource('awards', AwardController::class)->except('show');
+
+    Route::get('/api-access', [ApiAccessController::class, 'index'])->name('api-access.index');
+    Route::get('/api-access/docs', [ApiAccessController::class, 'docs'])->name('api-access.docs');
+    Route::post('/api-access/keys', [ApiAccessController::class, 'store'])->name('api-access.store');
+    Route::patch('/api-access/keys/{apiKey}/toggle', [ApiAccessController::class, 'toggle'])->name('api-access.toggle');
+    Route::delete('/api-access/keys/{apiKey}', [ApiAccessController::class, 'destroy'])->name('api-access.destroy');
 });
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('course-categories', CourseCategoryController::class);

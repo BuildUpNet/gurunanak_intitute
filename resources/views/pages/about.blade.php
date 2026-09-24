@@ -110,32 +110,44 @@
         </div>
     </section>
 
-    {{-- ─── AWARDS & RECOGNITIONS ─── --}}
-    <section id="awards" class="abt-section abt-section--white">
-        <div class="abt-ctr">
-            <div class="abt-sec-head rv" style="text-align:center;display:block">
-                <span class="abt-eyebrow" style="justify-content:center">Our Achievements</span>
-                <h2 class="abt-heading" style="margin-top:12px;text-align:center">Awards &amp; <span>Recognitions</span>
-                </h2>
-                <p class="abt-body" style="margin:14px auto 0;text-align:center;max-width:600px">GNIMT's consistent
-                    contributions to healthcare education and skill development have been recognized through several
-                    prestigious national and international honors.</p>
+    {{-- ─── AWARDS & RECOGNITIONS (dynamic — admin/awards, image side alternates per section) ─── --}}
+    @if ($awards->isNotEmpty())
+        <section id="awards" class="abt-section abt-section--white">
+            <div class="abt-ctr">
+                <div class="abt-sec-head abt-awards-head rv">
+                    <span class="abt-eyebrow">Our Achievements</span>
+                    <h2 class="abt-heading">Awards &amp; <span>Recognitions</span></h2>
+                    <p class="abt-body">GNIMT's consistent contributions to healthcare education and skill development
+                        have been recognized through several prestigious national and international honors.</p>
+                </div>
+
+                <div class="abt-award-list">
+                    @foreach ($awards as $award)
+                        <article class="abt-award-row {{ $loop->even ? 'abt-award-row--reverse' : '' }}">
+                            <div class="abt-award-row__media {{ $loop->even ? 'rvr' : 'rvl' }}">
+                                @if ($award->image)
+                                    <img src="{{ asset('uploads/awards/' . $award->image) }}" alt="{{ $award->title }}"
+                                        loading="lazy">
+                                @else
+                                    <div class="abt-award-row__placeholder"><i class="fas fa-award"></i></div>
+                                @endif
+                                <span class="abt-award-row__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            </div>
+                            <div class="abt-award-row__content {{ $loop->even ? 'rvl' : 'rvr' }}">
+                                @if ($award->subtitle)
+                                    <span class="abt-award-row__tag">{{ $award->subtitle }}</span>
+                                @endif
+                                <h3 class="abt-award-row__title">{{ $award->title }}</h3>
+                                @if ($award->description)
+                                    <div class="abt-award-row__desc">{!! $award->description !!}</div>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
             </div>
-            <div class="abt-awards-row rv d1">
-                @foreach ([['fas fa-medal', '#c0262d', 'Punjab De No. 1 Award', '2009', 'Recognized as Punjab\'s premier paramedical institution, celebrating decades of educational excellence and lasting community impact.'], ['fas fa-globe', '#1a3566', 'Global Achiever Award', '2014', 'Received at Dubai for global contributions to paramedical education, training innovation, and international healthcare development.'], ['fas fa-star', '#c0262d', 'Pioneer in Paramedical Education Award', '', 'Honoured for pioneering career-oriented paramedical programs and creating inclusive academic pathways for healthcare aspirants.'], ['fas fa-heartbeat', '#1a3566', 'Health Icon Award', '2024', 'Latest recognition for excellence in paramedical education, training innovation, and commitment to community service.'], ['fas fa-award', '#c0262d', 'Excellence in Paramedical Educational Institute Award', '', 'Awarded for the unwavering pursuit of excellence, innovation in paramedical training, and institutional performance.']] as [$icon, $color, $title, $year, $desc])
-                    <div class="abt-award-card">
-                        <div class="abt-award-icon" style="background:{{ $color }}"><i
-                                class="{{ $icon }}"></i></div>
-                        @if ($year)
-                            <span class="abt-award-year">{{ $year }}</span>
-                        @endif
-                        <h3 class="abt-award-title">{{ $title }}</h3>
-                        <p class="abt-award-desc">{{ $desc }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     {{-- ─── DIRECTOR'S MESSAGE ─── --}}
     <section id="directors-message" class="abt-section abt-section--light">
