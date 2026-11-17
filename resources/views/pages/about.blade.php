@@ -110,45 +110,6 @@
         </div>
     </section>
 
-    {{-- ─── AWARDS & RECOGNITIONS (dynamic — admin/awards, image side alternates per section) ─── --}}
-    @if ($awards->isNotEmpty())
-        <section id="awards" class="abt-section abt-section--white">
-            <div class="abt-ctr">
-                <div class="abt-sec-head abt-awards-head rv">
-                    <span class="abt-eyebrow">Our Achievements</span>
-                    <h2 class="abt-heading">Awards &amp; <span>Recognitions</span></h2>
-                    <p class="abt-body">GNIMT's consistent contributions to healthcare education and skill development
-                        have been recognized through several prestigious national and international honors.</p>
-                </div>
-
-                <div class="abt-award-list">
-                    @foreach ($awards as $award)
-                        <article class="abt-award-row {{ $loop->even ? 'abt-award-row--reverse' : '' }}">
-                            <div class="abt-award-row__media {{ $loop->even ? 'rvr' : 'rvl' }}">
-                                @if ($award->image)
-                                    <img src="{{ asset('uploads/awards/' . $award->image) }}" alt="{{ $award->title }}"
-                                        loading="lazy">
-                                @else
-                                    <div class="abt-award-row__placeholder"><i class="fas fa-award"></i></div>
-                                @endif
-                                <span class="abt-award-row__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                            </div>
-                            <div class="abt-award-row__content {{ $loop->even ? 'rvl' : 'rvr' }}">
-                                @if ($award->subtitle)
-                                    <span class="abt-award-row__tag">{{ $award->subtitle }}</span>
-                                @endif
-                                <h3 class="abt-award-row__title">{{ $award->title }}</h3>
-                                @if ($award->description)
-                                    <div class="abt-award-row__desc">{!! $award->description !!}</div>
-                                @endif
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
     {{-- ─── DIRECTOR'S MESSAGE ─── --}}
     <section id="directors-message" class="abt-section abt-section--light">
         <div class="abt-ctr">

@@ -85,7 +85,8 @@
 
                             <td>
                                 <strong>{{ $category->title }}</strong><br>
-                                <small class="text-muted">{{ Str::limit($category->short_description, 45) }}</small>
+                                <small class="text-muted">{{ Str::limit($category->short_description, 45) }}</small><br>
+                                <small class="text-muted"><i class="fas fa-th-large me-1"></i>{{ $category->isGroupStyle() ? 'Group Photos Grid' : 'Events Layout' }}</small>
                             </td>
 
                             <td>{{ $category->slug }}</td>

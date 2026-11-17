@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/** Super-admin-only screens (Users, Roles, API Access). Staff get a 403. */
 class AdminMiddleware
 {
     /**
@@ -15,7 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
+        $user = auth()->user();
+
+        if ($user && $user->isSuperAdmin() && $user->is_active) {
             return $next($request);
         }
 

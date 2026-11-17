@@ -38,6 +38,7 @@
                     </a>
                 </li>
 
+                @can('gallery.manage')
                 <li
                     class="menu-item {{ request()->routeIs('admin.gallery-categories.*') || request()->routeIs('admin.gallery-subcategories.*') || request()->routeIs('admin.gallery-images.*') ? 'open active' : '' }}">
                     <a href="javascript:void(0);" class="menu-link">
@@ -70,6 +71,9 @@
 
                     </ul>
                 </li>
+                @endcan
+
+                @can('programs.manage')
                 <li
                     class="menu-item {{ request()->routeIs('admin.course-categories.*') || request()->routeIs('admin.program-categories.*') || request()->routeIs('admin.program-details.*') ? 'open active' : '' }}">
 
@@ -104,42 +108,57 @@
 
                     </ul>
                 </li>
-                 <li class="{{ request()->routeIs('admin.announcement.*') ? 'active' : '' }}">
+                @endcan
+
+                @can('announcements.manage')
+                <li class="{{ request()->routeIs('admin.announcement.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.announcement.index') }}">
                         <i class="fas fa-bullhorn"></i>
                         <span>Announcement</span>
                     </a>
                 </li>
+                @endcan
+                @can('hero_slides.manage')
                 <li class="{{ request()->routeIs('admin.hero-slides.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.hero-slides.index') }}">
                         <i class="fas fa-images"></i>
                         <span>Hero Slider</span>
                     </a>
                 </li>
+                @endcan
+                @can('about_images.manage')
                 <li class="{{ request()->routeIs('admin.about-images.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.about-images.index') }}">
                         <i class="fas fa-image"></i>
                         <span>About Images</span>
                     </a>
                 </li>
+                @endcan
+                @can('awards.manage')
                 <li class="{{ request()->routeIs('admin.awards.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.awards.index') }}">
                         <i class="fas fa-award"></i>
                         <span>Awards &amp; Recognitions</span>
                     </a>
                 </li>
+                @endcan
+                @can('super-admin')
                 <li class="{{ request()->routeIs('admin.api-access.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.api-access.index') }}">
                         <i class="fas fa-plug"></i>
                         <span>API Access</span>
                     </a>
                 </li>
-<li>
-    <a href="{{ route('admin.faqs.index') }}">
-        <i class="fas fa-question-circle"></i>
-        <span>FAQs</span>
-    </a>
-</li>
+                @endcan
+                @can('faqs.manage')
+                <li class="{{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.faqs.index') }}">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQs</span>
+                    </a>
+                </li>
+                @endcan
+                @can('forms.view')
                 <li class="{{ request()->routeIs('admin.admissions.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.admissions.detail') }}">
                         <i class="fas fa-file-alt"></i>
@@ -158,6 +177,21 @@
                         <span>Quick Enquiries</span>
                     </a>
                 </li>
+                @endcan
+                @can('super-admin')
+                <li class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Users &amp; Access</span>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.roles.index') }}">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Roles &amp; Permissions</span>
+                    </a>
+                </li>
+                @endcan
                 <li class="{{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.profile.edit') }}">
                         <i class="fas fa-user"></i>
@@ -178,6 +212,7 @@
                 <div class="admin-profile">
                     <div class="text-end">
                         <strong>{{ auth()->user()->name ?? 'Admin' }}</strong>
+                        <small class="admin-role-label">{{ auth()->user()->isSuperAdmin() ? 'Super Admin' : optional(auth()->user()->staffRole)->name }}</small>
                     </div>
 
                     <div class="admin-user-avatar">

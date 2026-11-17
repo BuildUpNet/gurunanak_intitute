@@ -52,6 +52,17 @@
                 @error('short_description') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
+            <div class="col-md-12 mb-4">
+                <label class="form-label" for="display_style">Gallery Design <span>*</span></label>
+                <select name="display_style" id="display_style" class="form-select custom-input" required>
+                    @foreach (\App\Models\GalleryCategory::STYLES as $value => $label)
+                        <option value="{{ $value }}" @selected(old('display_style', \App\Models\GalleryCategory::STYLE_EVENTS) == $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+                <small class="text-muted d-block mt-1">Use <strong>Group Photos Grid</strong> for batch group photos (all photos same size). Use <strong>Events Layout</strong> for events, fests and other albums.</small>
+                @error('display_style') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+
             <div class="col-md-6 mb-4">
                 <label class="form-label">Category Image</label>
 

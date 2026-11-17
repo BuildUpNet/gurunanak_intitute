@@ -143,7 +143,7 @@
                         <span>Affiliations &amp; Partnerships</span>
                         <i class="fas fa-chevron-right mp2-arr"></i>
                     </div>
-                    <a class="mp2-cat-link" href="{{ route('about') }}#awards">
+                    <a class="mp2-cat-link" href="{{ route('about.awards') }}">
                         <i class="fas fa-trophy mp2-icon"></i>
                         <span>Awards &amp; Recognition</span>
                         <i class="fas fa-external-link-alt mp2-arr" style="font-size:0.65rem;opacity:.5;"></i>
@@ -290,13 +290,14 @@
                 <nav class="mp3-cats" aria-label="Gallery Categories">
                     @forelse($categories as $key => $category)
                         @if ($category->subcategories->isEmpty())
-                            <a href="{{ route('gallery', ['category' => $category->id]) }}" class="mp3-cat-link">
+                            <a href="{{ route('gallery.category', $category->slug) }}" class="mp3-cat-link">
                                 <i class="fas fa-images mp2-icon"></i>
                                 <span>{{ $category->title }}</span>
                                 <i class="fas fa-external-link-alt mp2-arr" style="font-size:0.65rem;opacity:.5;"></i>
                             </a>
                         @else
-                            <div class="mp3-cat {{ optional($firstGalleryCatWithSub)->id === $category->id ? 'active' : '' }}"
+                            <a href="{{ route('gallery.category', $category->slug) }}"
+                                class="mp3-cat {{ optional($firstGalleryCatWithSub)->id === $category->id ? 'active' : '' }}"
                                 data-gallery-target="gal-category-{{ $category->id }}"
                                 data-preview="preview-category-{{ $category->id }}"
                                 onmouseover="switchGalleryCat('gal-category-{{ $category->id }}', this)">
@@ -304,7 +305,7 @@
                                 <i class="fas fa-images mp2-icon"></i>
                                 <span>{{ $category->title }}</span>
                                 <i class="fas fa-chevron-right mp2-arr"></i>
-                            </div>
+                            </a>
                         @endif
                     @empty
                         <div class="mp3-cat active">
@@ -320,9 +321,8 @@
                         @continue($category->subcategories->isEmpty())
                         <div class="mp3-years-list {{ optional($firstGalleryCatWithSub)->id === $category->id ? 'active' : '' }}"
                             id="gal-category-{{ $category->id }}">
-
                             @foreach ($category->subcategories as $sub)
-                                <a href="{{ route('gallery', ['category' => $category->id, 'subcategory' => $sub->id]) }}"
+                                <a href="{{ route('gallery.sub', [$category->slug, $sub->slug]) }}"
                                     class="mlink">
                                     <i class="fas fa-folder-open"></i>
                                     {{ $sub->title }}
@@ -641,7 +641,7 @@
                     <a href="{{ route('about') }}#industry-partners"><i class="fas fa-dot-circle"></i> Industry
                         Partners</a>
                     <div class="dms-h">Awards &amp; Recognition</div>
-                    <a href="{{ route('about') }}#awards"><i class="fas fa-dot-circle"></i> Awards &amp;
+                    <a href="{{ route('about.awards') }}"><i class="fas fa-dot-circle"></i> Awards &amp;
                         Recognition</a>
                     <div class="dms-h">Administration</div>
                     <a href="{{ route('about.administration') }}"><i class="fas fa-dot-circle"></i> Administrative
@@ -649,72 +649,88 @@
                 </div>
             </div>
             <div class="dmi">
-                <div class="dml" data-ds="ds-courses">Courses <i class="fas fa-chevron-down da"></i></div>
+                <div class="dml" data-ds="ds-courses">Departments <i class="fas fa-chevron-down da"></i></div>
                 <div class="dms" id="ds-courses">
-                    <div class="dms-h">School of Allied Health Sciences</div>
-                    <a href="{{ route('program.show', 'physiotherapy') }}"><i class="fas fa-dot-circle"></i>
-                        Physiotherapy</a>
-                    <a href="{{ route('program.show', 'medical-lab-technology') }}"><i
-                            class="fas fa-dot-circle"></i>
-                        Medical Lab Technology</a>
-                    <a href="{{ route('program.show', 'radiology-medical-imaging-technology') }}"><i
-                            class="fas fa-dot-circle"></i> Radiology &amp; Medical Imaging</a>
-                    <a href="{{ route('program.show', 'operation-theatre-anaesthesia-technology') }}"><i
-                            class="fas fa-dot-circle"></i> OT &amp; Anaesthesia Technology</a>
-                    <a href="{{ route('program.show', 'cardiac-care-technology') }}"><i
-                            class="fas fa-dot-circle"></i> Cardiac Care Technology</a>
-                    <a href="{{ route('program.show', 'dialysis-technology') }}"><i class="fas fa-dot-circle"></i>
-                        Dialysis Technology</a>
-                    <a href="{{ route('program.show', 'optometry-technology') }}"><i class="fas fa-dot-circle"></i>
-                        Optometry Technology</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Emergency &amp; Trauma
-                        Care</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Critical Care
-                        Management</a>
-                    <div class="dms-h">School of Healthcare Management</div>
-                    <a href="{{ route('program.show', 'hospital-management') }}"><i class="fas fa-dot-circle"></i>
-                        Hospital Management</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Hospital Administration</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Patient Care Management</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Nanny Training</a>
-                    <div class="dms-h">Design, Management &amp; Others</div>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Fashion Technology</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> BBA / MBA / B.Com. /
-                        M.Com.</a>
-                    <a href="{{ route('program.show', 'mca') }}"><i class="fas fa-dot-circle"></i> MCA</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Dental Chair Side
-                        Assistant</a>
-                    <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> Panchkarma</a>
-                    <a href="{{ route('academics') }}" style="font-weight:700;color:var(--red)"><i
-                            class="fas fa-arrow-right"></i> View All Programs</a>
+                    @forelse($courseCategories as $category)
+                        <div class="dms-h">{{ $category->title }}</div>
+                        @forelse($category->programDetails as $course)
+                            <a href="{{ route('program.show', $course->slug) }}"><i class="fas fa-dot-circle"></i>
+                                {{ $course->title }}</a>
+                        @empty
+                            <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> No courses found</a>
+                        @endforelse
+                    @empty
+                        <div class="dms-h">No Categories Found</div>
+                    @endforelse
+                    <a href="{{ route('academics') }}" class="dms-more"><i class="fas fa-arrow-right"></i> View All
+                        Programs</a>
+                    <a href="{{ route('admissions.form') }}" class="dms-more"><i class="fas fa-arrow-right"></i> Apply
+                        Now</a>
                 </div>
             </div>
             <div class="dmi">
                 <div class="dml" data-ds="ds-programs">Programs <i class="fas fa-chevron-down da"></i></div>
                 <div class="dms" id="ds-programs">
-                    @if ($programPageDetails->isNotEmpty())
-                        <div class="dms-h">Program Detail Pages</div>
+                    @forelse($programCategories as $pc)
+                        <div class="dms-h">{{ $pc->title }}</div>
+                        @php $visibleCount = 0; @endphp
+                        @forelse($pc->programLevels as $lvl)
+                            @continue(!$lvl->programDetail)
+                            @php $visibleCount++; @endphp
+                            @continue($visibleCount > 4)
+                            <a href="{{ route('program.show', $lvl->programDetail->slug) }}">
+                                <span class="dms-badge">{{ $lvl->duration }}</span> {{ $lvl->programDetail->title }}
+                            </a>
+                        @empty
+                            <a href="{{ route('academics') }}"><i class="fas fa-dot-circle"></i> No programs added
+                                yet</a>
+                        @endforelse
+                        @if ($visibleCount > 4)
+                            <a href="{{ route('academics') }}#{{ $pc->slug }}" class="dms-more"><i
+                                    class="fas fa-arrow-right"></i> View More</a>
+                        @endif
+                    @empty
+                        <div class="dms-h">Programs</div>
                         @foreach ($programPageDetails as $pd)
                             <a href="{{ route('program.show', $pd->slug) }}">
-                                <i class="fas fa-dot-circle"></i> {{ $pd->short_name ? $pd->short_name . ' — ' : '' }}{{ $pd->title }}
+                                @if ($pd->short_name)
+                                    <span class="dms-badge">{{ $pd->short_name }}</span>
+                                @endif
+                                {{ $pd->title }}
                             </a>
                         @endforeach
-                    @endif
-                    <div class="dms-h">Degree Programs</div>
-                    <a href="{{ route('academics') }}#undergraduate"><i class="fas fa-dot-circle"></i> Undergraduate
-                        (UG)</a>
-                    <a href="{{ route('academics') }}#postgraduate"><i class="fas fa-dot-circle"></i> Postgraduate
-                        (PG)</a>
-                    <a href="{{ route('academics') }}#diploma-1"><i class="fas fa-dot-circle"></i> Diploma — I
-                        Year</a>
-                    <a href="{{ route('academics') }}#diploma-2"><i class="fas fa-dot-circle"></i> Diploma — II
-                        Year</a>
-                    <div class="dms-h">Short-term &amp; Online</div>
-                    <a href="{{ route('academics') }}#certificate"><i class="fas fa-dot-circle"></i> Certificate
-                        Program (6 months)</a>
-                    <a href="{{ route('academics') }}#online"><i class="fas fa-dot-circle"></i> Online Programs</a>
-                    <a href="{{ route('academics') }}" style="font-weight:700;color:var(--red)"><i
-                            class="fas fa-arrow-right"></i> View All Programs</a>
+                    @endforelse
+                    <a href="{{ route('academics') }}" class="dms-more"><i class="fas fa-th-large"></i> Browse All</a>
+                </div>
+            </div>
+            <div class="dmi">
+                <div class="dml" data-ds="ds-gallery">Campus life <i class="fas fa-chevron-down da"></i></div>
+                <div class="dms" id="ds-gallery">
+                    @forelse($categories as $category)
+                        @if ($category->subcategories->isEmpty())
+                            <a href="{{ route('gallery.category', $category->slug) }}"><i
+                                    class="fas fa-images"></i> {{ $category->title }}</a>
+                        @else
+                            <div class="dms-h">{{ $category->title }}</div>
+                            @foreach ($category->subcategories as $sub)
+                                <a href="{{ route('gallery.sub', [$category->slug, $sub->slug]) }}"><i
+                                        class="fas fa-folder-open"></i> {{ $sub->title }}</a>
+                            @endforeach
+                        @endif
+                    @empty
+                        <a href="{{ route('gallery') }}"><i class="fas fa-folder-open"></i> View Gallery</a>
+                    @endforelse
+                </div>
+            </div>
+            <div class="dmi">
+                <div class="dml" data-ds="ds-ach">Achievers <i class="fas fa-chevron-down da"></i></div>
+                <div class="dms" id="ds-ach">
+                    <a href="{{ route('achievers') }}"><i class="fas fa-medal"></i> Our Achievers</a>
+                    <a href="{{ route('testimonials') }}"><i class="fas fa-comment-alt"></i> Testimonials</a>
+                    <a href="{{ route('achievers') }}#govt-jobs"><i class="fas fa-briefcase"></i> Students at Govt.
+                        Jobs</a>
+                    <a href="{{ route('achievers') }}#self-employed"><i class="fas fa-user-tie"></i> Self Employed
+                        Students</a>
                 </div>
             </div>
             <div class="dmi">
@@ -745,18 +761,11 @@
                     <a href="{{ route('admissions') }}#faqs"><i class="fas fa-dot-circle"></i> FAQs</a>
                     <a href="{{ route('admissions') }}#grievance"><i class="fas fa-dot-circle"></i> Grievance
                         Redressal</a>
-                    <a href="{{ route('admissions.form') }}" style="font-weight:700;color:var(--red)"><i
+                    <a href="{{ route('admissions.form') }}" class="dms-more"><i
                             class="fas fa-arrow-right"></i> Apply Now</a>
                 </div>
             </div>
-            <div class="dmi">
-                <div class="dml" data-ds="ds-ach">Achievers <i class="fas fa-chevron-down da"></i></div>
-                <div class="dms" id="ds-ach">
-                    <a href="{{ route('achievers') }}"><i class="fas fa-dot-circle"></i> Our Achievers</a>
-                    <a href="{{ route('testimonials') }}"><i class="fas fa-dot-circle"></i> Testimonials</a>
-                </div>
-            </div>
-            <div class="dmi"><a class="dml" href="{{ route('results') }}">Results</a></div>
+            {{-- <div class="dmi"><a class="dml" href="{{ route('results') }}">Results</a></div> --}}
             <div class="dmi">
                 <div class="dml" data-ds="ds-con">Contact <i class="fas fa-chevron-down da"></i></div>
                 <div class="dms" id="ds-con">
@@ -766,15 +775,15 @@
             </div>
             <div class="dmi"><a class="dml" href="{{ route('portal.login') }}"><i
                         class="fas fa-sign-in-alt"></i> Login Portal</a></div>
-            <div class="dmi" style="padding:8px 20px;">
+            <div class="dmi d-phone">
                 <a href="tel:8283929908"
-                    style="display:flex;align-items:center;gap:8px;color:#c0262d;font-weight:700;font-size:.85rem;text-decoration:none;">
+                    class="d-phone__link">
                     <i class="fas fa-phone-alt"></i> Patiala: +91-8283929908
                 </a>
             </div>
-            <div class="dmi" style="padding:8px 20px 16px;">
+            <div class="dmi d-phone d-phone--last">
                 <a href="tel:8150019000"
-                    style="display:flex;align-items:center;gap:8px;color:#c0262d;font-weight:700;font-size:.85rem;text-decoration:none;">
+                    class="d-phone__link">
                     <i class="fas fa-phone-alt"></i> Karnal: +91-8150019000
                 </a>
             </div>

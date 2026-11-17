@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\PathPaginator;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\GalleryCategory;
@@ -14,7 +15,8 @@ use App\Models\ProgramDetail;
 use App\Models\Announcement;
 use App\Models\AdmissionApplication;
 use App\Models\AboutImage;
-use App\Models\Award;
+use App\Models\AwardSection;
+use App\Models\SiteSetting;
 
 class PageController extends Controller
 {
@@ -44,9 +46,23 @@ class PageController extends Controller
     {
         $aboutMainImage = AboutImage::active()->where('position', 'main')->orderBy('sort_order')->first();
         $aboutAccentImage = AboutImage::active()->where('position', 'accent')->orderBy('sort_order')->first();
-        $awards = Award::active()->orderBy('sort_order')->orderBy('id')->get();
 
-        return view('pages.about', compact('aboutMainImage', 'aboutAccentImage', 'awards'));
+        return view('pages.about', compact('aboutMainImage', 'aboutAccentImage'));
+    }
+
+    public function awards()
+    {
+        // Only active sections that have at least one active image
+        $sections = AwardSection::active()->ordered()
+            ->with('activeAwards')
+            ->whereHas('activeAwards')
+            ->get();
+
+        $pageTitle = AwardSection::pageTitle();
+        $pageDescription = AwardSection::pageDescription();
+        $pageEyebrow = AwardSection::pageEyebrow();
+
+        return view('pages.awards', compact('sections', 'pageTitle', 'pageDescription', 'pageEyebrow'));
     }
 
     public function administration()
@@ -120,35 +136,145 @@ class PageController extends Controller
     }
     public function gallery(Request $request)
     {
+        // Route params read by name: /gallery/{category}[/{sub}][/page/{page}]
+        $category = $request->route('category');
+        $sub = $request->route('sub');
+        $page = $request->route('page');
+        $page = $page === null ? null : (int) $page;
+
         $categories = GalleryCategory::where('is_active', 1)
             ->with([
                 'subcategories' => function ($q) {
                     $q->where('is_active', 1);
                 }
             ])
+            ->withCount(['images' => function ($q) {
+                $q->where('is_active', 1);
+            }])
             ->latest()
             ->get();
 
-        $selectedCategory = $request->get('category');
-        $selectedSubCategory = $request->get('subcategory');
+        // Old links (?category=ID&subcategory=ID&page=N) → 301 to the clean URL
+        if ($request->hasAny(['category', 'subcategory', 'page'])) {
+            $oldCat = $categories->firstWhere('id', (int) $request->query('category'))
+                ?? ($category ? $categories->firstWhere('slug', $category) : null)
+                ?? $categories->first();
+            $oldSub = $oldCat ? $oldCat->subcategories->firstWhere('id', (int) $request->query('subcategory')) : null;
+            $oldSub ??= ($oldCat && $sub) ? $oldCat->subcategories->firstWhere('slug', $sub) : null;
 
-        $images = GalleryImage::with(['category', 'subCategory'])
+            return redirect()->to($this->galleryUrl($oldCat, $oldSub, (int) $request->query('page', $page ?? 1)), 301);
+        }
+
+        // /gallery → first album (there is no "All" view)
+        if (!$category) {
+            return $categories->isNotEmpty()
+                ? redirect()->to($this->galleryUrl($categories->first()))
+                : view('pages.gallery', [
+                    'categories' => $categories, 'activeCategory' => null, 'activeSub' => null,
+                    'selectedCategory' => null, 'selectedSubCategory' => null,
+                    'groupImages' => null, 'blocks' => null, 'totalPhotos' => 0,
+                ]);
+        }
+
+        $activeCategory = $categories->first(fn($c) => strcasecmp($c->slug, $category) === 0);
+        abort_unless($activeCategory, 404);
+        $activeSub = $sub ? $activeCategory->subcategories->first(fn($s) => strcasecmp($s->slug, $sub) === 0) : null;
+        abort_if($sub && !$activeSub, 404);
+
+        // Same page must have one URL: lower-case slugs, no "/page/1"
+        $pageInUrl = $page !== null;
+        $page = max(1, (int) ($page ?? 1));
+        if ($category !== $activeCategory->slug || ($activeSub && $sub !== $activeSub->slug) || ($pageInUrl && $page === 1)) {
+            return redirect()->to($this->galleryUrl($activeCategory, $activeSub, $page), 301);
+        }
+
+        $selectedCategory = $activeCategory->id;
+        $selectedSubCategory = $activeSub->id ?? null;
+        $basePath = $this->galleryUrl($activeCategory, $activeSub);
+
+        $imagesQuery = GalleryImage::with(['category', 'subCategory'])
             ->where('is_active', 1)
-            ->when($selectedCategory, function ($q) use ($selectedCategory) {
-                $q->where('gallery_category_id', $selectedCategory);
-            })
+            ->where('gallery_category_id', $selectedCategory ?? 0)
             ->when($selectedSubCategory, function ($q) use ($selectedSubCategory) {
                 $q->where('gallery_sub_category_id', $selectedSubCategory);
             })
-            ->latest()
-            ->paginate(9);
+            ->displayOrder();
 
-        return view('pages.gallery', compact(
-            'categories',
-            'images',
-            'selectedCategory',
-            'selectedSubCategory'
-        ));
+        $view = compact('categories', 'activeCategory', 'activeSub', 'selectedCategory', 'selectedSubCategory');
+
+        // Design 1 — group photos: plain equal-height photo grid
+        if ($activeCategory && $activeCategory->isGroupStyle()) {
+            $total = (clone $imagesQuery)->count();
+            $groupImages = new PathPaginator(
+                $imagesQuery->forPage($page, 12)->get(), $total, 12, $page, ['path' => $basePath]
+            );
+            abort_if($page > max(1, $groupImages->lastPage()), 404);
+
+            return view('pages.gallery', $view + [
+                'groupImages' => $groupImages,
+                'blocks' => null,
+                'totalPhotos' => $groupImages->total(),
+            ]);
+        }
+
+        // Design 2 — events: one block per sub category; photos without a sub
+        // category form one block for the category. Order: category's own block
+        // → sub categories by event date (newest first).
+        $images = $imagesQuery->get();
+        $totalPhotos = $images->count();
+
+        $allBlocks = $images
+            ->groupBy(fn($img) => $img->subCategory ? $img->gallery_sub_category_id : 0)
+            ->map(function ($items) {
+                $first = $items->first();
+                $sub = $first->subCategory;
+
+                return (object) [
+                    'title' => $sub->title ?? ($first->category->title ?? 'Campus Gallery'),
+                    'desc' => $sub ? $sub->description : ($first->category->short_description ?? null),
+                    'date' => $sub->event_date ?? null,
+                    'items' => $items->values(),
+                    'sortSub' => $sub ? 1 : 0,
+                    'sortDate' => $sub && $sub->event_date ? -$sub->event_date->timestamp : PHP_INT_MAX,
+                    'sortId' => $sub->id ?? 0,
+                ];
+            })
+            ->sort(fn($a, $b) => [$a->sortSub, $a->sortDate, $a->sortId] <=> [$b->sortSub, $b->sortDate, $b->sortId])
+            ->values();
+
+        $perPage = 6;
+        $blocks = new PathPaginator(
+            $allBlocks->forPage($page, $perPage)->values(),
+            $allBlocks->count(),
+            $perPage,
+            $page,
+            ['path' => $basePath]
+        );
+        abort_if($page > max(1, $blocks->lastPage()), 404);
+
+        return view('pages.gallery', $view + [
+            'groupImages' => null,
+            'blocks' => $blocks,
+            'totalPhotos' => $totalPhotos,
+        ]);
+    }
+
+    /** Clean gallery URL: /gallery/{category}[/{sub}][/page/{n}] */
+    private function galleryUrl($category, $sub = null, int $page = 1): string
+    {
+        if (!$category) {
+            return route('gallery');
+        }
+
+        if ($page > 1) {
+            return $sub
+                ? route('gallery.sub.page', [$category->slug, $sub->slug, $page])
+                : route('gallery.category.page', [$category->slug, $page]);
+        }
+
+        return $sub
+            ? route('gallery.sub', [$category->slug, $sub->slug])
+            : route('gallery.category', $category->slug);
     }
 
     public function galleryView(Request $request)
@@ -245,19 +371,30 @@ class PageController extends Controller
     }
     public function dashboard()
     {
-        $totalCourses = Course::count();
-        $totalPrograms = ProgramDetail::count();
-        $totalAnnouncements = Announcement::count();
-        $totalAdmissions = AdmissionApplication::count();
+        // Staff only get the numbers for sections their role can open
+        $user = auth()->user();
+        $canPrograms = $user->can('programs.manage');
+        $canAnnouncements = $user->can('announcements.manage');
+        $canForms = $user->can('forms.view');
+        $canGallery = $user->can('gallery.manage');
 
-        $latestAnnouncements = Announcement::latest()->take(3)->get();
-        $latestAdmissions = AdmissionApplication::latest()->take(3)->get();
+        $totalCourses = $canPrograms ? Course::count() : null;
+        $totalPrograms = $canPrograms ? ProgramDetail::count() : null;
+        $totalAnnouncements = $canAnnouncements ? Announcement::count() : null;
+        $totalAdmissions = $canForms ? AdmissionApplication::count() : null;
+        $totalGalleryImages = $canGallery ? GalleryImage::count() : null;
+        $totalGalleryCategories = $canGallery ? GalleryCategory::count() : null;
+
+        $latestAnnouncements = $canAnnouncements ? Announcement::latest()->take(3)->get() : null;
+        $latestAdmissions = $canForms ? AdmissionApplication::latest()->take(3)->get() : null;
 
         return view('admin.dashboard', compact(
             'totalCourses',
             'totalPrograms',
             'totalAnnouncements',
             'totalAdmissions',
+            'totalGalleryImages',
+            'totalGalleryCategories',
             'latestAnnouncements',
             'latestAdmissions'
         ));

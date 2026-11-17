@@ -755,6 +755,38 @@ body {
     padding: 10px 28px 3px;
     opacity: 0.65;
 }
+.dms a.dms-more {
+    font-weight: 700;
+    color: var(--red);
+}
+.dms a.dms-more i {
+    color: var(--red);
+}
+.dms-badge {
+    flex-shrink: 0;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+}
+.d-phone {
+    padding: 8px 20px;
+}
+.d-phone--last {
+    padding-bottom: 16px;
+}
+.d-phone__link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c0262d;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
 .d-cta {
     padding: 16px 18px;
     display: flex;
@@ -4115,6 +4147,7 @@ body {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--txt);
+    text-decoration: none;
     cursor: pointer;
     border-left: 3px solid transparent;
     transition:
@@ -4147,6 +4180,12 @@ body {
     background: #fff;
     color: var(--red);
     border-left-color: var(--red);
+}
+.mlink.mlink--all {
+    font-weight: 700;
+    color: var(--red);
+    border-bottom: 1px dashed var(--border);
+    margin-bottom: 4px;
 }
 .mp3-years-container {
     width: 220px;

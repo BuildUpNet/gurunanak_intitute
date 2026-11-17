@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\AdminPanelAccess;
 use App\Http\Middleware\ApiKeyAuth;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function ($middleware) {
         $middleware->alias([
             'admin' => AdminMiddleware::class,
+            'admin.panel' => AdminPanelAccess::class,
         ]);
         // Every /api route needs a key — runs first so unauthenticated callers can't probe record IDs
         $middleware->api(prepend: [ApiKeyAuth::class]);

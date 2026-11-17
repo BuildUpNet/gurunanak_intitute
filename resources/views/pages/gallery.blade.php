@@ -7,137 +7,172 @@
 
 @section('content')
 
-    <section class="page-hero" aria-label="Gallery">
-        <div class="container-fluid px-4 px-lg-5">
-            <div class="gold-line"></div>
-            <h1>Campus Gallery</h1>
-            <p>Explore the vibrant life, infrastructure, and memories at GNIMT.</p>
-        </div>
-    </section>
-
-    <nav class="gnimt-breadcrumb" aria-label="Breadcrumb">
-        <div class="container-fluid px-4 px-lg-5">
-            <a href="{{ route('home') }}">Home</a><span class="sep">/</span>
-            <span class="current">Gallery</span>
-        </div>
-    </nav>
-
-    <section class="section-py" style="background:var(--light);">
-        <div class="container-fluid px-4 px-lg-5">
-            <div class="row g-5">
-
-                {{-- Sidebar --}}
-                <div class="col-lg-3">
-                    <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
-                        <h3 class="fs-5 fw-bold text-navy mb-3 pb-2 border-bottom">Categories</h3>
-                        <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-                            <li>
-                                <a href="{{ route('gallery') }}"
-                                    class="text-decoration-none {{ !$selectedCategory ? 'text-danger fw-bold' : 'text-muted' }}">
-                                    <i class="fas fa-angle-right me-2"></i>All Categories
-                                </a>
-                            </li>
-                            @foreach ($categories as $category)
-                                <li>
-                                    <a href="{{ route('gallery', ['category' => $category->id]) }}"
-                                        class="text-decoration-none {{ $selectedCategory == $category->id ? 'text-danger fw-bold' : 'text-muted' }}">
-                                        <i class="fas fa-angle-right me-2"></i>{{ $category->title }}
-                                    </a>
-                                    @if ($selectedCategory == $category->id && $category->subcategories->count())
-                                        <ul class="list-unstyled ps-4 mt-2 d-flex flex-column gap-2">
-                                            @foreach ($category->subcategories as $sub)
-                                                <li>
-                                                    <a href="{{ route('gallery', ['category' => $category->id, 'subcategory' => $sub->id]) }}"
-                                                        class="text-decoration-none small {{ $selectedSubCategory == $sub->id ? 'text-danger fw-bold' : 'text-muted' }}">
-                                                        <i class="fas fa-circle me-2"
-                                                            style="font-size:7px;"></i>{{ $sub->title }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-4 shadow-sm">
-                        <h3 class="fs-5 fw-bold text-navy mb-3 pb-2 border-bottom">Year</h3>
-                        <div class="d-flex flex-wrap gap-2">
-                            @php $currentCategory = $categories->firstWhere('id', $selectedCategory); @endphp
-                            @if ($currentCategory && $currentCategory->subcategories->count())
-                                @foreach ($currentCategory->subcategories as $sub)
-                                    <a href="{{ route('gallery', ['category' => $currentCategory->id, 'subcategory' => $sub->id]) }}"
-                                        class="badge text-decoration-none p-2 fs-6 {{ $selectedSubCategory == $sub->id ? 'bg-danger' : 'bg-light text-dark border' }}">
-                                        {{ $sub->title }}
-                                    </a>
-                                @endforeach
-                            @else
-                                <span class="badge bg-light text-dark border p-2 fs-6">No Year Selected</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Image Grid --}}
-                <div class="col-lg-9">
-                    @php
-                        $activeCategory = $categories->firstWhere('id', $selectedCategory);
-                        $activeSub = $activeCategory
-                            ? $activeCategory->subcategories->firstWhere('id', $selectedSubCategory)
-                            : null;
-                    @endphp
-
-                    <h2 class="fs-4 fw-bold text-navy mb-4">
-                        {{ $activeSub->title ?? ($activeCategory->title ?? 'All Gallery Images') }}
-                        <span class="text-muted fs-5">({{ $images->total() }} Photos)</span>
-                    </h2>
-
-                    <div class="row g-4">
-                        @forelse($images as $image)
-                            @php
-                                $params = array_filter([
-                                    'category' => $selectedCategory,
-                                    'subcategory' => $selectedSubCategory,
-                                    'image' => $image->id,
-                                ]);
-                            @endphp
-                            <div class="col-md-6 col-lg-4">
-                                <a href="{{ route('gallery.view', $params) }}" class="gal-link">
-                                    <div class="gal-card">
-                                        <img src="{{ asset($image->image) }}"
-                                            alt="{{ $image->image_alt ?? ($image->title ?? 'GNIMT Gallery Image') }}"
-                                            class="gal-card-img" loading="lazy">
-                                        <div class="gal-card-overlay">
-                                            <i class="fas fa-search-plus"></i>
-                                        </div>
-                                        @if ($image->title)
-                                            <div class="gal-card-label">{{ $image->title }}</div>
-                                        @endif
-                                    </div>
-                                </a>
-                            </div>
-                        @empty
-                            <div class="col-12">
-                                <div class="bg-white rounded-4 shadow-sm p-5 text-center">
-                                    <i class="fas fa-images fa-3x text-muted mb-3 d-block"></i>
-                                    <h4 class="fw-bold text-navy">No Images Found</h4>
-                                    <p class="text-muted mb-0">No gallery images available for this filter.</p>
-                                </div>
-                            </div>
-                        @endforelse
-                    </div>
-
-                    @if ($images->hasPages())
-                        <div class="mt-5 d-flex justify-content-center">
-                            {{ $images->withQueryString()->links() }}
-                        </div>
-                    @endif
-                </div>
-
+    {{-- ─── PAGE HERO (same style as About page) ─── --}}
+    <section class="gal-hero" aria-label="Gallery">
+        <div class="gal-hero__inner">
+            <span class="gal-hero__eyebrow">Campus Life &nbsp;·&nbsp; Events &nbsp;·&nbsp; Infrastructure</span>
+            <h1 class="gal-hero__h1">Campus <span>Gallery</span></h1>
+            <p class="gal-hero__sub">Explore the vibrant life, infrastructure, and memories at Guru Nanak Institute of
+                Medical Technology.</p>
+            <div class="gal-hero__stats" id="galHeroStats">
+                <span><i class="fas fa-images"></i> {{ $totalPhotos }} Photos</span>
+                <span><i class="fas fa-layer-group"></i> {{ $categories->count() }} Albums</span>
             </div>
         </div>
     </section>
+
+    <section class="section-py gal-section">
+        <div class="container-fluid px-4 px-lg-5" id="galContent" aria-live="polite">
+
+            {{-- Album filter --}}
+            <div class="gal-filter" role="tablist" aria-label="Gallery albums">
+                @foreach ($categories as $category)
+                    <a href="{{ route('gallery.category', $category->slug) }}"
+                        @class(['gal-pill', 'active' => $selectedCategory == $category->id])>
+                        {{ $category->title }}
+                        <span class="gal-pill__count">{{ $category->images_count }}</span>
+                    </a>
+                @endforeach
+            </div>
+
+            @if ($activeCategory && $activeCategory->subcategories->count())
+                <div class="gal-subfilter" aria-label="Sub albums">
+                    @foreach ($activeCategory->subcategories as $sub)
+                        <a href="{{ route('gallery.sub', [$activeCategory->slug, $sub->slug]) }}"
+                            @class(['gal-chip', 'active' => $selectedSubCategory == $sub->id])>{{ $sub->title }}</a>
+                    @endforeach
+                </div>
+            @endif
+
+            @if ($groupImages)
+                {{-- Design 1: group photos — every card the same size, photo never cropped --}}
+                <div class="gal-head">
+                    <h2>{{ $activeSub->title ?? $activeCategory->title }}</h2>
+                    <span class="gal-head__count">{{ $groupImages->total() }} Photos</span>
+                </div>
+
+                @if ($groupImages->count())
+                    <div class="gal-group" id="galGrid">
+                        @foreach ($groupImages as $image)
+                            @php
+                                $album = $image->subCategory->title ?? $activeCategory->title;
+                                $alt = $image->image_alt ?: ($image->title ?: $album);
+                            @endphp
+                            <button type="button" class="gal-group__item" data-gal-open
+                                data-src="{{ asset($image->image) }}" data-alt="{{ $alt }}"
+                                data-title="{{ $image->title }}" data-desc="{{ $image->description }}"
+                                data-album="{{ $album }}"
+                                aria-label="View larger photo{{ $image->title ? ': ' . $image->title : '' }}">
+                                <span class="gal-group__frame">
+                                    <img src="{{ asset($image->image) }}" alt="{{ $alt }}" loading="lazy">
+                                </span>
+                                <span class="gal-group__overlay" aria-hidden="true">
+                                    <span class="gal-group__zoom"><i class="fas fa-expand"></i></span>
+                                    @if ($image->title)
+                                        <span class="gal-group__title">{{ $image->title }}</span>
+                                    @endif
+                                </span>
+                            </button>
+                        @endforeach
+                    </div>
+
+                    @if ($groupImages->hasPages())
+                        <div class="gal-pagination">
+                            {{ $groupImages->onEachSide(1)->links('partials.gallery-pagination') }}
+                        </div>
+                    @endif
+                @else
+                    <div class="gal-empty">
+                        <i class="fas fa-images"></i>
+                        <h4>No Images Found</h4>
+                        <p>No gallery images available for this album yet.</p>
+                    </div>
+                @endif
+            @elseif ($blocks && $blocks->count())
+                @php $photoNo = 0; @endphp
+                <div id="galGrid">
+                    @foreach ($blocks as $block)
+                        @php
+                            $count = $block->items->count();
+                            $no = str_pad($blocks->firstItem() + $loop->index, 2, '0', STR_PAD_LEFT);
+                        @endphp
+                        <section class="gal-event" aria-label="{{ $block->title }}">
+                            <header class="gal-event__head">
+                                <span class="gal-event__no" aria-hidden="true">{{ $no }}</span>
+                                <div class="gal-event__text">
+                                    <div class="gal-event__top">
+                                        <h2 class="gal-event__title">{{ $block->title }}</h2>
+                                        @if ($block->date)
+                                            <time class="gal-event__date" datetime="{{ $block->date->format('Y-m-d') }}">
+                                                {{ $block->date->format('d F Y') }}
+                                            </time>
+                                        @endif
+                                    </div>
+                                    @if (!empty($block->desc))
+                                        <p class="gal-event__desc">{{ $block->desc }}</p>
+                                    @endif
+                                </div>
+                            </header>
+
+                            {{-- 1st photo big on the left, next 4 in a 2×2 on the right; 6th+ continue below from the left --}}
+                            <div class="gal-mosaic gal-mosaic--n{{ min($count, 5) }}">
+                                @foreach ($block->items as $image)
+                                    @php $alt = $image->image_alt ?: ($image->title ?: $block->title); @endphp
+                                    <button type="button" class="gal-tile" data-gal-open
+                                        data-gal-index="{{ $photoNo++ }}"
+                                        data-src="{{ asset($image->image) }}" data-alt="{{ $alt }}"
+                                        data-title="{{ $image->title }}" data-desc="{{ $image->description }}"
+                                        data-album="{{ $block->title }}"
+                                        aria-label="View larger photo{{ $image->title ? ': ' . $image->title : '' }}">
+                                        <img class="gal-tile__bg" src="{{ asset($image->image) }}" alt="" aria-hidden="true" loading="lazy">
+                                        <img class="gal-tile__img" src="{{ asset($image->image) }}" alt="{{ $alt }}" loading="lazy">
+                                        <span class="gal-tile__zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                                    </button>
+                                @endforeach
+                            </div>
+                        </section>
+                    @endforeach
+                </div>
+
+                @if ($blocks->hasPages())
+                    <div class="gal-pagination">
+                        {{ $blocks->onEachSide(1)->links('partials.gallery-pagination') }}
+                    </div>
+                @endif
+            @else
+                <div class="gal-empty">
+                    <i class="fas fa-images"></i>
+                    <h4>No Images Found</h4>
+                    <p>No gallery images available for this album yet.</p>
+                </div>
+            @endif
+
+        </div>
+    </section>
+
+    {{-- ─── PHOTO VIEWER (opens on photo click, browses that event's photos) ─── --}}
+    <div class="gal-lb" id="galLb" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+        <div class="gal-lb__bar">
+            <span class="gal-lb__count" id="galLbCount"></span>
+            <button type="button" class="gal-lb__close" id="galLbClose" aria-label="Close viewer">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="gal-lb__stage" id="galLbStage">
+            <button type="button" class="gal-lb__nav gal-lb__nav--prev" id="galLbPrev" aria-label="Previous photo">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img class="gal-lb__img" id="galLbImg" src="" alt="">
+            <button type="button" class="gal-lb__nav gal-lb__nav--next" id="galLbNext" aria-label="Next photo">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="gal-lb__caption" id="galLbCaption">
+            <span class="gal-lb__album" id="galLbAlbum"></span>
+            <h3 class="gal-lb__title" id="galLbTitle"></h3>
+            <p class="gal-lb__desc" id="galLbDesc"></p>
+        </div>
+    </div>
 
     @include('partials.faq', [
         'title' => 'Gallery — Frequently Asked Questions',
@@ -149,4 +184,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/gallery.css') }}">
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/pages/gallery.js') }}" defer></script>
 @endsection

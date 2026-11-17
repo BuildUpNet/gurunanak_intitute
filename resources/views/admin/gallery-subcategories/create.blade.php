@@ -53,6 +53,29 @@
                 @enderror
             </div>
 
+            <div class="col-md-8 mb-4">
+                <label class="form-label">Event Description <small class="text-muted">(optional)</small></label>
+                <textarea name="description"
+                          rows="2"
+                          class="form-control custom-input"
+                          placeholder="One line shown under the event title on the gallery page">{{ old('description') }}</textarea>
+                @error('description')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <label class="form-label">Event Date <small class="text-muted">(optional)</small></label>
+                <input type="date"
+                       name="event_date"
+                       value="{{ old('event_date') }}"
+                       class="form-control custom-input">
+                <small class="text-muted d-block mt-1">Shown on the right of the event title (e.g. 05 April 2026).</small>
+                @error('event_date')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
             <div class="col-md-12 mb-4">
                 <label class="status-box">
                     <input type="checkbox" name="is_active" value="1" checked>

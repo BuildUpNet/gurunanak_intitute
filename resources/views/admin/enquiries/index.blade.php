@@ -10,9 +10,11 @@
         <h2>Quick Admission Enquiries</h2>
         <p>Manage homepage enquiry records</p>
     </div>
+    @can('forms.export')
     <a href="{{ route('admin.enquiries.export', request()->query()) }}" class="btn btn-success">
         <i class="fas fa-file-excel me-1"></i> Download Excel
     </a>
+    @endcan
 </div>
 
 <div class="panel-card mb-3 admin-filter-bar">

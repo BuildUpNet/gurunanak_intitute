@@ -43,6 +43,46 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function staffRole()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isStaff(): bool
+    {
+        return $this->role === 'staff';
+    }
+
+    /** Super admins always; staff only while both the account and its role are active. */
+    public function canUseAdminPanel(): bool
+    {
+        if (!$this->is_active) {
+            return false;
+        }
+
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        return $this->isStaff() && $this->staffRole && $this->staffRole->is_active;
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if (!$this->canUseAdminPanel()) {
+            return false;
+        }
+
+        return $this->isSuperAdmin() || $this->staffRole->grants($permission);
     }
 }

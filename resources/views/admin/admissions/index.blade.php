@@ -11,9 +11,11 @@
                 <h2>Admission Applications</h2>
                 <p>Manage all Admission Application records</p>
             </div>
+            @can('forms.export')
             <a href="{{ route('admin.admissions.export', request()->query()) }}" class="btn btn-success">
                 <i class="fas fa-file-excel me-1"></i> Download Excel
             </a>
+            @endcan
         </div>
     </div>
 

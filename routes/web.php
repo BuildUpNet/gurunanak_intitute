@@ -24,12 +24,15 @@ use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AboutImageController;
 use App\Http\Controllers\Admin\AwardController;
 use App\Http\Controllers\Admin\ApiAccessController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StaffUserController;
 
 /* ── MAIN PAGES ── */
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/about/administration', [PageController::class, 'administration'])->name('about.administration');
+Route::get('/about/awards-recognition', [PageController::class, 'awards'])->name('about.awards');
 Route::get('/about/director-message', fn() => redirect('/about#directors-message'))->name('about.director');
 Route::get('/about/vision-mission', fn() => redirect('/about#vision-mission'))->name('about.vision');
 Route::get('/about/infrastructure', fn() => redirect('/about#infrastructure'))->name('about.infrastructure');
@@ -48,6 +51,15 @@ Route::get('/alumni', [PageController::class, 'alumni'])->name('alumni');
 Route::get('/placements', [PageController::class, 'placements'])->name('placements');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/gallery/view', [PageController::class, 'galleryView'])->name('gallery.view');
+// SEO friendly gallery URLs: /gallery/{category}[/{sub}][/page/{n}]
+Route::get('/gallery/{category}/page/{page}', [PageController::class, 'gallery'])
+    ->where(['category' => '[A-Za-z0-9\-]+', 'page' => '[0-9]+'])->name('gallery.category.page');
+Route::get('/gallery/{category}/{sub}/page/{page}', [PageController::class, 'gallery'])
+    ->where(['category' => '[A-Za-z0-9\-]+', 'sub' => '[A-Za-z0-9\-]+', 'page' => '[0-9]+'])->name('gallery.sub.page');
+Route::get('/gallery/{category}/{sub}', [PageController::class, 'gallery'])
+    ->where(['category' => '[A-Za-z0-9\-]+', 'sub' => '[A-Za-z0-9\-]+'])->name('gallery.sub');
+Route::get('/gallery/{category}', [PageController::class, 'gallery'])
+    ->where('category', '[A-Za-z0-9\-]+')->name('gallery.category');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{announcement:slug}', [PageController::class, 'newsShow'])->name('news.show');
 Route::get('/media', [PageController::class, 'media'])->name('media');
@@ -82,86 +94,105 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('admin.logout');
 
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [PageController::class, 'dashboard'])
-        ->name('admin.dashboard');
-});
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
-    Route::resource('gallery-categories', GalleryController::class);
-    Route::resource('gallery-subcategories', GallerySubCategoryController::class);
-    Route::resource('gallery-images', GalleryImageController::class);
-    Route::post(
-        'announcement/{announcement}/toggle-status',
-        [AnnouncementController::class, 'toggleStatus']
-    )->name('announcement.toggle-status');
-    Route::resource('announcement', AnnouncementController::class);
-});
-Route::get('/get-subcategories/{categoryId}', [GalleryImageController::class, 'getSubCategories'])
-    ->name('get-subcategories');
+/*
+| ── ADMIN PANEL ──
+| auth.session  → changing a user's password signs out their other sessions
+| admin.panel   → super admin or active staff (disabled accounts are signed out)
+| can:<perm>    → permission from config/admin_permissions.php (super admin passes all)
+| admin         → super admin only
+*/
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'auth.session', 'admin.panel'])->group(function () {
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-
-    Route::get('/hero-slides', [HomeController::class, 'index'])->name('hero-slides.index');
-    Route::get('/hero-slides/create', [HomeController::class, 'create'])->name('hero-slides.create');
-    Route::post('/hero-slides/store', [HomeController::class, 'store'])->name('hero-slides.store');
-    Route::get('/hero-slides/edit/{id}', [HomeController::class, 'edit'])->name('hero-slides.edit');
-    Route::post('/hero-slides/update/{id}', [HomeController::class, 'update'])->name('hero-slides.update');
-    Route::delete('/hero-slides/delete/{id}', [HomeController::class, 'destroy'])->name('hero-slides.delete');
-});
-
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('about-images', AboutImageController::class);
-    Route::resource('awards', AwardController::class)->except('show');
-
-    Route::get('/api-access', [ApiAccessController::class, 'index'])->name('api-access.index');
-    Route::get('/api-access/docs', [ApiAccessController::class, 'docs'])->name('api-access.docs');
-    Route::post('/api-access/keys', [ApiAccessController::class, 'store'])->name('api-access.store');
-    Route::patch('/api-access/keys/{apiKey}/toggle', [ApiAccessController::class, 'toggle'])->name('api-access.toggle');
-    Route::delete('/api-access/keys/{apiKey}', [ApiAccessController::class, 'destroy'])->name('api-access.destroy');
-});
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('course-categories', CourseCategoryController::class);
-    Route::resource('courses', CourseController::class);
-    Route::resource('program-categories', ProgramCategoryController::class);
-    Route::resource('program-items', ProgramItemController::class);
-});
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/nav-cards', [NavCardController::class, 'index'])->name('nav-cards.index');
-    Route::post('/nav-cards', [NavCardController::class, 'update'])->name('nav-cards.update');
-
-    Route::resource('program-details', AdminProgramDetailController::class);
-});
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    // Every panel user
+    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-});
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
-});
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admissions', [AdmissionController::class, 'admissiondetail'])
-        ->name('admissions.detail');
-    Route::get('/admissions/export', [AdmissionController::class, 'exportExcel'])
-        ->name('admissions.export');
+    Route::middleware('can:gallery.manage')->group(function () {
+        Route::resource('gallery-categories', GalleryController::class);
+        Route::resource('gallery-subcategories', GallerySubCategoryController::class);
+        Route::put('gallery-images-order', [GalleryImageController::class, 'updateOrder'])->name('gallery-images.order');
+        Route::resource('gallery-images', GalleryImageController::class);
+    });
+
+    Route::middleware('can:announcements.manage')->group(function () {
+        Route::post(
+            'announcement/{announcement}/toggle-status',
+            [AnnouncementController::class, 'toggleStatus']
+        )->name('announcement.toggle-status');
+        Route::resource('announcement', AnnouncementController::class);
+    });
+
+    Route::middleware('can:hero_slides.manage')->group(function () {
+        Route::get('/hero-slides', [HomeController::class, 'index'])->name('hero-slides.index');
+        Route::get('/hero-slides/create', [HomeController::class, 'create'])->name('hero-slides.create');
+        Route::post('/hero-slides/store', [HomeController::class, 'store'])->name('hero-slides.store');
+        Route::get('/hero-slides/edit/{id}', [HomeController::class, 'edit'])->name('hero-slides.edit');
+        Route::post('/hero-slides/update/{id}', [HomeController::class, 'update'])->name('hero-slides.update');
+        Route::delete('/hero-slides/delete/{id}', [HomeController::class, 'destroy'])->name('hero-slides.delete');
+    });
+
+    Route::resource('about-images', AboutImageController::class)->middleware('can:about_images.manage');
+    Route::middleware('can:awards.manage')->group(function () {
+        // Sections (each = heading + description + images)
+        Route::get('/awards', [AwardController::class, 'index'])->name('awards.index');
+        Route::get('/awards/create', [AwardController::class, 'create'])->name('awards.create');
+        Route::post('/awards', [AwardController::class, 'store'])->name('awards.store');
+        Route::put('/awards/page', [AwardController::class, 'updatePage'])->name('awards.page'); // page title + intro
+        Route::get('/awards/{awardSection}/edit', [AwardController::class, 'edit'])->whereNumber('awardSection')->name('awards.edit');
+        Route::put('/awards/{awardSection}', [AwardController::class, 'update'])->whereNumber('awardSection')->name('awards.update');
+        Route::delete('/awards/{awardSection}', [AwardController::class, 'destroy'])->whereNumber('awardSection')->name('awards.destroy');
+        // Images inside a section
+        Route::post('/awards/{awardSection}/images', [AwardController::class, 'storeImages'])->whereNumber('awardSection')->name('awards.images.store');
+        Route::put('/awards/{awardSection}/images', [AwardController::class, 'updateImages'])->whereNumber('awardSection')->name('awards.images.update');
+        Route::delete('/awards/images/{award}', [AwardController::class, 'destroyImage'])->whereNumber('award')->name('awards.images.destroy');
+    });
+    Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class)->middleware('can:faqs.manage');
+
+    Route::middleware('can:programs.manage')->group(function () {
+        Route::resource('course-categories', CourseCategoryController::class);
+        Route::resource('courses', CourseController::class);
+        Route::resource('program-categories', ProgramCategoryController::class);
+        Route::resource('program-items', ProgramItemController::class);
+        Route::resource('program-details', AdminProgramDetailController::class);
+        Route::get('/nav-cards', [NavCardController::class, 'index'])->name('nav-cards.index');
+        Route::post('/nav-cards', [NavCardController::class, 'update'])->name('nav-cards.update');
+    });
+
+    Route::middleware('can:forms.view')->group(function () {
+        Route::get('/admissions', [AdmissionController::class, 'admissiondetail'])->name('admissions.detail');
+        Route::get('/contact-enquiries', [EnquiryController::class, 'contactList'])->name('contact-enquiries.index');
+        Route::get('/enquiries', [EnquiryController::class, 'enquiryList'])->name('enquiries.index');
+    });
+
+    // Export needs both permissions; declared before admissions/{application} so "export" isn't taken as an ID
+    Route::middleware(['can:forms.view', 'can:forms.export'])->group(function () {
+        Route::get('/admissions/export', [AdmissionController::class, 'exportExcel'])->name('admissions.export');
+        Route::get('/contact-enquiries/export', [EnquiryController::class, 'exportContactExcel'])->name('contact-enquiries.export');
+        Route::get('/enquiries/export', [EnquiryController::class, 'exportEnquiryExcel'])->name('enquiries.export');
+    });
+
     Route::get('/admissions/{application}', [AdmissionController::class, 'showlist'])
+        ->middleware('can:forms.view')
         ->name('admissions.showlist');
+
+    // Super admin only
+    Route::middleware('admin')->group(function () {
+        Route::get('/api-access', [ApiAccessController::class, 'index'])->name('api-access.index');
+        Route::get('/api-access/docs', [ApiAccessController::class, 'docs'])->name('api-access.docs');
+        Route::post('/api-access/keys', [ApiAccessController::class, 'store'])->name('api-access.store');
+        Route::patch('/api-access/keys/{apiKey}/toggle', [ApiAccessController::class, 'toggle'])->name('api-access.toggle');
+        Route::delete('/api-access/keys/{apiKey}', [ApiAccessController::class, 'destroy'])->name('api-access.destroy');
+
+        Route::patch('/roles/{role}/toggle', [RoleController::class, 'toggle'])->name('roles.toggle');
+        Route::resource('roles', RoleController::class)->except('show');
+
+        Route::patch('/users/{user}/toggle', [StaffUserController::class, 'toggle'])->name('users.toggle');
+        Route::resource('users', StaffUserController::class)->except('show');
+    });
 });
 
-Route::get('/admin/contact-enquiries', [EnquiryController::class, 'contactList'])
-    ->middleware(['auth', 'admin'])
-    ->name('admin.contact-enquiries.index');
-
-Route::get('/admin/contact-enquiries/export', [EnquiryController::class, 'exportContactExcel'])
-    ->middleware(['auth', 'admin'])
-    ->name('admin.contact-enquiries.export');
-
-Route::get('/admin/enquiries', [EnquiryController::class, 'enquiryList'])
-    ->middleware(['auth', 'admin'])
-    ->name('admin.enquiries.index');
-
-Route::get('/admin/enquiries/export', [EnquiryController::class, 'exportEnquiryExcel'])
-    ->middleware(['auth', 'admin'])
-    ->name('admin.enquiries.export');
+Route::get('/get-subcategories/{categoryId}', [GalleryImageController::class, 'getSubCategories'])
+    ->name('get-subcategories');

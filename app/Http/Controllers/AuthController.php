@@ -82,8 +82,9 @@ class AuthController extends Controller
                 ]);
         }
 
-        if (Auth::user()->role !== 'admin') {
-            Log::warning('Admin login denied: non-admin account', [
+        // Super admin, or a staff account whose account and role are both active
+        if (!Auth::user()->canUseAdminPanel()) {
+            Log::warning('Admin login denied: no active panel access', [
                 'email' => $credentials['email'],
                 'ip' => $request->ip(),
             ]);
@@ -94,12 +95,17 @@ class AuthController extends Controller
             return back()
                 ->withInput($request->only('email'))
                 ->withErrors([
-                    'email' => 'Only admin can login.',
+                    'email' => 'Your account does not have admin panel access. Please contact the administrator.',
                 ]);
         }
 
         RateLimiter::clear($throttleKey);
         $request->session()->regenerate();
+
+        Auth::user()->forceFill([
+            'last_login_at' => now(),
+            'last_login_ip' => $request->ip(),
+        ])->saveQuietly();
 
         Log::info('Admin login success', [
             'email' => $credentials['email'],

@@ -297,3 +297,12 @@
 .sortable-th i.text-muted {
     opacity: 0.4;
 }
+
+        /* Role name under the user's name in the top bar */
+        .admin-role-label {
+            display: block;
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }

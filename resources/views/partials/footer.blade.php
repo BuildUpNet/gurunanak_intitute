@@ -69,7 +69,7 @@
                         <li><a href="{{ route('gallery') }}"><i class="fas fa-chevron-right"></i>Gallery</a></li>
                         <li><a href="{{ route('achievers') }}"><i class="fas fa-chevron-right"></i>Our Achievers</a>
                         </li>
-                        <li><a href="{{ route('results') }}"><i class="fas fa-chevron-right"></i>Results</a></li>
+                        {{-- <li><a href="{{ route('results') }}"><i class="fas fa-chevron-right"></i>Results</a></li> --}}
                         <li><a href="{{ route('contact.patiala') }}"><i class="fas fa-chevron-right"></i>Contact Us</a>
                         </li>
                         <li><a href="{{ route('news') }}"><i class="fas fa-chevron-right"></i>News &amp; Events</a></li>
@@ -126,7 +126,10 @@
         <div class="container-fluid px-4 px-lg-5">
             <div class="footer-bottom">
                 <div>&copy; <span id="fyear"></span> Guru Nanak Institute of Medical Technology. All Rights
-                    Reserved.</div>
+                    Reserved.
+                  
+                    | Designed &amp; Developed by <a href="https://buildupnet.com/" target="_blank" rel="noopener">BuildUpNet</a>
+                </div>
                 <nav class="footer-bottom-links" aria-label="Footer legal links">
                     <a href="{{ route('privacy') }}">Privacy Policy</a>
                     <a href="{{ route('terms') }}">Terms of Use</a>

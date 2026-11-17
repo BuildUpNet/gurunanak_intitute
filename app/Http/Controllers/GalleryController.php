@@ -37,11 +37,12 @@ class GalleryController extends Controller
             'slug' => 'nullable|string|max:191|unique:gallery_categories,slug',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'short_description' => 'nullable|string',
+            'display_style' => 'required|in:' . implode(',', array_keys(GalleryCategory::STYLES)),
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
 
-        $data['slug'] = $request->slug ?: Str::slug($request->title);
+        $data['slug'] = GalleryCategory::cleanSlug($request->slug, $request->title);
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
         if ($request->hasFile('image')) {
@@ -57,6 +58,10 @@ class GalleryController extends Controller
             $request->image->move($path, $filename);
 
             $data['image'] = 'uploads/gallery/categories/' . $filename;
+        }
+
+        if (GalleryCategory::where('slug', $data['slug'])->exists()) {
+            return back()->withInput()->withErrors(['slug' => 'This slug is already used by another category.']);
         }
 
         GalleryCategory::create($data);
@@ -79,11 +84,12 @@ class GalleryController extends Controller
             'slug' => 'nullable|string|max:191|unique:gallery_categories,slug,' . $gallery_category->id,
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'short_description' => 'nullable|string',
+            'display_style' => 'required|in:' . implode(',', array_keys(GalleryCategory::STYLES)),
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
 
-        $data['slug'] = $request->slug ?: Str::slug($request->title);
+        $data['slug'] = GalleryCategory::cleanSlug($request->slug, $request->title);
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
         if ($request->hasFile('image')) {
@@ -100,6 +106,10 @@ class GalleryController extends Controller
 
             $data['image'] = 'uploads/gallery/categories/' . $filename;
         }
+        if (GalleryCategory::where('slug', $data['slug'])->where('id', '!=', $gallery_category->id)->exists()) {
+            return back()->withInput()->withErrors(['slug' => 'This slug is already used by another category.']);
+        }
+
         $gallery_category->update($data);
 
         return redirect()->route('admin.gallery-categories.index')

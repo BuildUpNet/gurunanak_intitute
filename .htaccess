@@ -52,6 +52,9 @@ ServerSignature Off
 
 # ---- 5. Hand everything else to the Laravel app in public/ ----
 <IfModule mod_rewrite.c>
+    # Maintenance script lives at the root (outside public/) — let it run directly; it checks its own ?key=
+    RewriteRule ^run-cache-clear\.php$ - [L]
+
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

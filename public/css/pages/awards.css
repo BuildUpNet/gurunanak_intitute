@@ -1,0 +1,357 @@
+/* ═══════ AWARDS & RECOGNITION PAGE ═══════
+   Many sections (admin/awards) — each: heading + description + image row.
+   1–4 images fill the row; 5+ scroll with ‹ › arrows. Click an image → full-screen popup. */
+
+.awd-ctr {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 60px;
+}
+
+/* ── Hero — same design as the About page hero (.abt-hero) ── */
+.awd-hero {
+    background: linear-gradient(135deg, #0b1f3a 0%, #1a3566 60%, #2a3f7a 100%);
+    padding: 80px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.awd-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192, 38, 45, .2), transparent 70%);
+    pointer-events: none;
+}
+
+.awd-hero__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 60px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.awd-hero__eyebrow {
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .55);
+    display: block;
+    margin-bottom: 20px;
+}
+
+.awd-hero__h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 18px;
+}
+
+.awd-hero__h1 span {
+    color: #f87171;
+}
+
+.awd-hero__sub {
+    font-size: .92rem;
+    color: rgba(255, 255, 255, .58);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0;
+}
+
+/* ── Section ── */
+.awd-section {
+    padding: 80px 0;
+    background: #fff;
+}
+
+.awd-section:nth-of-type(even) {
+    background: #f4f7fd;
+    border-top: 1px solid #dce5f5;
+    border-bottom: 1px solid #dce5f5;
+}
+
+.awd-head {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 28px;
+}
+
+.awd-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.15;
+    letter-spacing: -.018em;
+    margin: 0;
+}
+
+.awd-heading span {
+    color: #c0262d;
+}
+
+.awd-desc {
+    font-size: .9rem;
+    color: #4b5675;
+    line-height: 1.85;
+    margin: 14px auto 0;
+}
+
+/* ── Arrows: just above the image row, on the right ── */
+.awd-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 0 0 14px;
+}
+
+.awd-nav[hidden] {
+    display: none;
+}
+
+.awd-nav__btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: #111827;
+    color: #fff;
+    font-size: .9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s, opacity .2s;
+}
+
+.awd-nav__btn:hover {
+    background: #c0262d;
+}
+
+.awd-nav__btn:disabled {
+    opacity: .35;
+    cursor: default;
+    background: #111827;
+}
+
+/* ── Image row ── */
+.awd-track {
+    --awd-gap: 20px;
+    display: flex;
+    gap: var(--awd-gap);
+    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.awd-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Grows to share the row when 1–4 cards; never narrower than 1/4, so the 5th overflows */
+.awd-card {
+    flex: 1 0 calc((100% - 3 * var(--awd-gap)) / 4);
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    background: none;
+    scroll-snap-align: start;
+    position: relative;
+    cursor: zoom-in;
+}
+
+/* Whole image visible, never cropped; card is as tall as its image */
+.awd-card img {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    display: block;
+    transition: transform .5s ease;
+}
+
+.awd-card:hover img {
+    transform: scale(1.03);
+}
+
+.awd-card__zoom {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(17, 24, 39, .75);
+    color: #fff;
+    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.awd-card:hover .awd-card__zoom,
+.awd-card:focus-visible .awd-card__zoom {
+    opacity: 1;
+}
+
+/* ── Full-screen popup ── */
+.awd-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 90px;
+    background: rgba(8, 14, 30, .95);
+}
+
+.awd-lb.open {
+    display: flex;
+}
+
+.awd-lb__img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.awd-lb__counter {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    color: #cbd5e1;
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+}
+
+.awd-lb__btn {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+}
+
+.awd-lb__btn:hover {
+    background: #c0262d;
+}
+
+.awd-lb__close {
+    top: 16px;
+    right: 16px;
+}
+
+.awd-lb__nav {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.awd-lb__prev {
+    left: 20px;
+}
+
+.awd-lb__next {
+    right: 20px;
+}
+
+.awd-lb--single .awd-lb__nav,
+.awd-lb--single .awd-lb__counter {
+    display: none;
+}
+
+body.awd-lb-lock {
+    overflow: hidden;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1200px) {
+    .awd-ctr {
+        padding: 0 32px;
+    }
+
+    .awd-hero__inner {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .awd-hero__h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .awd-ctr {
+        padding: 0 20px;
+    }
+
+    .awd-hero__inner {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .awd-section {
+        padding: 56px 0;
+    }
+
+    .awd-track {
+        --awd-gap: 14px;
+    }
+
+    .awd-card {
+        flex-basis: 70%;
+    }
+
+    .awd-card img {
+        max-height: 340px;
+    }
+
+    .awd-card__zoom {
+        opacity: 1;
+    }
+
+    .awd-lb {
+        padding: 64px 12px 84px;
+    }
+
+    .awd-lb__nav {
+        top: auto;
+        bottom: 20px;
+        transform: none;
+    }
+
+    .awd-lb__prev {
+        left: calc(50% - 56px);
+    }
+
+    .awd-lb__next {
+        right: calc(50% - 56px);
+    }
+}

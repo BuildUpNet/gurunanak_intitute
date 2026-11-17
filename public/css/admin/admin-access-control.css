@@ -1,0 +1,58 @@
+/* Admin — Users & Access + Roles & Permissions (index + form) */
+.ac-thead { background: #f5f7fb; }
+.ac-action-col { width: 140px; }
+
+.ac-perm-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.ac-perm-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: #eef2fb;
+    color: #1a3566;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ac-form-card { max-width: 860px; }
+
+.ac-perm-groups {
+    display: grid;
+    gap: 16px;
+}
+.ac-perm-groups--invalid .ac-perm-group { border-color: #dc3545; }
+.ac-perm-group {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+.ac-perm-group-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #c0262d;
+    margin-bottom: 10px;
+}
+.ac-perm-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.ac-perm-option:hover { background: #f5f7fb; }
+.ac-perm-option .form-check-input { margin-top: 3px; flex-shrink: 0; }
+.ac-perm-option strong { display: block; font-size: 14px; color: #07182e; }
+.ac-perm-option small { display: block; color: #64748b; }
+
+.ac-password-box {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 14px 16px 2px;
+}

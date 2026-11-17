@@ -41,6 +41,8 @@ class GallerySubCategoryController extends Controller
         $data = $request->validate([
             'gallery_category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'event_date' => 'nullable|date',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -69,6 +71,8 @@ class GallerySubCategoryController extends Controller
         $data = $request->validate([
             'gallery_category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'event_date' => 'nullable|date',
             'is_active' => 'nullable|boolean',
         ]);
 

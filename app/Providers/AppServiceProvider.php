@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
 
@@ -24,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
+        // One gate per admin permission, so routes use "can:gallery.manage" and views use @can
+        foreach (array_keys(config('admin_permissions')) as $permission) {
+            Gate::define($permission, fn($user) => $user->hasPermission($permission));
+        }
+        Gate::define('super-admin', fn($user) => $user->isSuperAdmin() && $user->is_active);
+
         View::composer('*', function ($view) {
 
             if (str_starts_with($view->getName(), 'admin.')) {
@@ -36,6 +43,13 @@ class AppServiceProvider extends ServiceProvider
                 }])
                 ->latest()
                 ->get();
+
+            // Old rows without a slug get one (gallery URLs are slug based)
+            if ($categories->contains(fn($c) => !$c->slug || $c->slug !== GalleryCategory::cleanSlug($c->slug, $c->title)
+                || $c->subcategories->contains(fn($s) => !$s->slug))) {
+                GalleryCategory::fillMissingSlugs($categories);
+                \App\Models\GallerySubCategory::fillMissingSlugs($categories->flatMap->subcategories);
+            }
 
             $courseCategories = CourseCategory::where('status', 1)
                 ->with(['programDetails' => function ($q) {

@@ -1,22 +1,98 @@
-/* Admin — Awards & Recognitions (index + form) */
-.award-thead { background: #f5f7fb; }
-.award-action-col { width: 120px; }
-.award-thumb {
-    width: 120px;
-    height: 72px;
-    object-fit: cover;
+/* Admin — Awards & Recognitions (sections list + per-section heading + multi-image grid) */
+.award-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+/* Preview of files picked for upload */
+.award-upload-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+.award-upload-preview:empty { display: none; }
+.award-upload-preview img {
+    width: 90px;
+    height: 110px;
+    object-fit: contain;
+    background: #f4f7fd;
     border-radius: 8px;
+    border: 2px dashed #cbd5e1;
+}
+
+/* Existing images grid */
+.award-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+.award-item {
+    min-width: 0;
     border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    transition: opacity .2s;
 }
-.award-form-card { max-width: 760px; }
-.award-preview {
-    display: none;
-    width: 220px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px dashed #ccc;
-    margin-top: 10px;
+/* Whole image visible — never cropped */
+.award-item img {
+    width: 100%;
+    height: 220px;
+    padding: 8px;
+    object-fit: contain;
+    background: #f4f7fd;
+    display: block;
 }
-.award-preview--show { display: block; }
-.award-form-card .ck-editor__editable { min-height: 220px; }
+.award-item--off img { opacity: .4; }
+.award-item__bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+.award-item__order {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: #64748b;
+}
+.award-item__order input {
+    width: 100%;
+    max-width: 70px;
+    min-width: 48px;
+}
+/* Bootstrap switch adds left padding/negative margin; keep it compact inside the bar */
+.award-item__switch {
+    flex-shrink: 0;
+    padding-left: 0;
+    margin: 0;
+}
+.award-item__switch .form-check-input {
+    float: none;
+    margin: 0;
+    width: 2.4em;
+    height: 1.3em;
+    cursor: pointer;
+}
+.award-item__bar .btn {
+    flex-shrink: 0;
+}
+
+/* Sections list */
+.award-col-order {
+    width: 80px;
+}
+.award-desc-clip {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 560px;
+}

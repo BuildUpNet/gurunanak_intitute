@@ -178,3 +178,25 @@ textarea.custom-input {
     object-fit: cover;
     border-radius: 16px;
 }
+
+/* Description length meter — 2 lines on the gallery card */
+.gal-desc-meter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+    margin-top: 6px;
+    font-size: 0.78rem;
+    color: #6b7280;
+}
+.gal-desc-meter__note {
+    display: none;
+    color: #b45309;
+    font-weight: 600;
+}
+.gal-desc-meter.is-over .gal-desc-meter__count b {
+    color: #b45309;
+}
+.gal-desc-meter.is-over .gal-desc-meter__note {
+    display: inline;
+}
