@@ -79,7 +79,7 @@
 
                             <td>
                                 <strong>{{ $subcategory->title }}</strong><br>
-                                <small class="text-muted">{{ Str::limit($subcategory->short_description, 45) }}</small>
+                                <small class="text-muted">{{ Str::limit($subcategory->heading ?: $subcategory->description, 45) }}</small>
                             </td>
 
 

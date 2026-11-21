@@ -117,3 +117,22 @@
         background: #0b1f3a;
         color: #fff;
     }
+
+/* Number before the event title: show checkbox + custom text */
+.gal-num-opt {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.gal-num-opt__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+.gal-num-opt__input {
+    max-width: 200px;
+}

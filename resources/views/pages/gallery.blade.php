@@ -47,7 +47,7 @@
             @if ($groupImages)
                 {{-- Design 1: group photos — every card the same size, photo never cropped --}}
                 <div class="gal-head">
-                    <h2>{{ $activeSub->title ?? $activeCategory->title }}</h2>
+                    <h2>{{ $activeSub ? $activeSub->displayTitle() : $activeCategory->title }}</h2>
                     <span class="gal-head__count">{{ $groupImages->total() }} Photos</span>
                 </div>
 
@@ -56,21 +56,16 @@
                         @foreach ($groupImages as $image)
                             @php
                                 $album = $image->subCategory->title ?? $activeCategory->title;
-                                $alt = $image->image_alt ?: ($image->title ?: $album);
+                                $alt = $image->image_alt ?: $album;
                             @endphp
                             <button type="button" class="gal-group__item" data-gal-open
                                 data-src="{{ asset($image->image) }}" data-alt="{{ $alt }}"
-                                data-title="{{ $image->title }}" data-desc="{{ $image->description }}"
-                                data-album="{{ $album }}"
-                                aria-label="View larger photo{{ $image->title ? ': ' . $image->title : '' }}">
+                                aria-label="View larger photo">
                                 <span class="gal-group__frame">
                                     <img src="{{ asset($image->image) }}" alt="{{ $alt }}" loading="lazy">
                                 </span>
                                 <span class="gal-group__overlay" aria-hidden="true">
                                     <span class="gal-group__zoom"><i class="fas fa-expand"></i></span>
-                                    @if ($image->title)
-                                        <span class="gal-group__title">{{ $image->title }}</span>
-                                    @endif
                                 </span>
                             </button>
                         @endforeach
@@ -94,11 +89,13 @@
                     @foreach ($blocks as $block)
                         @php
                             $count = $block->items->count();
-                            $no = str_pad($blocks->firstItem() + $loop->index, 2, '0', STR_PAD_LEFT);
+                            $no = $block->noLabel ?: str_pad($blocks->firstItem() + $loop->index, 2, '0', STR_PAD_LEFT);
                         @endphp
                         <section class="gal-event" aria-label="{{ $block->title }}">
                             <header class="gal-event__head">
-                                <span class="gal-event__no" aria-hidden="true">{{ $no }}</span>
+                                @if ($block->showNo)
+                                    <span class="gal-event__no" aria-hidden="true">{{ $no }}</span>
+                                @endif
                                 <div class="gal-event__text">
                                     <div class="gal-event__top">
                                         <h2 class="gal-event__title">{{ $block->title }}</h2>
@@ -114,16 +111,14 @@
                                 </div>
                             </header>
 
-                            {{-- 1st photo big on the left, next 4 in a 2×2 on the right; 6th+ continue below from the left --}}
-                            <div class="gal-mosaic gal-mosaic--n{{ min($count, 5) }}">
+                            {{-- Photos 2–5 = 2×2 on the right; left = photo 1 big, or photo 1 + 6, 7, 8 (admin Display Order) --}}
+                            <div class="gal-mosaic gal-mosaic--n{{ min($count, 8) }}">
                                 @foreach ($block->items as $image)
-                                    @php $alt = $image->image_alt ?: ($image->title ?: $block->title); @endphp
+                                    @php $alt = $image->image_alt ?: $block->title; @endphp
                                     <button type="button" class="gal-tile" data-gal-open
                                         data-gal-index="{{ $photoNo++ }}"
                                         data-src="{{ asset($image->image) }}" data-alt="{{ $alt }}"
-                                        data-title="{{ $image->title }}" data-desc="{{ $image->description }}"
-                                        data-album="{{ $block->title }}"
-                                        aria-label="View larger photo{{ $image->title ? ': ' . $image->title : '' }}">
+                                        aria-label="View larger photo">
                                         <img class="gal-tile__bg" src="{{ asset($image->image) }}" alt="" aria-hidden="true" loading="lazy">
                                         <img class="gal-tile__img" src="{{ asset($image->image) }}" alt="{{ $alt }}" loading="lazy">
                                         <span class="gal-tile__zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
@@ -166,11 +161,6 @@
             <button type="button" class="gal-lb__nav gal-lb__nav--next" id="galLbNext" aria-label="Next photo">
                 <i class="fas fa-chevron-right"></i>
             </button>
-        </div>
-        <div class="gal-lb__caption" id="galLbCaption">
-            <span class="gal-lb__album" id="galLbAlbum"></span>
-            <h3 class="gal-lb__title" id="galLbTitle"></h3>
-            <p class="gal-lb__desc" id="galLbDesc"></p>
         </div>
     </div>
 

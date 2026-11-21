@@ -1,0 +1,110 @@
+/* Admin › Gallery group editor (uses the uploader styles from admin-gallery-images-create.css) */
+.gal-grp-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.gal-grp-crumb {
+    margin-bottom: 4px;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+.gal-grp-crumb i {
+    margin: 0 6px;
+    font-size: 0.65rem;
+}
+.gal-grp-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.gal-grp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.gal-grp-count {
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #eef3ff;
+    color: #0d47a1;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.gal-grp-help {
+    margin: 0 0 4px;
+    color: #64748b;
+    font-size: 0.84rem;
+    line-height: 1.6;
+}
+.gal-grp-item .gal-up-body {
+    padding-right: 0;
+}
+.gal-grp-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px 14px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+.gal-grp-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: #334155;
+    cursor: pointer;
+}
+.gal-grp-check--remove {
+    color: #d32f2f;
+}
+.gal-grp-replace {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    color: #0d47a1;
+    cursor: pointer;
+    text-decoration: none;
+}
+.gal-grp-replace:hover {
+    color: #d32f2f;
+}
+.gal-grp-note:empty {
+    display: none;
+}
+.gal-grp-note {
+    display: block;
+    margin-top: 6px;
+    color: #146c43;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+}
+.gal-grp-item.is-replaced {
+    border-color: #8fd3a8;
+}
+.gal-grp-item.is-removed {
+    border-color: #f3b4b4;
+    background: #fff7f7;
+}
+.gal-grp-item.is-removed .gal-up-thumb,
+.gal-grp-item.is-removed .gal-up-fields {
+    opacity: 0.35;
+}
+.gal-grp-save {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    background: linear-gradient(to top, #f4f6fb 70%, rgba(244, 246, 251, 0));
+}

@@ -46,42 +46,8 @@
                         </option>
                     @endforeach
                 </select>
+                <small class="text-muted d-block mt-1">A sub category can hold max {{ \App\Models\GallerySubCategory::MAX_IMAGES }} photos.</small>
                 @error('gallery_sub_category_id') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Image Title</label>
-                <input type="text"
-                       name="title"
-                       value="{{ old('title', $image->title) }}"
-                       class="form-control custom-input"
-                       placeholder="Short title — up to 40 characters fit in one line">
-                @error('title') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Image Alt</label>
-                <input type="text"
-                       name="image_alt"
-                       value="{{ old('image_alt', $image->image_alt) }}"
-                       class="form-control custom-input"
-                       placeholder="Enter image alt text">
-                @error('image_alt') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-
-            <div class="col-md-12 mb-4">
-                <label class="form-label">Description</label>
-                <textarea name="description"
-                          class="form-control custom-input"
-                          rows="3"
-                          id="galDescInput"
-                          data-two-lines="100"
-                          placeholder="Up to 100 characters fit in 2 lines on the gallery page. Longer text is kept in full — visitors see a &quot;Read more&quot; link.">{{ old('description', $image->description) }}</textarea>
-                <div class="gal-desc-meter" id="galDescMeter" aria-live="polite">
-                    <span class="gal-desc-meter__count"><b id="galDescCount">0</b> / 100 characters (2 lines)</span>
-                    <span class="gal-desc-meter__note" id="galDescNote">Longer text will show a "Read more" link.</span>
-                </div>
-                @error('description') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="col-md-6 mb-4">
@@ -114,6 +80,14 @@
             </div>
 
             <div class="col-md-6 mb-4">
+                <label class="form-label">Image Alt Text</label>
+                <input type="text"
+                       name="image_alt"
+                       value="{{ old('image_alt', $image->image_alt) }}"
+                       class="form-control custom-input mb-3"
+                       placeholder="SEO alt text for this photo">
+                @error('image_alt') <small class="text-danger d-block mb-2">{{ $message }}</small> @enderror
+
                 <label class="form-label">Display Order</label>
                 <input type="number"
                        name="sort_order"
@@ -122,7 +96,7 @@
                        value="{{ old('sort_order', $image->sort_order) }}"
                        class="form-control custom-input">
                 <small class="text-muted d-block mt-1">
-                    1 = big photo of the event, 2–5 = small photos on the right, 6+ = next rows. 0 = no order (shown last, newest first).
+                    Photos 2–5 = 2×2 on the right; photo 1 = big on the left, or with 6, 7, 8 = 2×2 on the left. 0 = no order (shown last, newest first).
                 </small>
                 @error('sort_order') <small class="text-danger d-block">{{ $message }}</small> @enderror
 
@@ -135,6 +109,7 @@
                         <li><span>File size</span> <b>up to 4 MB</b> · JPG, PNG or WEBP</li>
                     </ul>
                     <p>Photos are never cropped on the website. Other shapes (portrait / wide) show in full with soft blurred sides.</p>
+                    <p class="mt-1"><b>Tip:</b> every tile on the gallery page is 4:3 landscape, so use 4:3 landscape photos for all photos of one sub category — they fill the tiles fully and the block looks even.</p>
                     <div class="img-size-check" id="imgSizeCheck" aria-live="polite"></div>
                 </div>
             </div>
@@ -167,22 +142,6 @@
 
 
 <script>
-// Description: live count against the 2-line limit (never blocks typing)
-(function () {
-    const descInput = document.getElementById('galDescInput');
-    const descMeter = document.getElementById('galDescMeter');
-    const descCount = document.getElementById('galDescCount');
-    if (!descInput || !descMeter || !descCount) return;
-    const limit = parseInt(descInput.dataset.twoLines, 10) || 100;
-    const updateDescMeter = function () {
-        const len = descInput.value.trim().length;
-        descCount.textContent = len;
-        descMeter.classList.toggle('is-over', len > limit);
-    };
-    descInput.addEventListener('input', updateDescMeter);
-    updateDescMeter();
-})();
-
 document.getElementById('imageInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
 

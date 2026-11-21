@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\GalleryCategory;
 use App\Models\GalleryImage;
+use App\Models\GallerySubCategory;
 use App\Models\HeroSlide;
 use App\Models\ProgramCategory;
 use Illuminate\Http\Request;
@@ -205,9 +206,14 @@ class PageController extends Controller
         // Design 1 — group photos: plain equal-height photo grid
         if ($activeCategory && $activeCategory->isGroupStyle()) {
             $total = (clone $imagesQuery)->count();
-            $groupImages = new PathPaginator(
-                $imagesQuery->forPage($page, 12)->get(), $total, 12, $page, ['path' => $basePath]
-            );
+            // A sub category shows at most MAX_IMAGES photos (fits on one page)
+            $rows = $activeSub
+                ? $imagesQuery->take(GallerySubCategory::MAX_IMAGES)->get()
+                : $imagesQuery->forPage($page, 12)->get();
+            if ($activeSub) {
+                $total = min($total, GallerySubCategory::MAX_IMAGES);
+            }
+            $groupImages = new PathPaginator($rows, $total, 12, $page, ['path' => $basePath]);
             abort_if($page > max(1, $groupImages->lastPage()), 404);
 
             return view('pages.gallery', $view + [
@@ -220,19 +226,24 @@ class PageController extends Controller
         // Design 2 — events: one block per sub category; photos without a sub
         // category form one block for the category. Order: category's own block
         // → sub categories by event date (newest first).
-        $images = $imagesQuery->get();
-        $totalPhotos = $images->count();
+        // A sub category (event) shows at most MAX_IMAGES photos
+        $images = $imagesQuery->get()
+            ->groupBy(fn($img) => $img->subCategory ? $img->gallery_sub_category_id : 0)
+            ->map(fn($items, $key) => $key ? $items->take(GallerySubCategory::MAX_IMAGES) : $items);
+        $totalPhotos = $images->sum(fn($items) => $items->count());
 
         $allBlocks = $images
-            ->groupBy(fn($img) => $img->subCategory ? $img->gallery_sub_category_id : 0)
             ->map(function ($items) {
                 $first = $items->first();
                 $sub = $first->subCategory;
 
                 return (object) [
-                    'title' => $sub->title ?? ($first->category->title ?? 'Campus Gallery'),
+                    'title' => $sub ? $sub->displayTitle() : ($first->category->title ?? 'Campus Gallery'),
                     'desc' => $sub ? $sub->description : ($first->category->short_description ?? null),
                     'date' => $sub->event_date ?? null,
+                    // Number circle: sub category decides (show / hide, custom text); category block = auto
+                    'showNo' => $sub ? (bool) $sub->show_number : true,
+                    'noLabel' => $sub->number_label ?? null,
                     'items' => $items->values(),
                     'sortSub' => $sub ? 1 : 0,
                     'sortDate' => $sub && $sub->event_date ? -$sub->event_date->timestamp : PHP_INT_MAX,

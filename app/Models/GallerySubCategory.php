@@ -11,6 +11,9 @@ class GallerySubCategory extends Model
         'gallery_category_id',
         'title',
         'slug',
+        'heading',
+        'show_number',
+        'number_label',
         'description',
         'event_date',
         'is_active',
@@ -18,7 +21,11 @@ class GallerySubCategory extends Model
 
     protected $casts = [
         'event_date' => 'date',
+        'show_number' => 'boolean',
     ];
+
+    // Max photos one sub category (event) can hold
+    public const MAX_IMAGES = 8;
 
     // Slug words that would clash with gallery routes (/gallery/{cat}/page/2)
     private const RESERVED_SLUGS = ['page'];
@@ -60,6 +67,12 @@ class GallerySubCategory extends Model
                 $sub->save();
             }
         }
+    }
+
+    /** Title shown on the gallery page: Display Title, else the sub category name. */
+    public function displayTitle(): string
+    {
+        return $this->heading ?: $this->title;
     }
 
     public function category()

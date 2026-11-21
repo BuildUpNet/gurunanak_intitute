@@ -4,25 +4,28 @@
     <link rel="stylesheet" href="{{ asset('css/admin/admin-gallery-image-size.css') }}">
 @endsection
 
+@php $maxImages = \App\Models\GallerySubCategory::MAX_IMAGES; @endphp
+
 @section('content')
 <div class="page-title mb-4">
-    <h2>Add Gallery Image</h2>
-    <p>Create new gallery image under a category (sub category is optional)</p>
+    <h2>Add Gallery Images</h2>
+    <p>Upload 1 to {{ $maxImages }} photos at once under a category (sub category is optional)</p>
 </div>
 
 <div class="panel-card image-card">
-    <form action="{{ route('admin.gallery-images.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.gallery-images.store') }}" method="POST" enctype="multipart/form-data" id="galUploadForm">
         @csrf
 
         <div class="form-section-title">
-            <i class="fas fa-image"></i>
-            Gallery Image Information
+            <i class="fas fa-images"></i>
+            Gallery Images
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-4">
                 <label class="form-label">Main Category <span>*</span></label>
-                <select name="gallery_category_id" id="category" class="form-control custom-input" required>
+                <select name="gallery_category_id" id="category" class="form-control custom-input" required
+                        data-sub-url="{{ route('get-subcategories', ['categoryId' => '__ID__']) }}">
                     <option value="">Select Category</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ old('gallery_category_id') == $category->id ? 'selected' : '' }}>
@@ -35,93 +38,61 @@
 
             <div class="col-md-6 mb-4">
                 <label class="form-label">Sub Category <small class="text-muted">(optional)</small></label>
-                <select name="gallery_sub_category_id" id="subcategory" class="form-control custom-input">
+                <select name="gallery_sub_category_id" id="subcategory" class="form-control custom-input"
+                        data-old="{{ old('gallery_sub_category_id') }}">
                     <option value="">None — show under category only</option>
                 </select>
+                <small class="text-muted d-block mt-1" id="galSubRoom">A sub category can hold max {{ $maxImages }} photos.</small>
                 @error('gallery_sub_category_id') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Title</label>
-                <input type="text"
-                       name="title"
-                       value="{{ old('title') }}"
-                       class="form-control custom-input"
-                       placeholder="Short title — up to 40 characters fit in one line">
-                @error('title') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Image Alt Text</label>
-                <input type="text"
-                       name="image_alt"
-                       value="{{ old('image_alt') }}"
-                       class="form-control custom-input"
-                       placeholder="Enter SEO image alt text">
-                @error('image_alt') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
-
             <div class="col-md-12 mb-4">
-                <label class="form-label">Description</label>
-                <textarea name="description"
-                          class="form-control custom-input"
-                          rows="3"
-                          id="galDescInput"
-                          data-two-lines="100"
-                          placeholder="Up to 100 characters fit in 2 lines on the gallery page. Longer text is kept in full — visitors see a &quot;Read more&quot; link.">{{ old('description') }}</textarea>
-                <div class="gal-desc-meter" id="galDescMeter" aria-live="polite">
-                    <span class="gal-desc-meter__count"><b id="galDescCount">0</b> / 100 characters (2 lines)</span>
-                    <span class="gal-desc-meter__note" id="galDescNote">Longer text will show a "Read more" link.</span>
-                </div>
-                @error('description') <small class="text-danger">{{ $message }}</small> @enderror
-            </div>
+                <label class="form-label">Photos <span>*</span> <small class="text-muted">(min 1, max {{ $maxImages }})</small></label>
 
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Gallery Image <span>*</span></label>
-
-                <label for="imageInput" class="upload-box">
-                    <div class="upload-preview" id="previewBox">
+                <label for="imageInput" class="upload-box upload-box--multi">
+                    <div class="upload-preview">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <h5>Upload Image</h5>
-                        <p>Click here to choose JPG, PNG or WEBP image (max 4 MB)</p>
+                        <h5>Choose Photos</h5>
+                        <p>Select 1 to {{ $maxImages }} JPG, PNG or WEBP photos together (max 4 MB each). You can click again to add more.</p>
                     </div>
-
-                    <img id="imagePreview" class="preview-image d-none" alt="Image Preview">
                 </label>
 
                 <input type="file"
-                       name="image"
+                       name="images[]"
                        id="imageInput"
                        class="d-none"
                        accept="image/png,image/jpeg,image/jpg,image/webp"
-                       required>
+                       multiple
+                       data-max="{{ $maxImages }}">
 
-                @error('image') <small class="text-danger d-block mt-2">{{ $message }}</small> @enderror
+                <div class="gal-up-head" id="galUpHead" hidden>
+                    <span><b id="galUpCount">0</b> / <span id="galUpLimit">{{ $maxImages }}</span> photos selected</span>
+                    <button type="button" class="gal-up-clear" id="galUpClear"><i class="fas fa-times"></i> Remove all</button>
+                </div>
+                <div class="gal-up-msg" id="galUpMsg" aria-live="polite"></div>
+                <div class="gal-up-list" id="galUpList"></div>
+
+                @error('images') <small class="text-danger d-block mt-2">{{ $message }}</small> @enderror
+                @foreach ($errors->get('images.*') as $messages)
+                    <small class="text-danger d-block mt-1">{{ $messages[0] }}</small>
+                @endforeach
+                @foreach (array_merge($errors->get('alts.*'), $errors->get('orders.*')) as $messages)
+                    <small class="text-danger d-block mt-1">{{ $messages[0] }}</small>
+                @endforeach
             </div>
 
-            <div class="col-md-6 mb-4">
-                <label class="form-label">Display Order</label>
-                <input type="number"
-                       name="sort_order"
-                       min="0"
-                       max="9999"
-                       value="{{ old('sort_order', 0) }}"
-                       class="form-control custom-input">
-                <small class="text-muted d-block mt-1">
-                    1 = big photo of the event, 2–5 = small photos on the right, 6+ = next rows. 0 = no order (shown last, newest first).
-                </small>
-                @error('sort_order') <small class="text-danger d-block">{{ $message }}</small> @enderror
-
-                <div class="img-size-guide">
+            <div class="col-md-12 mb-4">
+                <div class="img-size-guide mt-0">
                     <div class="img-size-guide__title"><i class="fas fa-ruler-combined"></i> Image Size Guide</div>
                     <ul>
                         <li><span>Best shape</span> <b>Landscape 4:3</b> (e.g. 1600 × 1200 px)</li>
                         <li><span>Minimum</span> <b>1200 × 900 px</b></li>
                         <li><span>Maximum</span> <b>2400 × 1800 px</b></li>
-                        <li><span>File size</span> <b>up to 4 MB</b> · JPG, PNG or WEBP</li>
+                        <li><span>File size</span> <b>up to 4 MB</b> each · JPG, PNG or WEBP</li>
                     </ul>
                     <p>Photos are never cropped on the website. Other shapes (portrait / wide) show in full with soft blurred sides.</p>
-                    <div class="img-size-check" id="imgSizeCheck" aria-live="polite"></div>
+                    <p class="mt-1"><b>Tip:</b> every tile on the gallery page is 4:3 landscape, so use 4:3 landscape photos for all photos of one sub category — they fill the tiles fully and the block looks even. Each chosen photo is checked below its name (green = good, amber = check, red = will be rejected).</p>
+                    <p class="mt-1"><b>Order:</b> photos 2–5 = 2×2 on the right; photo 1 = big on the left, or with 6, 7, 8 = 2×2 on the left. 0 = no order (shown last, newest first).</p>
                 </div>
             </div>
 
@@ -130,7 +101,7 @@
                     <input type="checkbox" name="is_active" value="1" checked>
                     <div>
                         <strong>Active Status</strong>
-                        <p>Show this gallery image on frontend gallery page.</p>
+                        <p>Show these photos on frontend gallery page.</p>
                     </div>
                 </label>
             </div>
@@ -138,7 +109,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn save-btn">
-                <i class="fas fa-save"></i> Save Image
+                <i class="fas fa-save"></i> Save Photos
             </button>
 
             <a href="{{ route('admin.gallery-images.index') }}" class="btn back-btn">
@@ -147,99 +118,8 @@
         </div>
     </form>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    // Description: live count against the 2-line limit (never blocks typing)
-    const descInput = document.getElementById('galDescInput');
-    const descMeter = document.getElementById('galDescMeter');
-    const descCount = document.getElementById('galDescCount');
-    if (descInput && descMeter && descCount) {
-        const limit = parseInt(descInput.dataset.twoLines, 10) || 100;
-        const updateDescMeter = function () {
-            const len = descInput.value.trim().length;
-            descCount.textContent = len;
-            descMeter.classList.toggle('is-over', len > limit);
-        };
-        descInput.addEventListener('input', updateDescMeter);
-        updateDescMeter();
-    }
-
-    const imageInput = document.getElementById('imageInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewBox = document.getElementById('previewBox');
-
-    imageInput.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-
-        if (!file) {
-            imagePreview.classList.add('d-none');
-            previewBox.classList.remove('d-none');
-            return;
-        }
-
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-
-        if (!allowedTypes.includes(file.type)) {
-            alert('Please select JPG, PNG or WEBP image only.');
-            imageInput.value = '';
-            imagePreview.classList.add('d-none');
-            previewBox.classList.remove('d-none');
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreview.classList.remove('d-none');
-            previewBox.classList.add('d-none');
-        };
-
-        reader.readAsDataURL(file);
-    });
-
-
-    const category = document.getElementById('category');
-    const subcategory = document.getElementById('subcategory');
-
-    category.addEventListener('change', function () {
-        let categoryId = this.value;
-
-        subcategory.innerHTML = '<option value="">Loading...</option>';
-
-        if (!categoryId) {
-            subcategory.innerHTML = '<option value="">None — show under category only</option>';
-            return;
-        }
-
-        let url = "{{ route('get-subcategories', ['categoryId' => ':id']) }}";
-        url = url.replace(':id', categoryId);
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                let html = '<option value="">None — show under category only</option>';
-
-                if (data.length > 0) {
-                    data.forEach(item => {
-                        html += `<option value="${item.id}">${item.title}</option>`;
-                    });
-                }
-
-                subcategory.innerHTML = html;
-            })
-            .catch(error => {
-                subcategory.innerHTML = '<option value="">Error loading sub category</option>';
-                console.log(error);
-            });
-    });
-
-});
-</script>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/admin/admin-gallery-image-size.js') }}" defer></script>
+    <script src="{{ asset('js/admin/admin-gallery-images-create.js') }}" defer></script>
 @endsection

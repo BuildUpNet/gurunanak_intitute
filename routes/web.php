@@ -113,7 +113,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'auth.session', 'adm
     Route::middleware('can:gallery.manage')->group(function () {
         Route::resource('gallery-categories', GalleryController::class);
         Route::resource('gallery-subcategories', GallerySubCategoryController::class);
-        Route::put('gallery-images-order', [GalleryImageController::class, 'updateOrder'])->name('gallery-images.order');
+        // Group editor: all photos of one sub category on one page (sub 0 = photos without a sub category)
+        Route::get('gallery-images/group/{category}/{sub}', [GalleryImageController::class, 'editGroup'])
+            ->whereNumber('sub')->name('gallery-images.group');
+        Route::put('gallery-images/group/{category}/{sub}', [GalleryImageController::class, 'updateGroup'])
+            ->whereNumber('sub')->name('gallery-images.group.update');
         Route::resource('gallery-images', GalleryImageController::class);
     });
 

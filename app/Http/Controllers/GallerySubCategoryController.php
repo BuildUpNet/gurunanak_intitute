@@ -41,6 +41,9 @@ class GallerySubCategoryController extends Controller
         $data = $request->validate([
             'gallery_category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
+            'show_number' => 'nullable|boolean',
+            'number_label' => 'nullable|string|max:6',
             'description' => 'nullable|string|max:1000',
             'event_date' => 'nullable|date',
             'is_active' => 'nullable|boolean',
@@ -48,6 +51,8 @@ class GallerySubCategoryController extends Controller
 
 
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
+        $data['show_number'] = $request->boolean('show_number');
+        $data['number_label'] = trim((string) ($data['number_label'] ?? '')) ?: null;
 
 
         GallerySubCategory::create($data);
@@ -71,6 +76,9 @@ class GallerySubCategoryController extends Controller
         $data = $request->validate([
             'gallery_category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
+            'show_number' => 'nullable|boolean',
+            'number_label' => 'nullable|string|max:6',
             'description' => 'nullable|string|max:1000',
             'event_date' => 'nullable|date',
             'is_active' => 'nullable|boolean',
@@ -78,6 +86,8 @@ class GallerySubCategoryController extends Controller
 
 
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
+        $data['show_number'] = $request->boolean('show_number');
+        $data['number_label'] = trim((string) ($data['number_label'] ?? '')) ?: null;
 
         $gallery_subcategory->update($data);
 

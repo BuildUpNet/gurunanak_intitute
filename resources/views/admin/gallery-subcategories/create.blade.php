@@ -53,6 +53,40 @@
                 @enderror
             </div>
 
+            <div class="col-md-12 mb-4">
+                <label class="form-label">Display Title <small class="text-muted">(optional)</small></label>
+                <input type="text"
+                       name="heading"
+                       value="{{ old('heading') }}"
+                       class="form-control custom-input"
+                       maxlength="255"
+                       placeholder="e.g. Annual Sports Meet 2026">
+                <small class="text-muted d-block mt-1">Shown as the main title above the photos on the gallery page. Leave empty to show the sub category title. Max {{ \App\Models\GallerySubCategory::MAX_IMAGES }} photos per sub category.</small>
+                @error('heading')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-md-12 mb-4">
+                <label class="form-label">Number before the title</label>
+                <div class="gal-num-opt">
+                    <label class="gal-num-opt__check">
+                        <input type="checkbox" name="show_number" value="1" @checked(old('show_number', true))>
+                        Show number
+                    </label>
+                    <input type="text"
+                           name="number_label"
+                           value="{{ old('number_label', '') }}"
+                           class="form-control custom-input gal-num-opt__input"
+                           maxlength="6"
+                           placeholder="Auto: 01, 02 …">
+                </div>
+                <small class="text-muted d-block mt-1">Ticked + empty box = automatic number (01, 02 …). Type your own text (max 6 characters, e.g. 2026 or A1) to show that instead. Untick to hide the number.</small>
+                @error('number_label')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
             <div class="col-md-8 mb-4">
                 <label class="form-label">Event Description <small class="text-muted">(optional)</small></label>
                 <textarea name="description"

@@ -128,7 +128,7 @@
                 <div>&copy; <span id="fyear"></span> Guru Nanak Institute of Medical Technology. All Rights
                     Reserved.
                   
-                    | Designed &amp; Developed by <a href="https://buildupnet.com/" target="_blank" rel="noopener">BuildUpNet</a>
+                    | Designed &amp; Developed by BuildUpNet
                 </div>
                 <nav class="footer-bottom-links" aria-label="Footer legal links">
                     <a href="{{ route('privacy') }}">Privacy Policy</a>

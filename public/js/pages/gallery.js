@@ -1,6 +1,6 @@
 /* Gallery page
    - album filter / pagination without page reload (links still work if JS fails)
-   - photo viewer: click a photo to see it large (not cropped) with its title/description;
+   - photo viewer: click a photo to see it large (not cropped), photo only (no caption);
      prev / next browse the photos of that same event (or the whole group photos grid) */
 (function () {
     var content = document.getElementById("galContent");
@@ -10,9 +10,6 @@
     var lb = document.getElementById("galLb");
     var lbImg = document.getElementById("galLbImg");
     var lbCount = document.getElementById("galLbCount");
-    var lbAlbum = document.getElementById("galLbAlbum");
-    var lbTitle = document.getElementById("galLbTitle");
-    var lbDesc = document.getElementById("galLbDesc");
     var cards = [];
     var current = 0;
     var lastFocus = null;
@@ -36,11 +33,6 @@
         }, lb.classList.contains("is-open") ? 180 : 0);
 
         lbCount.textContent = pad(current + 1) + " / " + pad(cards.length);
-        lbAlbum.textContent = d.album || "";
-        lbTitle.textContent = d.title || "";
-        lbDesc.textContent = d.desc || "";
-        lbDesc.scrollTop = 0;
-        lb.classList.toggle("no-caption", !d.album && !d.title && !d.desc);
     }
 
     function openLb(card) {
